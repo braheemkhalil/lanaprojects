@@ -188,8 +188,10 @@ html[lang="ar"] body{
 .hero__bg{
   position:absolute;
   inset:0;
-  background: url("Photos/Futureproject4.jpg") center/cover no-repeat;
-  transform: scale(1.02);
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  transition: opacity 1.2s ease-in-out;
 }
 .hero__overlay{
   position:absolute;

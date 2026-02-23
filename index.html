@@ -137,7 +137,33 @@
     });
   });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const heroBg = document.querySelector(".hero__bg");
+  if (!heroBg) return;
 
+  const images = [
+    "Photos/Futureproject1.jpg",
+    "Photos/Futureproject2.jpg",
+    "Photos/Futureproject3.jpg",
+    "Photos/Futureproject4.jpg"
+  ];
+
+  let index = 0;
+
+  function changeBackground() {
+    heroBg.style.backgroundImage = `url('${images[index]}')`;
+    heroBg.style.backgroundSize = "cover";
+    heroBg.style.backgroundPosition = "center";
+
+    index = (index + 1) % images.length;
+  }
+
+  changeBackground(); // first image immediately
+
+  setInterval(changeBackground, 6000);
+});
+</script>
 <body>
   <!-- Header -->
   <header class="header">
@@ -307,6 +333,7 @@
         <article class="card" data-aos="fade-up" data-aos-delay="120">
           <div class="mediaFrame">
   <div class="card__img card__img--vertical" data-gallery="p2" style="background-image:url('Photos/villa2.jpg')"></div>
+  <div class="card__img card__img--vertical" data-gallery="p2" style="background-image:url('Photos/villa1.jpg')"></div>
 </div>
           <div class="card__body">
             <div class="pill" data-i18n="p2.pill">New Project</div>
