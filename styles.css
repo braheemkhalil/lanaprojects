@@ -203,7 +203,7 @@ html[lang="ar"] body{
 .hero__bg--b{
   transition: opacity 1.2s ease-in-out;
 }
-}
+
 .hero__overlay{
   position:absolute;
   inset:0;
