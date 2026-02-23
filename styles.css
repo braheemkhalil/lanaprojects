@@ -191,7 +191,18 @@ html[lang="ar"] body{
   background-position:center;
   background-size:cover;
   background-repeat:no-repeat;
+  will-change: opacity, transform;
+  transform: scale(1.06);
+}
+
+/* Crossfade layer */
+.hero__bg--a{ opacity: 1; }
+.hero__bg--b{ opacity: 0; }
+
+.hero__bg--a,
+.hero__bg--b{
   transition: opacity 1.2s ease-in-out;
+}
 }
 .hero__overlay{
   position:absolute;

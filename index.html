@@ -138,30 +138,47 @@
   });
 </script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const heroBg = document.querySelector(".hero__bg");
-  if (!heroBg) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const a = document.querySelector(".hero__bg--a");
+  const b = document.querySelector(".hero__bg--b");
+  if (!a || !b) return;
 
   const images = [
     "Photos/Futureproject1.jpg",
     "Photos/Futureproject2.jpg",
     "Photos/Futureproject3.jpg",
-    "Photos/Futureproject4.jpg"
+    "Photos/Futureproject4jpg"
   ];
 
+  // Preload to avoid “black shutter”
+  images.forEach((src) => {
+    const im = new Image();
+    im.src = src;
+  });
+
   let index = 0;
+  let showA = true;
 
-  function changeBackground() {
-    heroBg.style.backgroundImage = `url('${images[index]}')`;
-    heroBg.style.backgroundSize = "cover";
-    heroBg.style.backgroundPosition = "center";
+  // Set first image immediately
+  a.style.backgroundImage = `url("${images[0]}")`;
 
+  function nextBg(){
     index = (index + 1) % images.length;
+    const src = images[index];
+
+    const incoming = showA ? b : a;
+    const outgoing = showA ? a : b;
+
+    incoming.style.backgroundImage = `url("${src}")`;
+
+    // Fade in incoming, fade out outgoing
+    incoming.style.opacity = "1";
+    outgoing.style.opacity = "0";
+
+    showA = !showA;
   }
 
-  changeBackground(); // first image immediately
-
-  setInterval(changeBackground, 6000);
+  setInterval(nextBg, 6500); // a bit slower looks more premium
 });
 </script>
 <body>
@@ -214,7 +231,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   <!-- Hero -->
   <main id="home" class="hero">
-    <div class="hero__bg" role="img" aria-label="Luxury building background image"></div>
+    <div class="hero__bg hero__bg--a" aria-hidden="true"></div>
+    <div class="hero__bg hero__bg--b" aria-hidden="true"></div>
     <div class="hero__overlay"></div>
 
     <div class="container hero__content" data-aos="fade-up">
