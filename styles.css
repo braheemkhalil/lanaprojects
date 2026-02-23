@@ -862,3 +862,130 @@ html[lang="ar"] .section__head h2{
     height: 300px;
   }
 }
+
+/* Stats bar (Hero) */
+.stats{
+  margin: 26px auto 0;
+  max-width: 900px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.stat{
+  background: rgba(0,0,0,.55);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  padding: 14px 12px;
+  box-shadow: 0 18px 55px rgba(0,0,0,.35);
+  backdrop-filter: blur(8px);
+}
+
+.stat strong{
+  display:block;
+  font-size: 18px;
+  color: var(--text);
+  letter-spacing: .02em;
+}
+
+.stat span{
+  display:block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(232,237,243,.65);
+}
+
+@media (max-width: 980px){
+  .stats{ grid-template-columns: repeat(2, 1fr); }
+}
+
+
+
+/* Lightbox */
+.lightbox[hidden]{ display:none !important; }
+
+.lightbox{
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,.92);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.lightbox__img{
+  max-width: min(1100px, 96vw);
+  max-height: 86vh;
+  width: auto;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 24px 80px rgba(0,0,0,.7);
+}
+
+.lightbox__close{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  cursor: pointer;
+  background: rgba(0,0,0,.55);
+  border: 1px solid rgba(255,255,255,.16);
+  color: var(--text);
+  font-size: 18px;
+  backdrop-filter: blur(10px);
+}
+
+.lightbox__nav{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  cursor: pointer;
+  background: rgba(0,0,0,.55);
+  border: 1px solid rgba(212,161,42,.40);
+  color: var(--text);
+  font-size: 26px;
+  backdrop-filter: blur(10px);
+}
+
+.lightbox__prev{ left: 16px; }
+.lightbox__next{ right: 16px; }
+
+@media (max-width: 980px){
+  .lightbox__nav{ width: 46px; height: 46px; }
+}
+
+/* Click to view overlay */
+.card__img,
+.card__slide{
+  position: relative;
+}
+
+.card__img::after,
+.card__slide::after{
+  content: "🔍 View";
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0,0,0,.6);
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all .25s ease;
+  backdrop-filter: blur(6px);
+}
+
+.card__img:hover::after,
+.card__slide:hover::after{
+  opacity: 1;
+  transform: translateY(0);
+}

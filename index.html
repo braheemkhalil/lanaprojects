@@ -30,6 +30,113 @@
 <meta name="twitter:card" content="summary_large_image">
 
 </head>
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox__close" type="button" aria-label="Close">✕</button>
+  <button class="lightbox__nav lightbox__prev" type="button" aria-label="Previous">‹</button>
+  <img class="lightbox__img" id="lightboxImg" alt="">
+  <button class="lightbox__nav lightbox__next" type="button" aria-label="Next">›</button>
+</div>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const lightbox = document.getElementById("lightbox");
+    const img = document.getElementById("lightboxImg");
+    if (!lightbox || !img) return;
+
+    const btnClose = lightbox.querySelector(".lightbox__close");
+    const btnPrev = lightbox.querySelector(".lightbox__prev");
+    const btnNext = lightbox.querySelector(".lightbox__next");
+
+    const nodes = Array.from(document.querySelectorAll("[data-gallery].card__img, [data-gallery].card__slide"));
+
+    function getBgUrl(el){
+      const bg = getComputedStyle(el).backgroundImage;
+      const m = bg && bg.match(/url\(["']?(.*?)["']?\)/i);
+      return m ? m[1] : null;
+    }
+
+    // Build groups: { p1: [{el,url},...], p2: [...], p3: [...] }
+    const groups = {};
+    nodes.forEach((el) => {
+      const group = el.getAttribute("data-gallery");
+      const url = getBgUrl(el);
+      if (!group || !url) return;
+      (groups[group] ||= []).push({ el, url });
+    });
+
+    // Make clickable
+    Object.values(groups).flat().forEach(({ el }) => {
+      el.style.cursor = "zoom-in";
+      el.setAttribute("role", "button");
+      el.setAttribute("tabindex", "0");
+      el.setAttribute("aria-label", "Open image");
+    });
+
+    let currentGroup = null;
+    let index = 0;
+
+    function openAt(group, i){
+      const items = groups[group] || [];
+      if (!items.length) return;
+
+      currentGroup = group;
+      index = (i + items.length) % items.length;
+
+      img.src = items[index].url;
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+
+      // Hide arrows if only 1 image in this project
+      const showNav = items.length > 1;
+      btnPrev.style.display = showNav ? "" : "none";
+      btnNext.style.display = showNav ? "" : "none";
+    }
+
+    function close(){
+      lightbox.hidden = true;
+      img.removeAttribute("src");
+      document.body.style.overflow = "";
+      currentGroup = null;
+    }
+
+    function prev(){
+      if (!currentGroup) return;
+      openAt(currentGroup, index - 1);
+    }
+    function next(){
+      if (!currentGroup) return;
+      openAt(currentGroup, index + 1);
+    }
+
+    // Click handlers per group
+    Object.entries(groups).forEach(([group, items]) => {
+      items.forEach(({ el }, i) => {
+        el.addEventListener("click", () => openAt(group, i));
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openAt(group, i);
+          }
+        });
+      });
+    });
+
+    btnClose.addEventListener("click", close);
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) close();
+    });
+
+    btnPrev.addEventListener("click", (e) => { e.stopPropagation(); prev(); });
+    btnNext.addEventListener("click", (e) => { e.stopPropagation(); next(); });
+
+    window.addEventListener("keydown", (e) => {
+      if (lightbox.hidden) return;
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    });
+  });
+</script>
 
 <body>
   <!-- Header -->
@@ -100,6 +207,27 @@
         <a class="btn btn--gold" href="#contact" data-i18n="cta.explore">Explore Availability</a>
         <a class="btn btn--ghost" id="waTop" href="https://wa.me/+96103515225" target="_blank" rel="noopener" data-i18n="cta.whatsappContact">Contact on WhatsApp</a>
       </div>
+      <div class="stats" data-aos="fade-up" data-aos-delay="140">
+  <div class="stat">
+    <strong data-i18n="stats.s1v">2–3</strong>
+    <span data-i18n="stats.s1l">Bedrooms</span>
+  </div>
+
+  <div class="stat">
+    <strong data-i18n="stats.s2v">110–150-220m²</strong>
+    <span data-i18n="stats.s2l">Sizes</span>
+  </div>
+
+  <div class="stat">
+    <strong data-i18n="stats.s3v">Private</strong>
+    <span data-i18n="stats.s3l">Viewings</span>
+  </div>
+
+  <div class="stat">
+    <strong data-i18n="stats.s4v">Limited</strong>
+    <span data-i18n="stats.s4l">Units</span>
+  </div>
+</div>
 
       <!-- Lead Bar -->
       <section class="leadbar" aria-label="Quick inquiry">
@@ -151,7 +279,7 @@
         <!-- Project 1 -->
         <article class="card" data-aos="fade-up" data-aos-delay="0">
           <div class="mediaFrame">
-  <div class="card__img" style="background-image:url('Photos/building.jpg')"></div>
+  <div class="card__img" data-gallery="p1" style="background-image:url('Photos/building.jpg')"></div>
 </div>
           <div class="card__body">
             <div class="pill" data-i18n="p1.pill">Available • Limited Units</div>
@@ -178,7 +306,7 @@
         <!-- Project 2 -->
         <article class="card" data-aos="fade-up" data-aos-delay="120">
           <div class="mediaFrame">
-  <div class="card__img card__img--vertical" style="background-image:url('Photos/villa2.jpg')"></div>
+  <div class="card__img card__img--vertical" data-gallery="p2" style="background-image:url('Photos/villa2.jpg')"></div>
 </div>
           <div class="card__body">
             <div class="pill" data-i18n="p2.pill">New Project</div>
@@ -207,10 +335,10 @@
   <button class="sliderBtn sliderBtn--prev" type="button" aria-label="Previous image">‹</button>
 
   <div class="card__slider" data-slider="projects">
-    <div class="card__slide" style="background-image:url('Photos/Futureproject1.jpg')"></div>
-    <div class="card__slide" style="background-image:url('Photos/Futureproject2.jpg')"></div>
-    <div class="card__slide" style="background-image:url('Photos/Futureproject3.jpg')"></div>
-    <div class="card__slide" style="background-image:url('Photos/Futureproject4.jpg')"></div>
+   <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject1.jpg')"></div>
+    <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject2.jpg')"></div>
+    <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject3.jpg')"></div>
+    <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject4.jpg')"></div>
   </div>
 
   <button class="sliderBtn sliderBtn--next" type="button" aria-label="Next image">›</button>
@@ -437,6 +565,7 @@
         mobileNav.hidden = true;
       });
     });
+    
 
     // ---- i18n (EN/AR) ----
     const translations = {
@@ -519,7 +648,17 @@
         "location.l2":"🛍 5 min to shopping areas",
         "location.l3":"🏖 Close to the sea",
         "location.l4":"🏥 Near hospitals & clinics",
-      },
+
+
+        "stats.s1v":"2–3",
+            "stats.s1l":"Bedrooms",
+            "stats.s2v":"110–150-220m²",
+            "stats.s2l":"Sizes",
+            "stats.s3v":"Private",
+            "stats.s3l":"Viewings",
+            "stats.s4v":"Limited",
+            "stats.s4l":"Units",
+                },
 
       ar: {
         "nav.project":"المشاريع","nav.why":"لماذا نحن","nav.process":"الخطوات","nav.testimonials":"آراء العملاء","nav.contact":"تواصل معنا",
@@ -601,6 +740,15 @@
         "location.l2":"🛍 5 دقائق إلى مناطق التسوق",
         "location.l3":"🏖 بالقرب من البحر",
         "location.l4":"🏥 قريب من المستشفيات والعيادات",
+
+        "stats.s1v":"2–3",
+        "stats.s1l":"غرف نوم",
+        "stats.s2v":"110–150-200م²",
+        "stats.s2l":"المساحات",
+          "stats.s3v":"معاينات",
+          "stats.s3l":"خاصة",
+          "stats.s4v":"وحدات",
+          "stats.s4l":"محدودة",
               }
     };
 
