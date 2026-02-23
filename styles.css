@@ -818,3 +818,47 @@ html[lang="ar"] .section__head h2{
     min-height: 100%;
   }
 }
+/* Location Section */
+.location{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items:center;
+}
+
+.location__text h2{
+  font-family: "Playfair Display", serif;
+  font-size: 38px;
+  margin-bottom: 16px;
+}
+
+.location__text p{
+  color: rgba(232,237,243,.75);
+  line-height:1.7;
+  margin-bottom: 20px;
+}
+
+.location__highlights{
+  list-style:none;
+  padding:0;
+  display:grid;
+  gap:10px;
+  color: rgba(232,237,243,.85);
+}
+
+.location__map{
+  height: 420px;
+  border-radius: 18px;
+  overflow:hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+@media (max-width: 980px){
+  .location{
+    grid-template-columns:1fr;
+  }
+
+  .location__map{
+    height: 300px;
+  }
+}
