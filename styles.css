@@ -961,7 +961,7 @@ html[lang="ar"] .section__head h2{
   .lightbox__nav{ width: 46px; height: 46px; }
 }
 
-/* Click to view overlay */
+/* Always-visible View badge */
 .card__img,
 .card__slide{
   position: relative;
@@ -973,19 +973,31 @@ html[lang="ar"] .section__head h2{
   position: absolute;
   bottom: 12px;
   right: 12px;
-  background: rgba(0,0,0,.6);
+  background: rgba(0,0,0,.65);
   color: #fff;
   font-size: 12px;
   padding: 6px 10px;
   border-radius: 20px;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: all .25s ease;
   backdrop-filter: blur(6px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.4);
+}
+/* Always-visible View badge */
+.card__img,
+.card__slide{
+  position: relative;
 }
 
-.card__img:hover::after,
-.card__slide:hover::after{
-  opacity: 1;
-  transform: translateY(0);
+.card__img::after,
+.card__slide::after{
+  content: "🔍 View";
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(0,0,0,.65);
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.4);
 }
