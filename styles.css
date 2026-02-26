@@ -268,7 +268,7 @@ html[lang="ar"] .hero__title{
   text-align:start;
 }
 .field span{
-  color: rgba(232,237,243,.7);
+  color: rgba(247, 251, 255, 0.7);
   font-size: 12px;
 }
 .field input, .field select{
@@ -1015,3 +1015,28 @@ html[lang="ar"] .section__head h2{
   box-shadow: 0 6px 18px rgba(0,0,0,.4);
 }
 
+.langBtn--icon svg{
+  width: 20px;
+  height: 20px;
+}
+.langBtn--icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+/* Mobile-only header buttons: hide on desktop */
+@media (min-width: 981px){
+  .langBtn--top{ display: none !important; }
+}
+
+.langBtn{
+  border-width: 1px;              /* if it’s thicker now */
+}
+.langBtn--icon{
+  padding: 8px 10px;              /* tighter */
+}
+
+.btn--ghost{
+  background: rgba(0,0,0,.25);
+  border-color: rgba(255,255,255,.14);
+}
