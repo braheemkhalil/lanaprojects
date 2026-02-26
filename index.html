@@ -30,6 +30,7 @@
 <meta name="twitter:card" content="summary_large_image">
 
 </head>
+
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" hidden>
   <button class="lightbox__close" type="button" aria-label="Close">✕</button>
@@ -63,7 +64,7 @@
       if (!group || !url) return;
       (groups[group] ||= []).push({ el, url });
     });
-
+    
     // Make clickable
     Object.values(groups).flat().forEach(({ el }) => {
       el.style.cursor = "zoom-in";
@@ -412,6 +413,38 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   </section>
 
+  <section id="location" class="section section--dark">
+  <div class="container location">
+    <div class="location__text">
+      <h2 data-i18n="location.title">Prime Location – Saida, Loubyi</h2>
+      <p data-i18n="location.desc">
+        All Lana Projects developments are located in the heart of South Lebanon,
+        offering convenient access to schools, shopping, healthcare,
+        and the Mediterranean coastline.
+      </p>
+
+      <ul class="location__highlights">
+        <li data-i18n="location.l1">📍 Saida - Loubyi</li>
+        <li data-i18n="location.l2">🛍 5 min to shopping areas</li>
+        <li data-i18n="location.l3">🏖 Close to the sea</li>
+        <li data-i18n="location.l4">🏥 Near hospitals & clinics</li>
+      </ul>
+    </div>
+
+    <div class="location__map">
+      <iframe
+        src="https://maps.google.com/maps?q=33.428560,35.289743&t=&z=17&ie=UTF8&iwloc=&output=embed"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+
   <!-- Why Us -->
   <section id="why" class="section section--dark">
     <div class="container">
@@ -497,36 +530,6 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   </section>
 
-<section id="location" class="section section--dark">
-  <div class="container location">
-    <div class="location__text">
-      <h2 data-i18n="location.title">Prime Location – Saida, Loubyi</h2>
-      <p data-i18n="location.desc">
-        All Lana Projects developments are located in the heart of South Lebanon,
-        offering convenient access to schools, shopping, healthcare,
-        and the Mediterranean coastline.
-      </p>
-
-      <ul class="location__highlights">
-        <li data-i18n="location.l1">📍 Saida - Loubyi</li>
-        <li data-i18n="location.l2">🛍 5 min to shopping areas</li>
-        <li data-i18n="location.l3">🏖 Close to the sea</li>
-        <li data-i18n="location.l4">🏥 Near hospitals & clinics</li>
-      </ul>
-    </div>
-
-    <div class="location__map">
-      <iframe
-        src="https://maps.google.com/maps?q=33.428560,35.289743&t=&z=17&ie=UTF8&iwloc=&output=embed"
-        width="100%"
-        height="100%"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy">
-      </iframe>
-    </div>
-  </div>
-</section>
 
   <!-- Contact -->
   <section id="contact" class="section section--dark">
