@@ -3,32 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lana Projects | Luxury Apartments</title>
+  <title>Lana Projects | Luxury Apartments & Villas in Saida</title>
 
+  <!-- Fonts: Playfair Display (display) + Inter (UI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
   <!-- SEO -->
-<title>Lana Projects | Luxury Apartments & Villas in Saida</title>
-<meta name="description" content="Premium apartments and villas in Saida. Private viewings, limited units, and modern residences by Lana Projects.">
+  <meta name="description" content="Premium apartments and villas in Saida. Private viewings, limited units, and modern residences by Lana Projects.">
 
-<!-- Open Graph (Sharing) -->
-<meta property="og:title" content="Lana Projects – Luxury Real Estate">
-<meta property="og:description" content="Explore premium apartments and villas in Saida. Limited units available.">
-
-<meta property="og:image" content="https://lanaprojects.pages.dev/preview.jpg?v=3">
-<meta property="og:image:secure_url" content="https://lanaprojects.pages.dev/preview.jpg?v=3">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-
-<meta property="og:url" content="https://lanaprojects.pages.dev/">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-
+  <!-- Open Graph -->
+  <meta property="og:title" content="Lana Projects – Luxury Real Estate">
+  <meta property="og:description" content="Explore premium apartments and villas in Saida. Limited units available.">
+  <meta property="og:image" content="https://lanaprojects.pages.dev/preview.jpg?v=3">
+  <meta property="og:image:secure_url" content="https://lanaprojects.pages.dev/preview.jpg?v=3">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://lanaprojects.pages.dev/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 
 <!-- Lightbox -->
@@ -38,6 +36,7 @@
   <img class="lightbox__img" id="lightboxImg" alt="">
   <button class="lightbox__nav lightbox__next" type="button" aria-label="Next">›</button>
 </div>
+
 <script>
   window.addEventListener("DOMContentLoaded", () => {
     const lightbox = document.getElementById("lightbox");
@@ -47,7 +46,6 @@
     const btnClose = lightbox.querySelector(".lightbox__close");
     const btnPrev = lightbox.querySelector(".lightbox__prev");
     const btnNext = lightbox.querySelector(".lightbox__next");
-
     const nodes = Array.from(document.querySelectorAll("[data-gallery].card__img, [data-gallery].card__slide"));
 
     function getBgUrl(el){
@@ -56,7 +54,6 @@
       return m ? m[1] : null;
     }
 
-    // Build groups: { p1: [{el,url},...], p2: [...], p3: [...] }
     const groups = {};
     nodes.forEach((el) => {
       const group = el.getAttribute("data-gallery");
@@ -64,8 +61,7 @@
       if (!group || !url) return;
       (groups[group] ||= []).push({ el, url });
     });
-    
-    // Make clickable
+
     Object.values(groups).flat().forEach(({ el }) => {
       el.style.cursor = "zoom-in";
       el.setAttribute("role", "button");
@@ -79,15 +75,11 @@
     function openAt(group, i){
       const items = groups[group] || [];
       if (!items.length) return;
-
       currentGroup = group;
       index = (i + items.length) % items.length;
-
       img.src = items[index].url;
       lightbox.hidden = false;
       document.body.style.overflow = "hidden";
-
-      // Hide arrows if only 1 image in this project
       const showNav = items.length > 1;
       btnPrev.style.display = showNav ? "" : "none";
       btnNext.style.display = showNav ? "" : "none";
@@ -100,36 +92,22 @@
       currentGroup = null;
     }
 
-    function prev(){
-      if (!currentGroup) return;
-      openAt(currentGroup, index - 1);
-    }
-    function next(){
-      if (!currentGroup) return;
-      openAt(currentGroup, index + 1);
-    }
+    function prev(){ if (!currentGroup) return; openAt(currentGroup, index - 1); }
+    function next(){ if (!currentGroup) return; openAt(currentGroup, index + 1); }
 
-    // Click handlers per group
     Object.entries(groups).forEach(([group, items]) => {
       items.forEach(({ el }, i) => {
         el.addEventListener("click", () => openAt(group, i));
         el.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            openAt(group, i);
-          }
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openAt(group, i); }
         });
       });
     });
 
     btnClose.addEventListener("click", close);
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) close();
-    });
-
+    lightbox.addEventListener("click", (e) => { if (e.target === lightbox) close(); });
     btnPrev.addEventListener("click", (e) => { e.stopPropagation(); prev(); });
     btnNext.addEventListener("click", (e) => { e.stopPropagation(); next(); });
-
     window.addEventListener("keydown", (e) => {
       if (lightbox.hidden) return;
       if (e.key === "Escape") close();
@@ -138,6 +116,7 @@
     });
   });
 </script>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const a = document.querySelector(".hero__bg--a");
@@ -148,46 +127,37 @@ document.addEventListener("DOMContentLoaded", () => {
     "Photos/Futureproject1.jpg",
     "Photos/Futureproject2.jpg",
     "Photos/Futureproject3.jpg",
-    "Photos/Futureproject4jpg"
+    "Photos/Futureproject4.jpg"
   ];
 
-  // Preload to avoid “black shutter”
-  images.forEach((src) => {
-    const im = new Image();
-    im.src = src;
-  });
+  images.forEach((src) => { const im = new Image(); im.src = src; });
 
   let index = 0;
   let showA = true;
-
-  // Set first image immediately
   a.style.backgroundImage = `url("${images[0]}")`;
 
   function nextBg(){
     index = (index + 1) % images.length;
     const src = images[index];
-
     const incoming = showA ? b : a;
     const outgoing = showA ? a : b;
-
     incoming.style.backgroundImage = `url("${src}")`;
-
-    // Fade in incoming, fade out outgoing
     incoming.style.opacity = "1";
     outgoing.style.opacity = "0";
-
     showA = !showA;
   }
 
-  setInterval(nextBg, 6500); // a bit slower looks more premium
+  setInterval(nextBg, 6500);
 });
 </script>
+
 <body>
   <!-- Header -->
   <header class="header">
     <div class="container header__inner">
       <a class="brand" href="#home" aria-label="Lana Projects Home">
-        <span class="brand__gold">LANA</span> <span class="brand__muted">PROJECTS</span>
+        <span class="brand__gold">LANA</span>
+        <span class="brand__muted">PROJECTS</span>
       </a>
 
       <nav class="nav" aria-label="Primary">
@@ -203,39 +173,32 @@ document.addEventListener("DOMContentLoaded", () => {
           ☎ <span>+961 03151225</span>
         </a>
 
-        <!-- Language toggle (desktop) -->
-         <a class="langBtn langBtn--icon"
-   href="https://instagram.com/YOUR_USERNAME"
-   target="_blank" rel="noopener"
-   aria-label="Instagram">
-  <!-- Instagram SVG -->
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <path fill="currentColor" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4A3.8 3.8 0 0 0 20 16.2V7.8A3.8 3.8 0 0 0 16.2 4H7.8Zm4.2 3.3A4.7 4.7 0 1 1 7.3 12 4.7 4.7 0 0 1 12 7.3Zm0 2A2.7 2.7 0 1 0 14.7 12 2.7 2.7 0 0 0 12 9.3ZM17.6 6.4a1.1 1.1 0 1 1-1.1 1.1 1.1 1.1 0 0 1 1.1-1.1Z"/>
-  </svg>
-</a>
+        <a class="langBtn langBtn--icon"
+           href="https://instagram.com/lana.projectss"
+           target="_blank" rel="noopener"
+           aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path fill="currentColor" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4A3.8 3.8 0 0 0 20 16.2V7.8A3.8 3.8 0 0 0 16.2 4H7.8Zm4.2 3.3A4.7 4.7 0 1 1 7.3 12 4.7 4.7 0 0 1 12 7.3Zm0 2A2.7 2.7 0 1 0 14.7 12 2.7 2.7 0 0 0 12 9.3ZM17.6 6.4a1.1 1.1 0 1 1-1.1 1.1 1.1 1.1 0 0 1 1.1-1.1Z"/>
+          </svg>
+        </a>
 
         <button class="langBtn" id="langBtn" type="button" aria-label="Toggle language">EN / AR</button>
-        
-
         <a class="btn btn--gold" href="#contact" data-i18n="cta.schedule">Schedule Viewing</a>
       </div>
 
-
       <!-- Right side (mobile) -->
       <div class="header__right">
-  <a class="langBtn langBtn--top langBtn--icon"
-     href="https://instagram.com/lana.projectss"
-     target="_blank" rel="noopener"
-     aria-label="Instagram">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path fill="currentColor" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4A3.8 3.8 0 0 0 20 16.2V7.8A3.8 3.8 0 0 0 16.2 4H7.8Zm4.2 3.3A4.7 4.7 0 1 1 7.3 12 4.7 4.7 0 0 1 12 7.3Zm0 2A2.7 2.7 0 1 0 14.7 12 2.7 2.7 0 0 0 12 9.3ZM17.6 6.4a1.1 1.1 0 1 1-1.1 1.1 1.1 1.1 0 0 1 1.1-1.1Z"/>
-    </svg>
-  </a>
-
-  <button class="langBtn langBtn--top" id="langBtnTop" type="button" aria-label="Toggle language">EN / AR</button>
-  <button class="langBtn langBtn--top langBtn--menu burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">☰</button>
-</div>
-      
+        <a class="langBtn langBtn--top langBtn--icon"
+           href="https://instagram.com/lana.projectss"
+           target="_blank" rel="noopener"
+           aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path fill="currentColor" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4A3.8 3.8 0 0 0 20 16.2V7.8A3.8 3.8 0 0 0 16.2 4H7.8Zm4.2 3.3A4.7 4.7 0 1 1 7.3 12 4.7 4.7 0 0 1 12 7.3Zm0 2A2.7 2.7 0 1 0 14.7 12 2.7 2.7 0 0 0 12 9.3ZM17.6 6.4a1.1 1.1 0 1 1-1.1 1.1 1.1 1.1 0 0 1 1.1-1.1Z"/>
+          </svg>
+        </a>
+        <button class="langBtn langBtn--top" id="langBtnTop" type="button" aria-label="Toggle language">EN / AR</button>
+        <button class="langBtn langBtn--top langBtn--menu burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">☰</button>
+      </div>
     </div>
 
     <!-- Mobile menu -->
@@ -245,7 +208,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <a href="#process" data-i18n="nav.process">Process</a>
       <a href="#testimonials" data-i18n="nav.testimonials">Testimonials</a>
       <a href="#contact" data-i18n="nav.contact">Contact</a>
-
       <a class="btn btn--gold" href="#contact" data-i18n="cta.schedule">Schedule Viewing</a>
       <a class="btn btn--ghost" id="waMobile" href="https://wa.me/+96103515225" target="_blank" rel="noopener" data-i18n="cta.whatsapp">WhatsApp</a>
     </div>
@@ -261,8 +223,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="kicker" data-i18n="hero.kicker">LUXURY REAL ESTATE</div>
 
       <h1 class="hero__title">
-        <span data-i18n="hero.title">Discover Extraordinary Living</span>
-        <span class="gold" data-i18n="hero.titleGold">Living</span>
+        <span data-i18n="hero.title">Discover Extraordinary</span>
+        <span class="gold" data-i18n="hero.titleGold"> Living</span>
       </h1>
 
       <p class="hero__subtitle" data-i18n="hero.subtitle">
@@ -273,27 +235,25 @@ document.addEventListener("DOMContentLoaded", () => {
         <a class="btn btn--gold" href="#contact" data-i18n="cta.explore">Explore Availability</a>
         <a class="btn btn--ghost" id="waTop" href="https://wa.me/+96103515225" target="_blank" rel="noopener" data-i18n="cta.whatsappContact">Contact on WhatsApp</a>
       </div>
+
       <div class="stats" data-aos="fade-up" data-aos-delay="140">
-  <div class="stat">
-    <strong data-i18n="stats.s1v">2–3</strong>
-    <span data-i18n="stats.s1l">Bedrooms</span>
-  </div>
-
-  <div class="stat">
-    <strong data-i18n="stats.s2v">110–150-220m²</strong>
-    <span data-i18n="stats.s2l">Sizes</span>
-  </div>
-
-  <div class="stat">
-    <strong data-i18n="stats.s3v">Private</strong>
-    <span data-i18n="stats.s3l">Viewings</span>
-  </div>
-
-  <div class="stat">
-    <strong data-i18n="stats.s4v">Limited</strong>
-    <span data-i18n="stats.s4l">Units</span>
-  </div>
-</div>
+        <div class="stat">
+          <strong data-i18n="stats.s1v">2–3</strong>
+          <span data-i18n="stats.s1l">Bedrooms</span>
+        </div>
+        <div class="stat">
+          <strong data-i18n="stats.s2v">110–220m²</strong>
+          <span data-i18n="stats.s2l">Sizes</span>
+        </div>
+        <div class="stat">
+          <strong data-i18n="stats.s3v">Private</strong>
+          <span data-i18n="stats.s3l">Viewings</span>
+        </div>
+        <div class="stat">
+          <strong data-i18n="stats.s4v">Limited</strong>
+          <span data-i18n="stats.s4l">Units</span>
+        </div>
+      </div>
 
       <!-- Lead Bar -->
       <section class="leadbar" aria-label="Quick inquiry">
@@ -302,7 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <span data-i18n="lead.location">Location</span>
             <input type="text" data-i18n-placeholder="lead.locationPh" placeholder="e.g., Saida ..." />
           </label>
-
           <label class="field">
             <span data-i18n="lead.interest">Interest</span>
             <select>
@@ -311,7 +270,6 @@ document.addEventListener("DOMContentLoaded", () => {
               <option data-i18n="lead.both">Both</option>
             </select>
           </label>
-
           <label class="field">
             <span data-i18n="lead.budget">Budget</span>
             <select>
@@ -320,10 +278,8 @@ document.addEventListener("DOMContentLoaded", () => {
               <option>€3,500+</option>
             </select>
           </label>
-
           <a class="btn btn--gold btn--search" href="#contact" data-i18n="cta.requestDetails">🔎 Request Details</a>
         </div>
-
         <p class="leadbar__note" data-i18n="lead.note">
           Only 1–2 projects available right now — contact us to get the latest units and pricing.
         </p>
@@ -335,6 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <section id="project" class="section">
     <div class="container">
       <div class="section__head" data-aos="fade-up">
+        <div class="section__label">OUR PORTFOLIO</div>
         <h2 data-i18n="projects.title">Our Projects</h2>
         <p data-i18n="projects.desc">
           We focus on a small number of premium developments to ensure quality service and private viewings.
@@ -342,18 +299,50 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
 
       <div class="cards">
+                <!-- Project 3 -->
+        <article class="card" data-aos="fade-up" data-aos-delay="240">
+          <div class="mediaFrame mediaFrame--slider">
+            <div class="card__sliderWrap">
+              <button class="sliderBtn sliderBtn--prev" type="button" aria-label="Previous image">‹</button>
+              <div class="card__slider" data-slider="projects">
+                <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject1.jpg')"></div>
+                <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject2.jpg')"></div>
+                <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject3.jpg')"></div>
+                <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject4.jpg')"></div>
+              </div>
+              <button class="sliderBtn sliderBtn--next" type="button" aria-label="Next image">›</button>
+            </div>
+          </div>
+          <div class="card__body">
+            <div class="pill" data-i18n="p3.pill">Coming Soon</div>
+            <h3 data-i18n="p3.title">Lana Residences</h3>
+            <p data-i18n="p3.desc">
+              A refined residential project offering high-end apartments in a prime location.
+            </p>
+            <ul class="bullets">
+              <li data-i18n="p3.b1">Buy & Rent options</li>
+              <li data-i18n="p3.b2">Shops and Clinics</li>
+              <li data-i18n="p3.b3">Limited availability</li>
+            </ul>
+            <div class="card__actions">
+              <a class="btn btn--ghost" href="#contact" data-i18n="p3.cta1">Get Notified</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
         <!-- Project 1 -->
         <article class="card" data-aos="fade-up" data-aos-delay="0">
           <div class="mediaFrame">
-  <div class="card__img" data-gallery="p1" style="background-image:url('Photos/building.jpg')"></div>
-</div>
+            <div class="card__img" data-gallery="p1" style="background-image:url('Photos/building.jpg')"></div>
+          </div>
           <div class="card__body">
             <div class="pill" data-i18n="p1.pill">Available • Limited Units</div>
             <h3 data-i18n="p1.title">Lana Signature Building</h3>
             <p data-i18n="p1.desc">
               Modern luxury apartments with elegant interiors, premium amenities, and excellent city access.
             </p>
-
             <ul class="bullets">
               <li data-i18n="p1.b1">Buy & Rent options</li>
               <li data-i18n="p1.b2">1–3 bedrooms</li>
@@ -361,133 +350,87 @@ document.addEventListener("DOMContentLoaded", () => {
               <li data-i18n="p1.b4">Private viewings</li>
               <li data-i18n="p1.b5">Private gardens</li>
             </ul>
-
             <div class="card__actions">
               <a class="btn btn--gold" href="#contact" data-i18n="p1.cta1">Schedule Viewing</a>
               <a class="btn btn--ghost" href="#contact" data-i18n="p1.cta2">Request Price List</a>
             </div>
           </div>
-</article>
+        </article>
 
         <!-- Project 2 -->
         <article class="card" data-aos="fade-up" data-aos-delay="120">
           <div class="mediaFrame">
-  <div class="card__img card__img--vertical" data-gallery="p2" style="background-image:url('Photos/villa2.jpg')"></div>
-  <div class="card__img card__img--vertical" data-gallery="p2" style="background-image:url('Photos/villa1.jpg')"></div>
-</div>
+            <div class="card__img card__img--vertical" data-gallery="p2" style="background-image:url('Photos/villa2.jpg')"></div>
+            <div class="card__img card__img--vertical" data-gallery="p2" style="background-image:url('Photos/villa1.jpg')"></div>
+          </div>
           <div class="card__body">
             <div class="pill" data-i18n="p2.pill">New Project</div>
             <h3 data-i18n="p2.title">Lana Villa</h3>
             <p data-i18n="p2.desc">
               Contemporary residences designed for comfort, featuring spacious layouts and modern finishes.
             </p>
-
             <ul class="bullets">
               <li data-i18n="p2.b1">Only Buy</li>
               <li data-i18n="p2.b2">3 floors • 70m² each</li>
               <li data-i18n="p2.b3">Balcony & parking</li>
             </ul>
-
             <div class="card__actions">
               <a class="btn btn--gold" href="#contact" data-i18n="p2.cta1">Book a Viewing</a>
               <a class="btn btn--ghost" href="#contact" data-i18n="p2.cta2">More Details</a>
             </div>
           </div>
-</article>
+        </article>
 
-        <!-- Project 3 -->
-        <article class="card" data-aos="fade-up" data-aos-delay="240">
-          <div class="mediaFrame mediaFrame--slider">
-  <div class="card__sliderWrap">
-  <button class="sliderBtn sliderBtn--prev" type="button" aria-label="Previous image">‹</button>
 
-  <div class="card__slider" data-slider="projects">
-   <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject1.jpg')"></div>
-    <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject2.jpg')"></div>
-    <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject3.jpg')"></div>
-    <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject4.jpg')"></div>
-  </div>
-
-  <button class="sliderBtn sliderBtn--next" type="button" aria-label="Next image">›</button>
-</div>
-</div> 
-
-          <div class="card__body">
-            <div class="pill" data-i18n="p3.pill">Coming Soon</div>
-            <h3 data-i18n="p3.title">Lana Residences</h3>
-            <p data-i18n="p3.desc">
-              A refined residential project offering high-end apartments in a prime location.
-            </p>
-
-            <ul class="bullets">
-              <li data-i18n="p3.b1">Buy & Rent options</li>
-              <li data-i18n="p3.b2">Shops and Clinics</li>
-              <li data-i18n="p3.b3">Limited availability</li>
-            </ul>
-
-            <div class="card__actions">
-              <a class="btn btn--ghost" href="#contact" data-i18n="p3.cta1">Get Notified</a>
-            </div>
-          </div>
-</article>
+  <!-- Location -->
+  <section id="location" class="section section--dark">
+    <div class="container location">
+      <div class="location__text">
+        <div class="section__label">WHERE WE BUILD</div>
+        <h2 data-i18n="location.title">Prime Location – Saida, Loubyi</h2>
+        <p data-i18n="location.desc">
+          All Lana Projects developments are located in the heart of South Lebanon,
+          offering convenient access to schools, shopping, healthcare,
+          and the Mediterranean coastline.
+        </p>
+        <ul class="location__highlights">
+          <li data-i18n="location.l1">📍 Saida - Loubyi</li>
+          <li data-i18n="location.l2">🛍 5 min to shopping areas</li>
+          <li data-i18n="location.l3">🏖 Close to the sea</li>
+          <li data-i18n="location.l4">🏥 Near hospitals & clinics</li>
+        </ul>
+      </div>
+      <div class="location__map">
+        <iframe
+          src="https://maps.google.com/maps?q=33.428560,35.289743&t=&z=17&ie=UTF8&iwloc=&output=embed"
+          width="100%" height="100%"
+          style="border:0;" allowfullscreen="" loading="lazy">
+        </iframe>
       </div>
     </div>
   </section>
 
-  <section id="location" class="section section--dark">
-  <div class="container location">
-    <div class="location__text">
-      <h2 data-i18n="location.title">Prime Location – Saida, Loubyi</h2>
-      <p data-i18n="location.desc">
-        All Lana Projects developments are located in the heart of South Lebanon,
-        offering convenient access to schools, shopping, healthcare,
-        and the Mediterranean coastline.
-      </p>
-
-      <ul class="location__highlights">
-        <li data-i18n="location.l1">📍 Saida - Loubyi</li>
-        <li data-i18n="location.l2">🛍 5 min to shopping areas</li>
-        <li data-i18n="location.l3">🏖 Close to the sea</li>
-        <li data-i18n="location.l4">🏥 Near hospitals & clinics</li>
-      </ul>
-    </div>
-
-    <div class="location__map">
-      <iframe
-        src="https://maps.google.com/maps?q=33.428560,35.289743&t=&z=17&ie=UTF8&iwloc=&output=embed"
-        width="100%"
-        height="100%"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy">
-      </iframe>
-    </div>
-  </div>
-</section>
-
-
   <!-- Why Us -->
   <section id="why" class="section section--dark">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-aos="fade-up">
+        <div class="section__label">OUR DIFFERENCE</div>
         <h2 data-i18n="why.title">Why Lana Projects</h2>
-        <p data-i18n="why.desc">Our website is built to convert visitors into real inquiries fast, simple, and premium.</p>
+        <p data-i18n="why.desc">Fast response, verified units, and hands-on guidance from inquiry to keys.</p>
       </div>
 
       <div class="grid3">
-        <div class="feature">
+        <div class="feature" data-aos="fade-up" data-aos-delay="0">
           <div class="feature__icon">⚡</div>
           <h3 data-i18n="why.f1t">Fast Response</h3>
           <p data-i18n="why.f1d">We reply quickly and share current availability, pricing, and viewing times.</p>
         </div>
-
-        <div class="feature">
+        <div class="feature" data-aos="fade-up" data-aos-delay="100">
           <div class="feature__icon">✅</div>
           <h3 data-i18n="why.f2t">Verified Units</h3>
           <p data-i18n="why.f2d">No clutter, only real, curated apartments in our selected projects.</p>
         </div>
-
-        <div class="feature">
+        <div class="feature" data-aos="fade-up" data-aos-delay="200">
           <div class="feature__icon">🤝</div>
           <h3 data-i18n="why.f3t">Guided Viewing</h3>
           <p data-i18n="why.f3d">From inquiry to keys: we help with booking, paperwork, and next steps.</p>
@@ -499,27 +442,28 @@ document.addEventListener("DOMContentLoaded", () => {
   <!-- Process -->
   <section id="process" class="section">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-aos="fade-up">
+        <div class="section__label">SIMPLE PROCESS</div>
         <h2 data-i18n="process.title">How It Works</h2>
         <p data-i18n="process.desc">Simple steps to secure your apartment.</p>
       </div>
 
       <ol class="steps">
-        <li>
+        <li data-aos="fade-up" data-aos-delay="0">
           <span class="step__num">1</span>
           <div>
             <h3 data-i18n="process.s1t">Send Inquiry</h3>
             <p data-i18n="process.s1d">Tell us rent/buy, budget, and timeline — via form or WhatsApp.</p>
           </div>
         </li>
-        <li>
+        <li data-aos="fade-up" data-aos-delay="100">
           <span class="step__num">2</span>
           <div>
             <h3 data-i18n="process.s2t">Get Options</h3>
             <p data-i18n="process.s2d">We share available units, floor plans (if available), and prices.</p>
           </div>
         </li>
-        <li>
+        <li data-aos="fade-up" data-aos-delay="200">
           <span class="step__num">3</span>
           <div>
             <h3 data-i18n="process.s3t">Schedule Viewing</h3>
@@ -533,31 +477,38 @@ document.addEventListener("DOMContentLoaded", () => {
   <!-- Testimonials -->
   <section id="testimonials" class="section section--soft">
     <div class="container">
-      <div class="section__head">
+      <div class="section__head" data-aos="fade-up">
+        <div class="section__label">CLIENT STORIES</div>
         <h2 data-i18n="test.title">What Clients Say</h2>
       </div>
 
       <div class="grid3">
-        <blockquote class="quote">
-          <p data-i18n="test.q1">“Super smooth process. We booked a viewing quickly and got clear answers.”</p>
+        <blockquote class="quote" data-aos="fade-up" data-aos-delay="0">
+          <div class="quote__stars">★★★★★</div>
+          <p data-i18n="test.q1">"Super smooth process. We booked a viewing quickly and got clear answers."</p>
+          <footer>— Ahmad K., Saida</footer>
         </blockquote>
-        <blockquote class="quote">
-          <p data-i18n="test.q2">“Premium apartments and fast communication. Highly recommended.”</p>
+        <blockquote class="quote" data-aos="fade-up" data-aos-delay="100">
+          <div class="quote__stars">★★★★★</div>
+          <p data-i18n="test.q2">"Premium apartments and fast communication. Highly recommended."</p>
+          <footer>— Rania M., Beirut</footer>
         </blockquote>
-        <blockquote class="quote">
-          <p data-i18n="test.q3">“They guided us from inquiry to contract with no stress.”</p>
+        <blockquote class="quote" data-aos="fade-up" data-aos-delay="200">
+          <div class="quote__stars">★★★★★</div>
+          <p data-i18n="test.q3">"They guided us from inquiry to contract with no stress."</p>
+          <footer>— Karim H., Sidon</footer>
         </blockquote>
       </div>
     </div>
   </section>
 
-
   <!-- Contact -->
   <section id="contact" class="section section--dark">
     <div class="container contact">
       <div>
+        <div class="section__label">GET IN TOUCH</div>
         <h2 data-i18n="contact.title">Schedule a Viewing</h2>
-        <p class="muted" data-i18n="contact.desc">Fill the form and we’ll contact you. If you want faster: WhatsApp us 📲</p>
+        <p class="muted" data-i18n="contact.desc">Fill the form and we'll contact you. If you want faster: WhatsApp us 📲</p>
 
         <div class="contact__buttons">
           <a class="btn btn--gold" id="waMid" href="https://wa.me/+96103515225" target="_blank" rel="noopener" data-i18n="cta.whatsappNow">WhatsApp Now</a>
@@ -576,33 +527,26 @@ document.addEventListener("DOMContentLoaded", () => {
         <input type="hidden" name="_format" value="plain">
         <input type="hidden" name="_next" value="https://lanaprojects.netlify.app/thanks.html">
 
-
         <label>
           <span data-i18n="form.name">Full Name</span>
           <input required name="name" type="text" data-i18n-placeholder="form.namePh" placeholder="Your name" />
         </label>
-
         <label>
           <span data-i18n="form.email">Email</span>
           <input required name="email" type="email" data-i18n-placeholder="form.emailPh" placeholder="you@email.com" />
         </label>
-
         <label>
           <span data-i18n="form.phone">Phone</span>
           <input name="phone" type="text" data-i18n-placeholder="form.phonePh" placeholder="+961 ..." />
         </label>
-
         <label>
           <span data-i18n="form.msg">Message</span>
           <textarea required name="message" rows="5" data-i18n-placeholder="form.msgPh" placeholder="Tell us: buy/rent, budget, move-in date, questions..."></textarea>
         </label>
-
         <button class="btn btn--gold btn--full" type="submit" data-i18n="form.send">Send Inquiry</button>
       </form>
     </div>
   </section>
-
-  <!-- Sticky CTA -->
 
   <footer class="footer">
     <div class="container footer__inner">
@@ -613,8 +557,16 @@ document.addEventListener("DOMContentLoaded", () => {
       </span>
     </div>
   </footer>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
+  <!-- Floating WhatsApp -->
+  <a class="waFloat" href="https://wa.me/+96103515225" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg class="waIcon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M19.11 17.66c-.28-.14-1.64-.81-1.9-.9-.26-.1-.45-.14-.64.14-.19.28-.74.9-.9 1.08-.17.19-.33.21-.61.07-.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.66-1.55-1.94-.16-.28-.02-.43.12-.57.12-.12.28-.33.42-.5.14-.17.19-.28.28-.47.09-.19.05-.35-.02-.5-.07-.14-.64-1.55-.88-2.13-.23-.55-.46-.48-.64-.49h-.55c-.19 0-.5.07-.76.35-.26.28-1 1-1 2.43 0 1.43 1.03 2.81 1.17 3 .14.19 2.02 3.08 4.9 4.32.69.3 1.23.48 1.65.62.69.22 1.32.19 1.82.12.56-.08 1.64-.67 1.87-1.32.23-.64.23-1.19.16-1.32-.07-.12-.26-.19-.54-.33z"/>
+      <path fill="currentColor" d="M16.03 2.67c-7.33 0-13.29 5.96-13.29 13.29 0 2.34.61 4.62 1.77 6.63L3 29.33l6.88-1.81c1.92 1.05 4.07 1.6 6.24 1.6h.01c7.33 0 13.29-5.96 13.29-13.29 0-3.55-1.38-6.89-3.89-9.4-2.51-2.51-5.85-3.89-9.4-3.89zm0 23.29h-.01c-1.98 0-3.91-.53-5.59-1.52l-.4-.24-4.08 1.07 1.09-3.98-.26-.41c-1.06-1.7-1.62-3.67-1.62-5.72 0-5.91 4.81-10.72 10.72-10.72 2.86 0 5.55 1.11 7.57 3.13 2.02 2.02 3.13 4.71 3.13 7.57 0 5.91-4.81 10.72-10.72 10.72z"/>
+    </svg>
+  </a>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
   <script>
     // Year
@@ -634,7 +586,6 @@ document.addEventListener("DOMContentLoaded", () => {
         mobileNav.hidden = true;
       });
     });
-    
 
     // ---- i18n (EN/AR) ----
     const translations = {
@@ -642,209 +593,103 @@ document.addEventListener("DOMContentLoaded", () => {
         "nav.project":"Project","nav.why":"Why Us","nav.process":"Process","nav.testimonials":"Testimonials","nav.contact":"Contact",
         "cta.schedule":"Schedule Viewing","cta.explore":"Explore Availability","cta.whatsapp":"WhatsApp","cta.whatsappContact":"Contact on WhatsApp",
         "cta.requestDetails":"🔎 Request Details","cta.whatsappNow":"WhatsApp Now","cta.call":"Call",
-
         "hero.kicker":"LUXURY REAL ESTATE","hero.title":"Discover Extraordinary","hero.titleGold":"Living",
         "hero.subtitle":"Lana Projects helps you secure premium apartments with private viewings, fast response, and trusted guidance.",
-
         "lead.location":"Location","lead.locationPh":"e.g., Saida ...","lead.interest":"Interest","lead.buy":"Buy","lead.rent":"Rent","lead.both":"Both",
         "lead.budget":"Budget","lead.note":"Only 1–2 projects available right now — contact us to get the latest units and pricing.",
-
-        "projects.title":"Our Projects",
-        "projects.desc":"We focus on a small number of premium developments to ensure quality service and private viewings.",
-
-        "p1.pill":"Available • Limited Units",
-        "p1.title":"Lana Signature Building",
+        "projects.title":"Our Projects","projects.desc":"We focus on a small number of premium developments to ensure quality service and private viewings.",
+        "p1.pill":"Available • Limited Units","p1.title":"Lana Signature Building",
         "p1.desc":"Modern luxury apartments with elegant interiors, premium amenities, and excellent city access.",
-        "p1.b1":"Buy & Rent options",
-        "p1.b2":"1–3 bedrooms",
-        "p1.b3":"110m² • 150m² • 220m²",
-        "p1.b4":"Private viewings",
-        "p1.b5":"Private gardens",
-        "p1.cta1":"Schedule Viewing",
-        "p1.cta2":"Request Price List",
-
-        "p2.pill":"New Project",
-        "p2.title":"Lana Villa",
+        "p1.b1":"Buy & Rent options","p1.b2":"1–3 bedrooms","p1.b3":"110m² • 150m² • 220m²","p1.b4":"Private viewings","p1.b5":"Private gardens",
+        "p1.cta1":"Schedule Viewing","p1.cta2":"Request Price List",
+        "p2.pill":"New Project","p2.title":"Lana Villa",
         "p2.desc":"Contemporary residences designed for comfort, featuring spacious layouts and modern finishes.",
-        "p2.b1":"Only Buy",
-        "p2.b2":"3 floors • 70m² each",
-        "p2.b3":"Balcony & parking",
-        "p2.cta1":"Book a Viewing",
-        "p2.cta2":"More Details",
-
-        "p3.pill":"Coming Soon",
-        "p3.title":"Lana Residences",
+        "p2.b1":"Only Buy","p2.b2":"3 floors • 70m² each","p2.b3":"Balcony & parking","p2.cta1":"Book a Viewing","p2.cta2":"More Details",
+        "p3.pill":"Coming Soon","p3.title":"Lana Residences",
         "p3.desc":"A refined residential project offering high-end apartments in a prime location.",
-        "p3.b1":"Buy & Rent options",
-        "p3.b2":"Shops and Clinics",
-        "p3.b3":"Limited availability",
-        "p3.cta1":"Get Notified",
-
-        "why.title":"Why Lana Projects",
-        "why.desc":"Our website is built to convert visitors into real inquiries fast, simple, and premium.",
+        "p3.b1":"Buy & Rent options","p3.b2":"Shops and Clinics","p3.b3":"Limited availability","p3.cta1":"Get Notified",
+        "why.title":"Why Lana Projects","why.desc":"Fast response, verified units, and hands-on guidance from inquiry to keys.",
         "why.f1t":"Fast Response","why.f1d":"We reply quickly and share current availability, pricing, and viewing times.",
         "why.f2t":"Verified Units","why.f2d":"No clutter, only real, curated apartments in our selected projects.",
         "why.f3t":"Guided Viewing","why.f3d":"From inquiry to keys: we help with booking, paperwork, and next steps.",
-
         "process.title":"How It Works","process.desc":"Simple steps to secure your apartment.",
         "process.s1t":"Send Inquiry","process.s1d":"Tell us rent/buy, budget, and timeline — via form or WhatsApp.",
         "process.s2t":"Get Options","process.s2d":"We share available units, floor plans (if available), and prices.",
         "process.s3t":"Schedule Viewing","process.s3d":"Choose a time. We arrange a private viewing and guide you through it.",
-
         "test.title":"What Clients Say",
-        "test.q1":"“Super smooth process. We booked a viewing quickly and got clear answers.”",
-        "test.q2":"“Premium apartments and fast communication. Highly recommended.”",
-        "test.q3":"“They guided us from inquiry to contract with no stress.”",
-
+        "test.q1":"\u201cSuper smooth process. We booked a viewing quickly and got clear answers.\u201d",
+        "test.q2":"\u201cPremium apartments and fast communication. Highly recommended.\u201d",
+        "test.q3":"\u201cThey guided us from inquiry to contract with no stress.\u201d",
         "contact.title":"Schedule a Viewing",
-        "contact.desc":"Fill the form and we’ll contact you. If you want faster: WhatsApp us 📲",
-        "contact.phoneLabel":"Phone:",
-        "contact.emailLabel":"Email:",
-        "contact.hoursLabel":"Hours:",
-        "contact.hours":"Mon–Sun, 9:00–19:00",
-
-        "form.name":"Full Name","form.namePh":"Your name",
-        "form.email":"Email","form.emailPh":"you@email.com",
+        "contact.desc":"Fill the form and we\u2019ll contact you. If you want faster: WhatsApp us \uD83D\uDCF2",
+        "contact.phoneLabel":"Phone:","contact.emailLabel":"Email:","contact.hoursLabel":"Hours:","contact.hours":"Mon\u2013Sun, 9:00\u201319:00",
+        "form.name":"Full Name","form.namePh":"Your name","form.email":"Email","form.emailPh":"you@email.com",
         "form.phone":"Phone","form.phonePh":"+961 ...",
-        "form.msg":"Message","form.msgPh":"Tell us: buy/rent, budget, move-in date, questions...",
-        "form.send":"Send Inquiry",
-
+        "form.msg":"Message","form.msgPh":"Tell us: buy/rent, budget, move-in date, questions...","form.send":"Send Inquiry",
         "footer.rights":"Lana Projects. All rights reserved.","footer.home":"Home","footer.contact":"Contact",
-
-        "location.title":"Prime Location - Saida, Loubyi",
+        "location.title":"Prime Location \u2013 Saida, Loubyi",
         "location.desc":"All Lana Projects developments are located in the heart of South Lebanon, offering convenient access to schools, shopping, healthcare, and the Mediterranean coastline.",
-        "location.l1":"📍 Saida - Loubyi",
-        "location.l2":"🛍 5 min to shopping areas",
-        "location.l3":"🏖 Close to the sea",
-        "location.l4":"🏥 Near hospitals & clinics",
-
-
-        "stats.s1v":"2–3",
-            "stats.s1l":"Bedrooms",
-            "stats.s2v":"110–150-220m²",
-            "stats.s2l":"Sizes",
-            "stats.s3v":"Private",
-            "stats.s3l":"Viewings",
-            "stats.s4v":"Limited",
-            "stats.s4l":"Units",
-                },
-
+        "location.l1":"\uD83D\uDCCD Saida - Loubyi","location.l2":"\uD83D\uDECD 5 min to shopping areas","location.l3":"\uD83C\uDFD6 Close to the sea","location.l4":"\uD83C\uDFE5 Near hospitals & clinics",
+        "stats.s1v":"2\u20133","stats.s1l":"Bedrooms","stats.s2v":"110\u2013220m\u00B2","stats.s2l":"Sizes","stats.s3v":"Private","stats.s3l":"Viewings","stats.s4v":"Limited","stats.s4l":"Units"
+      },
       ar: {
-        "nav.project":"المشاريع","nav.why":"لماذا نحن","nav.process":"الخطوات","nav.testimonials":"آراء العملاء","nav.contact":"تواصل معنا",
-        "cta.schedule":"احجز معاينة","cta.explore":"عرض المتاح","cta.whatsapp":"واتساب","cta.whatsappContact":"تواصل عبر واتساب",
-        "cta.requestDetails":"🔎 اطلب التفاصيل","cta.whatsappNow":"واتساب الآن","cta.call":"اتصال",
-
-        "hero.kicker":"عقارات فاخرة","hero.title":"اكتشف أسلوب حياة","hero.titleGold":"استثنائي",
-        "hero.subtitle":"تساعدك Lana Projects في الحصول على شقق فاخرة مع معاينات خاصة واستجابة سريعة وإرشاد موثوق.",
-
-        "lead.location":"الموقع","lead.locationPh":"مثال: صيدا ...",
-        "lead.interest":"نوع الطلب","lead.buy":"شراء","lead.rent":"إيجار","lead.both":"كلاهما",
-        "lead.budget":"الميزانية",
-        "lead.note":"لدينا حالياً مشروع أو مشروعين فقط — تواصل معنا لمعرفة أحدث الوحدات والأسعار.",
-
-        "projects.title":"مشاريعنا",
-        "projects.desc":"نركز على عدد محدود من المشاريع المميزة لضمان خدمة عالية الجودة ومعاينات خاصة.",
-
-        "p1.pill":"متاح • وحدات محدودة",
-        "p1.title":"مبنى Lana المميز",
-        "p1.desc":"شقق فاخرة حديثة بتصميم أنيق ومرافق مميزة وسهولة وصول ممتازة إلى المدينة.",
-        "p1.b1":"خيارات شراء وإيجار",
-        "p1.b2":"من 1 إلى 3 غرف نوم",
-        "p1.b3":"110م² • 150م² • 220م²",
-        "p1.b4":"معاينات خاصة",
-        "p1.b5":"حدائق خاصة",
-        "p1.cta1":"احجز معاينة",
-        "p1.cta2":"اطلب قائمة الأسعار",
-
-        "p2.pill":"مشروع جديد",
-        "p2.title":"فيلا Lana",
-        "p2.desc":"سكن عصري مصمم للراحة مع مساحات واسعة وتشطيبات حديثة.",
-        "p2.b1":"للبيع فقط",
-        "p2.b2":"3 طوابق • 70م² لكل طابق",
-        "p2.b3":"شرفة وموقف سيارات",
-        "p2.cta1":"احجز زيارة",
-        "p2.cta2":"مزيد من التفاصيل",
-
-        "p3.pill":"قريباً",
-        "p3.title":"Lana Residences",
-        "p3.desc":"مشروع سكني راقٍ يوفر شققاً فاخرة في موقع مميز.",
-        "p3.b1":"خيارات شراء وإيجار",
-        "p3.b2":"محلات وعيادات",
-        "p3.b3":"توفر محدود",
-        "p3.cta1":"أبلغني عند التوفر",
-
-        "why.title":"لماذا Lana Projects",
-        "why.desc":"موقعنا مصمم لتحويل الزوار إلى تواصل حقيقي — سريع وبسيط وبمظهر فاخر.",
-        "why.f1t":"استجابة سريعة","why.f1d":"نرد بسرعة ونشاركك أحدث التوفر والأسعار ومواعيد المعاينة.",
-        "why.f2t":"وحدات موثوقة","why.f2d":"بدون تشتيت، فقط شقق حقيقية ومختارة بعناية ضمن مشاريعنا.",
-        "why.f3t":"مرافقة كاملة","why.f3d":"من أول تواصل حتى التعاقد: نساعدك في الحجز والإجراءات والخطوات التالية.",
-
-        "process.title":"كيف تعمل الخدمة","process.desc":"خطوات بسيطة للحصول على شقتك.",
-        "process.s1t":"أرسل طلبك","process.s1d":"أخبرنا (شراء/إيجار) والميزانية والموعد — عبر النموذج أو واتساب.",
-        "process.s2t":"استلام الخيارات","process.s2d":"نرسل الوحدات المتاحة والمخططات (إن وجدت) والأسعار.",
-        "process.s3t":"حجز المعاينة","process.s3d":"اختر الوقت المناسب. ننظم معاينة خاصة ونرشدك خلال الزيارة.",
-
-        "test.title":"ماذا يقول العملاء",
-        "test.q1":"“تجربة سلسة جداً. حجزنا معاينة بسرعة وكانت الإجابات واضحة.”",
-        "test.q2":"“شقق ممتازة وتواصل سريع. أنصح بهم.”",
-        "test.q3":"“ساعدونا من أول تواصل حتى العقد بدون ضغط.”",
-
-        "contact.title":"احجز معاينة",
-        "contact.desc":"املأ النموذج وسنتواصل معك. للأسرع: راسلنا على واتساب 📲",
-        "contact.phoneLabel":"الهاتف:",
-        "contact.emailLabel":"البريد:",
-        "contact.hoursLabel":"الدوام:",
-        "contact.hours":"الاثنين–الأحد، 9:00–19:00",
-
-        "form.name":"الاسم الكامل","form.namePh":"اسمك",
-        "form.email":"البريد الإلكتروني","form.emailPh":"you@email.com",
-        "form.phone":"الهاتف","form.phonePh":"+961 ...",
-        "form.msg":"رسالتك","form.msgPh":"اكتب: شراء/إيجار، الميزانية، موعد الانتقال، أسئلتك...",
-        "form.send":"إرسال الطلب",
-
-        "footer.rights":"Lana Projects. جميع الحقوق محفوظة.","footer.home":"الرئيسية","footer.contact":"تواصل معنا",
-        "location.title":"موقع مميز – صيدا، اللوبية",
-        "location.desc":"تقع جميع مشاريع Lana Projects في قلب جنوب لبنان، مع سهولة الوصول إلى المدارس، مراكز التسوق، الرعاية الصحية، وساحل البحر الأبيض المتوسط.",
-        "location.l1":"📍 صيدا - اللوبية",
-        "location.l2":"🛍 5 دقائق إلى مناطق التسوق",
-        "location.l3":"🏖 بالقرب من البحر",
-        "location.l4":"🏥 قريب من المستشفيات والعيادات",
-
-        "stats.s1v":"2–3",
-        "stats.s1l":"غرف نوم",
-        "stats.s2v":"110–150-200م²",
-        "stats.s2l":"المساحات",
-          "stats.s3v":"معاينات",
-          "stats.s3l":"خاصة",
-          "stats.s4v":"وحدات",
-          "stats.s4l":"محدودة",
-              }
+        "nav.project":"\u0627\u0644\u0645\u0634\u0627\u0631\u064A\u0639","nav.why":"\u0644\u0645\u0627\u0630\u0627 \u0646\u062D\u0646","nav.process":"\u0627\u0644\u062E\u0637\u0648\u0627\u062A","nav.testimonials":"\u0622\u0631\u0627\u0621 \u0627\u0644\u0639\u0645\u0644\u0627\u0621","nav.contact":"\u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627",
+        "cta.schedule":"\u0627\u062D\u062C\u0632 \u0645\u0639\u0627\u064A\u0646\u0629","cta.explore":"\u0639\u0631\u0636 \u0627\u0644\u0645\u062A\u0627\u062D","cta.whatsapp":"\u0648\u0627\u062A\u0633\u0627\u0628","cta.whatsappContact":"\u062A\u0648\u0627\u0635\u0644 \u0639\u0628\u0631 \u0648\u0627\u062A\u0633\u0627\u0628",
+        "cta.requestDetails":"\uD83D\uDD0E \u0627\u0637\u0644\u0628 \u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644","cta.whatsappNow":"\u0648\u0627\u062A\u0633\u0627\u0628 \u0627\u0644\u0622\u0646","cta.call":"\u0627\u062A\u0635\u0627\u0644",
+        "hero.kicker":"\u0639\u0642\u0627\u0631\u0627\u062A \u0641\u0627\u062E\u0631\u0629","hero.title":"\u0627\u0643\u062A\u0634\u0641 \u0623\u0633\u0644\u0648\u0628 \u062D\u064A\u0627\u0629","hero.titleGold":"\u0627\u0633\u062A\u062B\u0646\u0627\u0626\u064A",
+        "hero.subtitle":"\u062A\u0633\u0627\u0639\u062F\u0643 Lana Projects \u0641\u064A \u0627\u0644\u062D\u0635\u0648\u0644 \u0639\u0644\u0649 \u0634\u0642\u0642 \u0641\u0627\u062E\u0631\u0629 \u0645\u0639 \u0645\u0639\u0627\u064A\u0646\u0627\u062A \u062E\u0627\u0635\u0629 \u0648\u0627\u0633\u062A\u062C\u0627\u0628\u0629 \u0633\u0631\u064A\u0639\u0629 \u0648\u0625\u0631\u0634\u0627\u062F \u0645\u0648\u062B\u0648\u0642.",
+        "lead.location":"\u0627\u0644\u0645\u0648\u0642\u0639","lead.locationPh":"\u0645\u062B\u0627\u0644: \u0635\u064A\u062F\u0627 ...","lead.interest":"\u0646\u0648\u0639 \u0627\u0644\u0637\u0644\u0628","lead.buy":"\u0634\u0631\u0627\u0621","lead.rent":"\u0625\u064A\u062C\u0627\u0631","lead.both":"\u0643\u0644\u0627\u0647\u0645\u0627",
+        "lead.budget":"\u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629","lead.note":"\u0644\u062F\u064A\u0646\u0627 \u062D\u0627\u0644\u064A\u0627\u064B \u0645\u0634\u0631\u0648\u0639 \u0623\u0648 \u0645\u0634\u0631\u0648\u0639\u064A\u0646 \u0641\u0642\u0637 \u2014 \u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627 \u0644\u0645\u0639\u0631\u0641\u0629 \u0623\u062D\u062F\u062B \u0627\u0644\u0648\u062D\u062F\u0627\u062A \u0648\u0627\u0644\u0623\u0633\u0639\u0627\u0631.",
+        "projects.title":"\u0645\u0634\u0627\u0631\u064A\u0639\u0646\u0627","projects.desc":"\u0646\u0631\u0643\u0632 \u0639\u0644\u0649 \u0639\u062F\u062F \u0645\u062D\u062F\u0648\u062F \u0645\u0646 \u0627\u0644\u0645\u0634\u0627\u0631\u064A\u0639 \u0627\u0644\u0645\u0645\u064A\u0632\u0629 \u0644\u0636\u0645\u0627\u0646 \u062E\u062F\u0645\u0629 \u0639\u0627\u0644\u064A\u0629 \u0627\u0644\u062C\u0648\u062F\u0629 \u0648\u0645\u0639\u0627\u064A\u0646\u0627\u062A \u062E\u0627\u0635\u0629.",
+        "p1.pill":"\u0645\u062A\u0627\u062D \u2022 \u0648\u062D\u062F\u0627\u062A \u0645\u062D\u062F\u0648\u062F\u0629","p1.title":"\u0645\u0628\u0646\u0649 Lana \u0627\u0644\u0645\u0645\u064A\u0632",
+        "p1.desc":"\u0634\u0642\u0642 \u0641\u0627\u062E\u0631\u0629 \u062D\u062F\u064A\u062B\u0629 \u0628\u062A\u0635\u0645\u064A\u0645 \u0623\u0646\u064A\u0642 \u0648\u0645\u0631\u0627\u0641\u0642 \u0645\u0645\u064A\u0632\u0629 \u0648\u0633\u0647\u0648\u0644\u0629 \u0648\u0635\u0648\u0644 \u0645\u0645\u062A\u0627\u0632\u0629 \u0625\u0644\u0649 \u0627\u0644\u0645\u062F\u064A\u0646\u0629.",
+        "p1.b1":"\u062E\u064A\u0627\u0631\u0627\u062A \u0634\u0631\u0627\u0621 \u0648\u0625\u064A\u062C\u0627\u0631","p1.b2":"\u0645\u0646 1 \u0625\u0644\u0649 3 \u063A\u0631\u0641 \u0646\u0648\u0645","p1.b3":"110\u0645\u00B2 \u2022 150\u0645\u00B2 \u2022 220\u0645\u00B2","p1.b4":"\u0645\u0639\u0627\u064A\u0646\u0627\u062A \u062E\u0627\u0635\u0629","p1.b5":"\u062D\u062F\u0627\u0626\u0642 \u062E\u0627\u0635\u0629",
+        "p1.cta1":"\u0627\u062D\u062C\u0632 \u0645\u0639\u0627\u064A\u0646\u0629","p1.cta2":"\u0627\u0637\u0644\u0628 \u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0623\u0633\u0639\u0627\u0631",
+        "p2.pill":"\u0645\u0634\u0631\u0648\u0639 \u062C\u062F\u064A\u062F","p2.title":"\u0641\u064A\u0644\u0627 Lana",
+        "p2.desc":"\u0633\u0643\u0646 \u0639\u0635\u0631\u064A \u0645\u0635\u0645\u0645 \u0644\u0644\u0631\u0627\u062D\u0629 \u0645\u0639 \u0645\u0633\u0627\u062D\u0627\u062A \u0648\u0627\u0633\u0639\u0629 \u0648\u062A\u0634\u0637\u064A\u0628\u0627\u062A \u062D\u062F\u064A\u062B\u0629.",
+        "p2.b1":"\u0644\u0644\u0628\u064A\u0639 \u0641\u0642\u0637","p2.b2":"3 \u0637\u0648\u0627\u0628\u0642 \u2022 70\u0645\u00B2 \u0644\u0643\u0644 \u0637\u0627\u0628\u0642","p2.b3":"\u0634\u0631\u0641\u0629 \u0648\u0645\u0648\u0642\u0641 \u0633\u064A\u0627\u0631\u0627\u062A","p2.cta1":"\u0627\u062D\u062C\u0632 \u0632\u064A\u0627\u0631\u0629","p2.cta2":"\u0645\u0632\u064A\u062F \u0645\u0646 \u0627\u0644\u062A\u0641\u0627\u0635\u064A\u0644",
+        "p3.pill":"\u0642\u0631\u064A\u0628\u0627\u064B","p3.title":"Lana Residences",
+        "p3.desc":"\u0645\u0634\u0631\u0648\u0639 \u0633\u0643\u0646\u064A \u0631\u0627\u0642\u064D \u064A\u0648\u0641\u0631 \u0634\u0642\u0642\u0627\u064B \u0641\u0627\u062E\u0631\u0629 \u0641\u064A \u0645\u0648\u0642\u0639 \u0645\u0645\u064A\u0632.",
+        "p3.b1":"\u062E\u064A\u0627\u0631\u0627\u062A \u0634\u0631\u0627\u0621 \u0648\u0625\u064A\u062C\u0627\u0631","p3.b2":"\u0645\u062D\u0644\u0627\u062A \u0648\u0639\u064A\u0627\u062F\u0627\u062A","p3.b3":"\u062A\u0648\u0641\u0631 \u0645\u062D\u062F\u0648\u062F","p3.cta1":"\u0623\u0628\u0644\u063A\u0646\u064A \u0639\u0646\u062F \u0627\u0644\u062A\u0648\u0641\u0631",
+        "why.title":"\u0644\u0645\u0627\u0630\u0627 Lana Projects","why.desc":"\u0627\u0633\u062A\u062C\u0627\u0628\u0629 \u0633\u0631\u064A\u0639\u0629 \u0648\u0648\u062D\u062F\u0627\u062A \u0645\u0648\u062B\u0642\u0629 \u0648\u0645\u0631\u0627\u0641\u0642\u0629 \u0643\u0627\u0645\u0644\u0629 \u0645\u0646 \u0627\u0644\u0627\u0633\u062A\u0641\u0633\u0627\u0631 \u062D\u062A\u0649 \u0627\u0644\u0645\u0641\u0627\u062A\u064A\u062D.",
+        "why.f1t":"\u0627\u0633\u062A\u062C\u0627\u0628\u0629 \u0633\u0631\u064A\u0639\u0629","why.f1d":"\u0646\u0631\u062F \u0628\u0633\u0631\u0639\u0629 \u0648\u0646\u0634\u0627\u0631\u0643\u0643 \u0623\u062D\u062F\u062B \u0627\u0644\u062A\u0648\u0641\u0631 \u0648\u0627\u0644\u0623\u0633\u0639\u0627\u0631 \u0648\u0645\u0648\u0627\u0639\u064A\u062F \u0627\u0644\u0645\u0639\u0627\u064A\u0646\u0629.",
+        "why.f2t":"\u0648\u062D\u062F\u0627\u062A \u0645\u0648\u062B\u0642\u0629","why.f2d":"\u0628\u062F\u0648\u0646 \u062A\u0634\u062A\u064A\u062A\u060C \u0641\u0642\u0637 \u0634\u0642\u0642 \u062D\u0642\u064A\u0642\u064A\u0629 \u0648\u0645\u062E\u062A\u0627\u0631\u0629 \u0628\u0639\u0646\u0627\u064A\u0629 \u0636\u0645\u0646 \u0645\u0634\u0627\u0631\u064A\u0639\u0646\u0627.",
+        "why.f3t":"\u0645\u0631\u0627\u0641\u0642\u0629 \u0643\u0627\u0645\u0644\u0629","why.f3d":"\u0645\u0646 \u0623\u0648\u0644 \u062A\u0648\u0627\u0635\u0644 \u062D\u062A\u0649 \u0627\u0644\u062A\u0639\u0627\u0642\u062F: \u0646\u0633\u0627\u0639\u062F\u0643 \u0641\u064A \u0627\u0644\u062D\u062C\u0632 \u0648\u0627\u0644\u0625\u062C\u0631\u0627\u0621\u0627\u062A \u0648\u0627\u0644\u062E\u0637\u0648\u0627\u062A \u0627\u0644\u062A\u0627\u0644\u064A\u0629.",
+        "process.title":"\u0643\u064A\u0641 \u062A\u0639\u0645\u0644 \u0627\u0644\u062E\u062F\u0645\u0629","process.desc":"\u062E\u0637\u0648\u0627\u062A \u0628\u0633\u064A\u0637\u0629 \u0644\u0644\u062D\u0635\u0648\u0644 \u0639\u0644\u0649 \u0634\u0642\u062A\u0643.",
+        "process.s1t":"\u0623\u0631\u0633\u0644 \u0637\u0644\u0628\u0643","process.s1d":"\u0623\u062E\u0628\u0631\u0646\u0627 (\u0634\u0631\u0627\u0621/\u0625\u064A\u062C\u0627\u0631) \u0648\u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629 \u0648\u0627\u0644\u0645\u0648\u0639\u062F \u2014 \u0639\u0628\u0631 \u0627\u0644\u0646\u0645\u0648\u0630\u062C \u0623\u0648 \u0648\u0627\u062A\u0633\u0627\u0628.",
+        "process.s2t":"\u0627\u0633\u062A\u0644\u0627\u0645 \u0627\u0644\u062E\u064A\u0627\u0631\u0627\u062A","process.s2d":"\u0646\u0631\u0633\u0644 \u0627\u0644\u0648\u062D\u062F\u0627\u062A \u0627\u0644\u0645\u062A\u0627\u062D\u0629 \u0648\u0627\u0644\u0645\u062E\u0637\u0637\u0627\u062A (\u0625\u0646 \u0648\u062C\u062F\u062A) \u0648\u0627\u0644\u0623\u0633\u0639\u0627\u0631.",
+        "process.s3t":"\u062D\u062C\u0632 \u0627\u0644\u0645\u0639\u0627\u064A\u0646\u0629","process.s3d":"\u0627\u062E\u062A\u0631 \u0627\u0644\u0648\u0642\u062A \u0627\u0644\u0645\u0646\u0627\u0633\u0628. \u0646\u0646\u0638\u0645 \u0645\u0639\u0627\u064A\u0646\u0629 \u062E\u0627\u0635\u0629 \u0648\u0646\u0631\u0634\u062F\u0643 \u062E\u0644\u0627\u0644 \u0627\u0644\u0632\u064A\u0627\u0631\u0629.",
+        "test.title":"\u0645\u0627\u0630\u0627 \u064A\u0642\u0648\u0644 \u0627\u0644\u0639\u0645\u0644\u0627\u0621",
+        "test.q1":"\u201C\u062A\u062C\u0631\u0628\u0629 \u0633\u0644\u0633\u0629 \u062C\u062F\u0627\u064B. \u062D\u062C\u0632\u0646\u0627 \u0645\u0639\u0627\u064A\u0646\u0629 \u0628\u0633\u0631\u0639\u0629 \u0648\u0643\u0627\u0646\u062A \u0627\u0644\u0625\u062C\u0627\u0628\u0627\u062A \u0648\u0627\u0636\u062D\u0629.\u201D",
+        "test.q2":"\u201C\u0634\u0642\u0642 \u0645\u0645\u062A\u0627\u0632\u0629 \u0648\u062A\u0648\u0627\u0635\u0644 \u0633\u0631\u064A\u0639. \u0623\u0646\u0635\u062D \u0628\u0647\u0645.\u201D",
+        "test.q3":"\u201C\u0633\u0627\u0639\u062F\u0648\u0646\u0627 \u0645\u0646 \u0623\u0648\u0644 \u062A\u0648\u0627\u0635\u0644 \u062D\u062A\u0649 \u0627\u0644\u0639\u0642\u062F \u0628\u062F\u0648\u0646 \u0636\u063A\u0637.\u201D",
+        "contact.title":"\u0627\u062D\u062C\u0632 \u0645\u0639\u0627\u064A\u0646\u0629",
+        "contact.desc":"\u0627\u0645\u0644\u0623 \u0627\u0644\u0646\u0645\u0648\u0630\u062C \u0648\u0633\u0646\u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0643. \u0644\u0644\u0623\u0633\u0631\u0639: \u0631\u0627\u0633\u0644\u0646\u0627 \u0639\u0644\u0649 \u0648\u0627\u062A\u0633\u0627\u0628 \uD83D\uDCF2",
+        "contact.phoneLabel":"\u0627\u0644\u0647\u0627\u062A\u0641:","contact.emailLabel":"\u0627\u0644\u0628\u0631\u064A\u062F:","contact.hoursLabel":"\u0627\u0644\u062F\u0648\u0627\u0645:","contact.hours":"\u0627\u0644\u0627\u062B\u0646\u064A\u0646\u2013\u0627\u0644\u0623\u062D\u062F\u060C 9:00\u201319:00",
+        "form.name":"\u0627\u0644\u0627\u0633\u0645 \u0627\u0644\u0643\u0627\u0645\u0644","form.namePh":"\u0627\u0633\u0645\u0643","form.email":"\u0627\u0644\u0628\u0631\u064A\u062F \u0627\u0644\u0625\u0644\u0643\u062A\u0631\u0648\u0646\u064A","form.emailPh":"you@email.com",
+        "form.phone":"\u0627\u0644\u0647\u0627\u062A\u0641","form.phonePh":"+961 ...",
+        "form.msg":"\u0631\u0633\u0627\u0644\u062A\u0643","form.msgPh":"\u0627\u0643\u062A\u0628: \u0634\u0631\u0627\u0621/\u0625\u064A\u062C\u0627\u0631\u060C \u0627\u0644\u0645\u064A\u0632\u0627\u0646\u064A\u0629\u060C \u0645\u0648\u0639\u062F \u0627\u0644\u0627\u0646\u062A\u0642\u0627\u0644\u060C \u0623\u0633\u0626\u0644\u062A\u0643...","form.send":"\u0625\u0631\u0633\u0627\u0644 \u0627\u0644\u0637\u0644\u0628",
+        "footer.rights":"Lana Projects. \u062C\u0645\u064A\u0639 \u0627\u0644\u062D\u0642\u0648\u0642 \u0645\u062D\u0641\u0648\u0638\u0629.","footer.home":"\u0627\u0644\u0631\u0626\u064A\u0633\u064A\u0629","footer.contact":"\u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627",
+        "location.title":"\u0645\u0648\u0642\u0639 \u0645\u0645\u064A\u0632 \u2013 \u0635\u064A\u062F\u0627\u060C \u0627\u0644\u0644\u0648\u0628\u064A\u0629",
+        "location.desc":"\u062A\u0642\u0639 \u062C\u0645\u064A\u0639 \u0645\u0634\u0627\u0631\u064A\u0639 Lana Projects \u0641\u064A \u0642\u0644\u0628 \u062C\u0646\u0648\u0628 \u0644\u0628\u0646\u0627\u0646\u060C \u0645\u0639 \u0633\u0647\u0648\u0644\u0629 \u0627\u0644\u0648\u0635\u0648\u0644 \u0625\u0644\u0649 \u0627\u0644\u0645\u062F\u0627\u0631\u0633\u060C \u0645\u0631\u0627\u0643\u0632 \u0627\u0644\u062A\u0633\u0648\u0642\u060C \u0627\u0644\u0631\u0639\u0627\u064A\u0629 \u0627\u0644\u0635\u062D\u064A\u0629\u060C \u0648\u0633\u0627\u062D\u0644 \u0627\u0644\u0628\u062D\u0631 \u0627\u0644\u0623\u0628\u064A\u0636 \u0627\u0644\u0645\u062A\u0648\u0633\u0637.",
+        "location.l1":"\uD83D\uDCCD \u0635\u064A\u062F\u0627 - \u0627\u0644\u0644\u0648\u0628\u064A\u0629","location.l2":"\uD83D\uDECD 5 \u062F\u0642\u0627\u0626\u0642 \u0625\u0644\u0649 \u0645\u0646\u0627\u0637\u0642 \u0627\u0644\u062A\u0633\u0648\u0642","location.l3":"\uD83C\uDFD6 \u0628\u0627\u0644\u0642\u0631\u0628 \u0645\u0646 \u0627\u0644\u0628\u062D\u0631","location.l4":"\uD83C\uDFE5 \u0642\u0631\u064A\u0628 \u0645\u0646 \u0627\u0644\u0645\u0633\u062A\u0634\u0641\u064A\u0627\u062A \u0648\u0627\u0644\u0639\u064A\u0627\u062F\u0627\u062A",
+        "stats.s1v":"2\u20133","stats.s1l":"\u063A\u0631\u0641 \u0646\u0648\u0645","stats.s2v":"110\u2013220\u0645\u00B2","stats.s2l":"\u0627\u0644\u0645\u0633\u0627\u062D\u0627\u062A","stats.s3v":"\u0645\u0639\u0627\u064A\u0646\u0627\u062A","stats.s3l":"\u062E\u0627\u0635\u0629","stats.s4v":"\u0648\u062D\u062F\u0627\u062A","stats.s4l":"\u0645\u062D\u062F\u0648\u062F\u0629"
+      }
     };
 
     function setLanguage(lang){
       const dict = translations[lang] || translations.en;
-
       document.documentElement.lang = lang;
       document.documentElement.dir = (lang === "ar") ? "rtl" : "ltr";
-
       document.querySelectorAll("[data-i18n]").forEach(el => {
         const key = el.getAttribute("data-i18n");
         if (dict[key]) el.textContent = dict[key];
       });
-
       document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
         const key = el.getAttribute("data-i18n-placeholder");
         if (dict[key]) el.setAttribute("placeholder", dict[key]);
       });
-      // refresh animations after text changes size (EN/AR)
-        if (window.AOS) {
-          setTimeout(() => AOS.refreshHard(), 100);
-        }
-
-      // refresh AOS after text changes (EN/AR changes heights)
-    setTimeout(() => AOS.refreshHard(), 50);
-
-
+      if (window.AOS) setTimeout(() => AOS.refreshHard(), 100);
       localStorage.setItem("lana_lang", lang);
     }
 
@@ -853,100 +698,69 @@ document.addEventListener("DOMContentLoaded", () => {
       setLanguage(current === "en" ? "ar" : "en");
     }
 
-    const btnDesktop = document.getElementById("langBtn");
-    const btnTop = document.getElementById("langBtnTop");
-    if (btnDesktop) btnDesktop.addEventListener("click", toggleLanguage);
-    if (btnTop) btnTop.addEventListener("click", toggleLanguage);
+    document.getElementById("langBtn")?.addEventListener("click", toggleLanguage);
+    document.getElementById("langBtnTop")?.addEventListener("click", toggleLanguage);
 
     setLanguage(localStorage.getItem("lana_lang") || "en");
-    // AOS
+
     window.addEventListener("load", () => {
       if (window.AOS) {
-        AOS.init({ duration: 900, once: true, offset: 80, disableMutationObserver: false });
+        AOS.init({ duration: 900, once: true, offset: 80 });
         AOS.refreshHard();
       }
     });
-    
-
   </script>
+
   <script>
-  const form = document.getElementById("contactForm");
-  if (form) {
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      try {
-        const res = await fetch(form.action, {
-          method: "POST",
-          body: new FormData(form),
-          headers: { "Accept": "application/json" }
-        });
-
-        if (res.ok) {
-          window.location.href = "/thanks.html"; // ✅ your page
-        } else {
-          alert("Sorry — your message was not sent. Please try again.");
+    const form = document.getElementById("contactForm");
+    if (form) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try {
+          const res = await fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { "Accept": "application/json" }
+          });
+          if (res.ok) window.location.href = "/thanks.html";
+          else alert("Sorry — your message was not sent. Please try again.");
+        } catch (err) {
+          alert("Network error. Please try again.");
         }
-      } catch (err) {
-        alert("Network error. Please try again.");
-      }
-    });
-  }
-</script>
-<!-- Floating WhatsApp -->
-<a class="waFloat" href="https://wa.me/+96103515225" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-  <!-- WhatsApp SVG icon -->
-  <svg class="waIcon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-    <path fill="currentColor" d="M19.11 17.66c-.28-.14-1.64-.81-1.9-.9-.26-.1-.45-.14-.64.14-.19.28-.74.9-.9 1.08-.17.19-.33.21-.61.07-.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.66-1.55-1.94-.16-.28-.02-.43.12-.57.12-.12.28-.33.42-.5.14-.17.19-.28.28-.47.09-.19.05-.35-.02-.5-.07-.14-.64-1.55-.88-2.13-.23-.55-.46-.48-.64-.49h-.55c-.19 0-.5.07-.76.35-.26.28-1 1-1 2.43 0 1.43 1.03 2.81 1.17 3 .14.19 2.02 3.08 4.9 4.32.69.3 1.23.48 1.65.62.69.22 1.32.19 1.82.12.56-.08 1.64-.67 1.87-1.32.23-.64.23-1.19.16-1.32-.07-.12-.26-.19-.54-.33z"/>
-    <path fill="currentColor" d="M16.03 2.67c-7.33 0-13.29 5.96-13.29 13.29 0 2.34.61 4.62 1.77 6.63L3 29.33l6.88-1.81c1.92 1.05 4.07 1.6 6.24 1.6h.01c7.33 0 13.29-5.96 13.29-13.29 0-3.55-1.38-6.89-3.89-9.4-2.51-2.51-5.85-3.89-9.4-3.89zm0 23.29h-.01c-1.98 0-3.91-.53-5.59-1.52l-.4-.24-4.08 1.07 1.09-3.98-.26-.41c-1.06-1.7-1.62-3.67-1.62-5.72 0-5.91 4.81-10.72 10.72-10.72 2.86 0 5.55 1.11 7.57 3.13 2.02 2.02 3.13 4.71 3.13 7.57 0 5.91-4.81 10.72-10.72 10.72z"/>
-  </svg>
-</a>
-
-
-<script>
-  // Slider controls (Project 3)
-  (function () {
-    const sliderWrappers = document.querySelectorAll(".mediaFrame--slider");
-    sliderWrappers.forEach((wrap) => {
-      const slider = wrap.querySelector("[data-slider]");
-      const prev = wrap.querySelector(".sliderBtn--prev");
-      const next = wrap.querySelector(".sliderBtn--next");
-      if (!slider || !prev || !next) return;
-
-const slides = Array.from(slider.querySelectorAll(".card__slide"));
-let index = 0;
-
-function goTo(i){
-  index = (i + slides.length) % slides.length; // ✅ LOOP
-  const step = slider.clientWidth;
-  const isRTL = (document.documentElement.dir || "ltr") === "rtl";
-  const target = index * step;
-
-  slider.scrollTo({
-    left: isRTL ? -target : target,
-    behavior: "smooth"
-  });
-}
-
-prev.addEventListener("click", () => goTo(index - 1));
-next.addEventListener("click", () => goTo(index + 1));
-
-// keep index synced if user scrolls manually
-slider.addEventListener("scroll", () => {
-  const step = slider.clientWidth || 1;
-  const rawIndex = Math.round(Math.abs(slider.scrollLeft) / step);
-  index = rawIndex;
-});
-
-
-      // Keyboard support when buttons focused
-      wrap.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowLeft") scrollByStep(isRTL() ? 1 : -1);
-        if (e.key === "ArrowRight") scrollByStep(isRTL() ? -1 : 1);
       });
-    });
-  })();
-</script>
+    }
+  </script>
+
+  <script>
+    // Slider controls (Project 3)
+    (function () {
+      const sliderWrappers = document.querySelectorAll(".mediaFrame--slider");
+      sliderWrappers.forEach((wrap) => {
+        const slider = wrap.querySelector("[data-slider]");
+        const prev = wrap.querySelector(".sliderBtn--prev");
+        const next = wrap.querySelector(".sliderBtn--next");
+        if (!slider || !prev || !next) return;
+
+        const slides = Array.from(slider.querySelectorAll(".card__slide"));
+        let index = 0;
+
+        function goTo(i){
+          index = (i + slides.length) % slides.length;
+          const step = slider.clientWidth;
+          const isRTL = (document.documentElement.dir || "ltr") === "rtl";
+          const target = index * step;
+          slider.scrollTo({ left: isRTL ? -target : target, behavior: "smooth" });
+        }
+
+        prev.addEventListener("click", () => goTo(index - 1));
+        next.addEventListener("click", () => goTo(index + 1));
+        slider.addEventListener("scroll", () => {
+          const step = slider.clientWidth || 1;
+          index = Math.round(Math.abs(slider.scrollLeft) / step);
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>
