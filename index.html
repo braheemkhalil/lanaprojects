@@ -29,6 +29,21 @@
   <meta name="twitter:card" content="summary_large_image">
 </head>
 
+<!-- Scroll Progress Bar -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Page Loader -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader__brand">
+    <div class="loader__brand-gold">LANA</div>
+    <div class="loader__brand-sub">PROJECTS</div>
+  </div>
+  <div class="loader__bar-wrap">
+    <div class="loader__bar"></div>
+  </div>
+  <div class="loader__tagline">Luxury Real Estate · Saida</div>
+</div>
+
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" hidden>
   <button class="lightbox__close" type="button" aria-label="Close">✕</button>
@@ -332,6 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </div>
   </section>
+
         <!-- Project 1 -->
         <article class="card" data-aos="fade-up" data-aos-delay="0">
           <div class="mediaFrame">
@@ -517,7 +533,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="contact__info">
           <div><strong data-i18n="contact.phoneLabel">Phone:</strong> <a href="tel:+96103515225">+961 03515225</a></div>
-          <div><strong data-i18n="contact.emailLabel">Email:</strong> <a href="mailto:info@lanaprojects.com">info@lanaprojects.com</a></div>
+          <div><strong data-i18n="contact.emailLabel">Email:</strong> <a href="/cdn-cgi/l/email-protection#41282f272e012d202f2031332e2b242235326f222e2c"><span class="__cf_email__" data-cfemail="224b4c444d624e434c4352504d48474156510c414d4f">[email&#160;protected]</span></a></div>
           <div><strong data-i18n="contact.hoursLabel">Hours:</strong> <span data-i18n="contact.hours">Mon–Sun, 9:00–19:00</span></div>
         </div>
       </div>
@@ -566,7 +582,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </svg>
   </a>
 
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
   <script>
     // Year
@@ -760,6 +776,42 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     })();
+  </script>
+
+  <script>
+    // ======================== SCROLL PROGRESS BAR ========================
+    const progressBar = document.getElementById("scrollProgress");
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = pct + "%";
+    }, { passive: true });
+
+    // ======================== PAGE LOADER ========================
+    const loader = document.getElementById("pageLoader");
+    function hideLoader() {
+      setTimeout(() => { loader.classList.add("hidden"); }, 1800);
+    }
+    if (document.readyState === "complete") {
+      hideLoader();
+    } else {
+      window.addEventListener("load", hideLoader);
+    }
+
+    // ======================== ACTIVE NAV HIGHLIGHT ========================
+    const sections = document.querySelectorAll("section[id], main[id]");
+    const navLinks = document.querySelectorAll(".nav a[href^='#']");
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    sections.forEach(s => navObserver.observe(s));
   </script>
 
 </body>
