@@ -9,7 +9,7 @@
   --bg: #060608;
   --card: #0d0d10;
   --text: #edf0f5;
-  --muted: #9aa3b0;
+  --muted: #a8b2c0;
   --gold: #c9962a;
   --gold2: #a87520;
   --gold-light: #e8c06a;
@@ -59,7 +59,16 @@ p, li, label, input, select, textarea, .btn, .nav a, .phone,
 html[lang="ar"] body{
   font-family: Cairo, 'Playfair Display', serif;
 }
-html[lang="ar"] p, html[lang="ar"] li, html[lang="ar"] label{
+html[lang="ar"] .section__head p,
+html[lang="ar"] .hero__subtitle,
+html[lang="ar"] .card__desc,
+html[lang="ar"] .feature p,
+html[lang="ar"] .steps li p,
+html[lang="ar"] .muted,
+html[lang="ar"] .tcard__text,
+html[lang="ar"] .faq__a,
+html[lang="ar"] .leadbar__note,
+html[lang="ar"] li{
   font-family: Cairo, Inter, system-ui, sans-serif;
 }
 
