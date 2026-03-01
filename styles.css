@@ -1789,3 +1789,649 @@ html[lang="ar"] .leadbar{
 html[lang="ar"] .steps li:hover{
   transform: translateX(-5px);
 }
+/* ======================== SKIP LINK (Accessibility) ======================== */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  background: var(--gold);
+  color: #080600;
+  padding: 10px 18px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 9999;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid #080600;
+  outline-offset: 2px;
+}
+
+/* ======================== IMPROVED FOCUS STYLES ======================== */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+/* Remove default outline when not needed */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ======================== BACK TO TOP ======================== */
+.back-to-top {
+  position: fixed;
+  bottom: 96px;
+  right: 22px;
+  z-index: 85;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(13,13,16,.92);
+  border: 1px solid var(--border-gold);
+  color: var(--gold);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 28px rgba(0,0,0,.45);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease, background .18s ease;
+}
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+.back-to-top:hover {
+  background: rgba(201,150,42,.15);
+  border-color: var(--gold);
+}
+
+/* ======================== COOKIE CONSENT BANNER ======================== */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 95;
+  padding: 0 16px 16px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+.cookie-banner.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+.cookie-banner__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(13,13,16,.97);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 -4px 40px rgba(0,0,0,.45);
+}
+.cookie-banner__text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  color: rgba(237,240,245,.75);
+  line-height: 1.55;
+  flex: 1;
+}
+.cookie-banner__icon { font-size: 20px; flex-shrink: 0; }
+.cookie-banner__btns { display: flex; gap: 8px; flex-shrink: 0; }
+.cookie-banner__btns .btn { padding: 9px 18px; font-size: 12px; }
+
+/* ======================== MOBILE STICKY CTA BAR ======================== */
+.mobile-cta-bar {
+  display: none;
+}
+@media (max-width: 980px) {
+  .mobile-cta-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 70;
+    background: rgba(6,6,8,.97);
+    border-top: 1px solid var(--border-gold);
+    backdrop-filter: blur(20px);
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    gap: 8px;
+  }
+  .mobile-cta-bar__btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 11px 8px;
+    border-radius: var(--radius-sm);
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: .03em;
+    transition: opacity .18s ease, transform .18s ease;
+  }
+  .mobile-cta-bar__btn:active { transform: scale(.97); }
+  .mobile-cta-bar__btn--call {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    color: var(--text);
+  }
+  .mobile-cta-bar__btn--wa {
+    background: #25d366;
+    color: #000;
+  }
+  .mobile-cta-bar__btn--view {
+    background: linear-gradient(155deg, var(--gold-light), var(--gold));
+    color: #080600;
+  }
+  /* Lift WA widget above the bar */
+  .wa-widget { bottom: 80px; }
+  /* Lift back-to-top above bar */
+  .back-to-top { bottom: 88px; }
+  /* Add padding to footer so bar doesn't overlap */
+  .footer { padding-bottom: 80px; }
+}
+
+/* ======================== FORM FEEDBACK ======================== */
+.form__feedback {
+  margin-top: 14px;
+  padding: 13px 16px;
+  border-radius: var(--radius-sm);
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  animation: feedbackIn .3s ease;
+}
+@keyframes feedbackIn {
+  from { opacity:0; transform:translateY(6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.form__feedback--success {
+  background: rgba(34,197,94,.12);
+  border: 1px solid rgba(34,197,94,.35);
+  color: #86efac;
+}
+.form__feedback--error {
+  background: rgba(239,68,68,.10);
+  border: 1px solid rgba(239,68,68,.30);
+  color: #fca5a5;
+}
+
+/* ======================== LOADING STATE FOR LAZY BG IMAGES ======================== */
+[data-lazy-bg] {
+  position: relative;
+  overflow: hidden;
+}
+[data-lazy-bg]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 30%, rgba(255,255,255,.04) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  z-index: 1;
+}
+[data-lazy-bg][style*="background-image"]::before {
+  display: none;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ======================== IMPROVED TOUCH TARGETS (Mobile) ======================== */
+@media (max-width: 980px) {
+  .faq__q { padding: 22px 20px; min-height: 56px; }
+  .card__dot { width: 10px; height: 10px; min-width: 10px; }
+  .card__dot.active { width: 24px; }
+  .nav a, .mobileNav a { min-height: 44px; display: flex; align-items: center; }
+  .btn { min-height: 44px; }
+  .sliderBtn { width: 44px; height: 44px; }
+}
+
+/* ============================================================
+   VISUAL UPGRADE PACK — Section Dividers, Glass Cards,
+   Counter enhancements, Section accents, Mobile UX polish
+   ============================================================ */
+
+/* ── Wavy SVG section divider utility ── */
+.divider {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  margin-bottom: -2px;
+}
+.divider svg {
+  display: block;
+  width: 100%;
+}
+.divider--flip {
+  transform: scaleY(-1);
+}
+
+/* ── Floating orb background accents ── */
+.section--orbs {
+  position: relative;
+  overflow: hidden;
+}
+.section--orbs::after {
+  content: "";
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,150,42,.06) 0%, transparent 70%);
+  top: -200px; right: -180px;
+  pointer-events: none;
+  z-index: 0;
+}
+.section--orbs > .container { position: relative; z-index: 1; }
+
+.section--orbs-left::after {
+  right: auto;
+  left: -200px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ── Glass card variant ── */
+.glass-card {
+  background: rgba(255,255,255,.028);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 8px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.glass-card:hover {
+  background: rgba(255,255,255,.042);
+  border-color: rgba(201,150,42,.28);
+  box-shadow: 0 20px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* Apply glass style to feature cards */
+.feature {
+  background: rgba(255,255,255,.025);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.07);
+  box-shadow: 0 8px 32px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.feature:hover {
+  background: rgba(255,255,255,.04);
+  border-color: var(--border-gold);
+  box-shadow: 0 22px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+/* Apply glass style to step cards */
+.steps li {
+  background: rgba(255,255,255,.022);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.07);
+  box-shadow: 0 8px 30px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.steps li:hover {
+  background: rgba(255,255,255,.038);
+  box-shadow: 0 24px 65px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* Apply glass style to testimonial cards */
+.tcard {
+  background: rgba(255,255,255,.022);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.07);
+  box-shadow: 0 8px 32px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.tcard:hover {
+  background: rgba(255,255,255,.038);
+}
+
+/* Apply glass to project cards */
+.card {
+  background: rgba(255,255,255,.022);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.card:hover {
+  box-shadow: 0 36px 90px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+/* ── Section label upgrade with decorative lines ── */
+.section__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.section__label::before,
+.section__label::after {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 32px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+  opacity: .55;
+}
+.section__label::after {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+/* ── Animated stat counters — enhanced display ── */
+.stat {
+  position: relative;
+  overflow: hidden;
+}
+.stat::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,150,42,.07) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.stat:hover::before { opacity: 1; }
+
+.stat strong {
+  font-size: 22px;
+  letter-spacing: -.01em;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Feature icon upgrade — gradient circle ── */
+.feature__icon {
+  width: 54px; height: 54px;
+  border-radius: 16px;
+  background: rgba(201,150,42,.10);
+  border: 1px solid rgba(201,150,42,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
+}
+.feature:hover .feature__icon {
+  background: rgba(201,150,42,.18);
+  border-color: rgba(201,150,42,.4);
+  transform: scale(1.08) rotate(-4deg);
+  animation: none;
+}
+
+/* ── Step numbers — glow ring ── */
+.step__num {
+  position: relative;
+}
+.step__num::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 18px;
+  border: 1px solid rgba(201,150,42,.2);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.steps li:hover .step__num::after { opacity: 1; }
+
+/* ── Testimonial stars upgrade ── */
+.tcard__stars {
+  font-size: 14px;
+  letter-spacing: 2px;
+  filter: drop-shadow(0 0 4px rgba(201,150,42,.5));
+}
+
+/* ── FAQ item left accent ── */
+.faq__item {
+  position: relative;
+}
+.faq__item::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--gold), var(--gold2));
+  border-radius: 0 0 0 var(--radius);
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.faq__item.open::before { opacity: 1; }
+.faq__item.open { padding-left: 0; }
+
+/* ── Contact form — floating label effect ── */
+.form label {
+  position: relative;
+}
+.form input:focus + .form__line,
+.form textarea:focus + .form__line {
+  width: 100%;
+}
+
+/* ── Footer upgrade ── */
+.footer {
+  background: rgba(4,4,5,1);
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+.footer::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+  opacity: .4;
+}
+.footer { position: relative; }
+
+/* ── Gold gradient text utility ── */
+.gold-gradient {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Section head h2 — subtle text shadow for depth ── */
+.section__head h2 {
+  text-shadow: 0 2px 40px rgba(201,150,42,.08);
+}
+
+/* ── Hero title — stronger gold gradient ── */
+.hero__title .gold {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 60%, var(--gold2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline;
+}
+
+/* ── Card spec values — gradient ── */
+.card__spec-val {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Location map frame ── */
+.location__map {
+  position: relative;
+}
+.location__map::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: calc(var(--radius) + 1px);
+  background: linear-gradient(135deg, var(--border-gold), transparent 50%, var(--border-gold));
+  z-index: -1;
+  opacity: .6;
+}
+
+/* ── Section transition: smooth bg gradient flow ── */
+#why { background: linear-gradient(180deg, var(--bg) 0%, rgba(10,9,6,.98) 100%); }
+#process { background: linear-gradient(180deg, rgba(10,9,6,.98) 0%, var(--bg) 100%); }
+
+/* ============================================================
+   MOBILE UX UPGRADE PACK
+   ============================================================ */
+
+/* ── Mobile sticky CTA bar ── already exists, enhanced below ── */
+@media (max-width: 980px) {
+  /* Taller, more comfortable touch targets */
+  .btn { min-height: 48px; padding: 13px 22px; }
+  .btn--search { min-height: 52px; }
+
+  /* Hero content padding on small screens */
+  .hero__content { padding: 60px 0 120px; }
+
+  /* Stats: 2-col grid already set, just refine */
+  .stat { padding: 18px 14px; }
+
+  /* Section label lines hidden on mobile to save space */
+  .section__label::before,
+  .section__label::after { width: 20px; }
+
+  /* Cards: full bleed on very small screens */
+  .card__body { padding: 20px 18px 22px; }
+  .card__title { font-size: 19px; }
+
+  /* Steps: horizontal number + text stays readable */
+  .steps li { padding: 18px 18px; gap: 16px; }
+  .step__num { width: 40px; height: 40px; font-size: 15px; border-radius: 12px; }
+
+  /* Feature grid already 1-col, just spacing */
+  .feature { padding: 24px 20px; }
+
+  /* Testimonial card spacing */
+  .tcard { padding: 22px 20px 18px; }
+
+  /* Contact form wider inputs */
+  .form input,
+  .form textarea { padding: 15px 16px; font-size: 16px; /* prevents iOS zoom */ }
+
+  /* FAQ items bigger tap area */
+  .faq__q { min-height: 60px; }
+
+  /* Location highlights larger rows */
+  .location__highlights li { padding: 13px 16px; font-size: 15px; }
+
+  /* Lead bar: stack nicely */
+  .leadbar { padding: 18px 16px; border-radius: 16px; }
+  .leadbar__grid { gap: 12px; }
+  .field input, .field select { height: 48px; font-size: 16px; }
+
+  /* Mobile nav links bigger */
+  .mobileNav { padding: 18px 20px 24px; gap: 4px; }
+  .mobileNav a { padding: 12px 0; min-height: 48px; font-size: 16px; }
+
+  /* WA widget position above CTA bar */
+  .wa-widget { bottom: 84px !important; right: 16px; }
+  .back-to-top { bottom: 92px !important; right: 16px; }
+
+  /* Hide desktop phone in header — already hidden, just ensure */
+  .phone span { display: none; }
+}
+
+@media (max-width: 600px) {
+  /* Mobile CTA bar: taller, safer */
+  .mobile-cta-bar { padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); gap: 6px; }
+  .mobile-cta-bar__btn { padding: 12px 6px; font-size: 11px; border-radius: 10px; }
+
+  /* Stats: 2×2 on mobile */
+  .stats { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .stat strong { font-size: 18px; }
+
+  /* Hero buttons: full width stacked */
+  .hero__buttons { flex-direction: column; align-items: stretch; gap: 10px; }
+  .hero__buttons .btn { width: 100%; justify-content: center; }
+
+  /* Section padding tighter */
+  .section { padding: 60px 0; }
+  .section__head { margin-bottom: 36px; }
+  .section__head h2 { font-size: 26px; }
+
+  /* Featured card: taller image on small screen */
+  .card--featured .card__media,
+  .card--featured .card__slide { min-height: 240px; }
+
+  /* Card specs: smaller text */
+  .card__spec-val { font-size: 13px; }
+  .card__spec-label { font-size: 9px; }
+
+  /* Form labels + fields */
+  .form { padding: 22px 18px; }
+  .form label { font-size: 10px; }
+
+  /* Testimonials: compact */
+  .tcard { padding: 18px 16px; }
+
+  /* FAQ: slightly smaller question text */
+  .faq__q { font-size: 15px; padding: 18px 16px; }
+  .faq__a { font-size: 13px; padding: 0 16px; }
+  .faq__item.open .faq__a { padding: 0 16px 16px; }
+
+  /* Contact section: tighter */
+  .contact__buttons { flex-direction: column; }
+  .contact__buttons .btn { width: 100%; justify-content: center; }
+
+  /* Location map smaller */
+  .location__map { height: 260px; }
+
+  /* Footer: stack */
+  .footer__inner { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+@media (max-width: 380px) {
+  .hero__title { font-size: 32px; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .container { width: calc(100% - 32px); }
+  .mobile-cta-bar__btn { padding: 10px 4px; font-size: 10px; gap: 4px; }
+}
+
+/* ── Counter counting state ── */
+.stat.counting {
+  border-color: rgba(201,150,42,.35);
+}
+.stat.counting strong {
+  animation: counterPulse .08s ease infinite;
+}
+@keyframes counterPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .85; }
+}
+.stat[data-counted] {
+  border-color: rgba(201,150,42,.18);
+}

@@ -36,9 +36,43 @@
 
   <!-- Preload first hero image for faster LCP -->
   <link rel="preload" as="image" href="Photos/Futureproject1.jpg">
+
+  <!-- Schema.org structured data for Real Estate -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "Lana Projects",
+    "url": "https://lanaprojects.pages.dev/",
+    "logo": "https://lanaprojects.pages.dev/preview.jpg",
+    "image": "https://lanaprojects.pages.dev/preview.jpg?v=3",
+    "description": "Premium apartments and villas in Saida, Lebanon. Private viewings, limited units, and modern residences.",
+    "telephone": "+96103515225",
+    "email": "info@lanaprojects.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Saida",
+      "addressRegion": "South Lebanon",
+      "addressCountry": "LB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "33.428560",
+      "longitude": "35.289743"
+    },
+    "openingHours": "Mo-Su 09:00-19:00",
+    "priceRange": "$$",
+    "sameAs": [
+      "https://instagram.com/lana.projectss"
+    ]
+  }
+  </script>
 </head>
 
 <body>
+
+<!-- Skip to content (Accessibility) -->
+<a href="#home" class="skip-link">Skip to main content</a>
 
 <!-- SVG symbol definitions (reusable icons) -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
@@ -324,7 +358,14 @@ document.addEventListener("DOMContentLoaded", () => {
   </main>
 
   <!-- Projects -->
-  <section id="project" class="section">
+  <!-- Wavy section divider -->
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,56 L0,56 Z" fill="rgba(13,13,16,0.6)"/>
+    </svg>
+  </div>
+
+  <section id="project" class="section section--orbs">
     <div class="container">
       <div class="section__head" data-aos="fade-up">
         <div class="section__label">OUR PORTFOLIO</div>
@@ -341,9 +382,9 @@ document.addEventListener("DOMContentLoaded", () => {
               <button class="sliderBtn sliderBtn--prev" type="button" aria-label="Previous">&#8249;</button>
               <div class="card__slider" id="featSlider">
                 <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject1.jpg')"></div>
-                <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject2.jpg')"></div>
-                <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject3.jpg')"></div>
-                <div class="card__slide" data-gallery="p3" style="background-image:url('Photos/Futureproject4.jpg')"></div>
+                <div class="card__slide" data-gallery="p3" data-lazy-bg="Photos/Futureproject2.jpg" style="background-color:var(--card)"></div>
+                <div class="card__slide" data-gallery="p3" data-lazy-bg="Photos/Futureproject3.jpg" style="background-color:var(--card)"></div>
+                <div class="card__slide" data-gallery="p3" data-lazy-bg="Photos/Futureproject4.jpg" style="background-color:var(--card)"></div>
               </div>
               <button class="sliderBtn sliderBtn--next" type="button" aria-label="Next">&#8250;</button>
               <div class="card__dots" id="featDots">
@@ -386,7 +427,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <!-- Lana Signature Building -->
           <article class="card card--small" data-aos="fade-up" data-aos-delay="60">
             <div class="card__media">
-              <div class="card__img" data-gallery="p1" style="background-image:url('Photos/building.jpg'); height:220px;"></div>
+              <div class="card__img" data-gallery="p1" data-lazy-bg="Photos/building.jpg" style="height:220px;background-color:var(--card)"></div>
               <span class="card__badge card__badge--available" data-i18n="p1.pill">Available &middot; Limited Units</span>
             </div>
             <div class="card__body">
@@ -413,7 +454,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <!-- Lana Villa -->
           <article class="card card--small" data-aos="fade-up" data-aos-delay="120">
             <div class="card__media">
-              <div class="card__img" data-gallery="p2" style="background-image:url('Photos/villa2.jpg'); height:220px;"></div>
+              <div class="card__img" data-gallery="p2" data-lazy-bg="Photos/villa2.jpg" style="height:220px;background-color:var(--card)"></div>
               <span class="card__badge card__badge--new" data-i18n="p2.pill">New Project</span>
             </div>
             <div class="card__body">
@@ -471,7 +512,12 @@ document.addEventListener("DOMContentLoaded", () => {
   </section>
 
   <!-- Why Us -->
-  <section id="why" class="section section--dark">
+  <section id="why" class="section section--dark section--orbs section--orbs-left">
+    <div class="divider divider--flip" aria-hidden="true" style="position:absolute;top:0;left:0;right:0;opacity:.4;">
+      <svg viewBox="0 0 1440 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,20 C360,40 720,0 1080,20 C1260,30 1380,10 1440,20 L1440,0 L0,0 Z" fill="rgba(201,150,42,0.04)"/>
+      </svg>
+    </div>
     <div class="container">
       <div class="section__head" data-aos="fade-up">
         <div class="section__label">OUR DIFFERENCE</div>
@@ -500,7 +546,7 @@ document.addEventListener("DOMContentLoaded", () => {
   </section>
 
   <!-- Process -->
-  <section id="process" class="section">
+  <section id="process" class="section section--orbs">
     <div class="container">
       <div class="section__head" data-aos="fade-up">
         <div class="section__label">SIMPLE PROCESS</div>
@@ -645,7 +691,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div class="contact__info">
           <div><strong data-i18n="contact.phoneLabel">Phone:</strong> <a href="tel:+96103515225">+961 03515225</a></div>
-          <div><strong data-i18n="contact.emailLabel">Email:</strong> <a href="mailto:info@lanaprojects.com">info@lanaprojects.com</a></div>
+          <div><strong data-i18n="contact.emailLabel">Email:</strong> <a href="/cdn-cgi/l/email-protection#325b5c545d725e535c5342405d58575146411c515d5f"><span class="__cf_email__" data-cfemail="caa3a4aca58aa6aba4abbab8a5a0afa9beb9e4a9a5a7">info@lanaprojects.com</span></a></div>
           <div><strong data-i18n="contact.hoursLabel">Hours:</strong> <span data-i18n="contact.hours">Mon–Sun, 9:00–19:00</span></div>
         </div>
       </div>
@@ -662,6 +708,22 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   </section>
 
+  <!-- Mobile Sticky CTA Bar -->
+  <div class="mobile-cta-bar" id="mobileCta" aria-label="Quick actions">
+    <a href="tel:+96103515225" class="mobile-cta-bar__btn mobile-cta-bar__btn--call">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+      Call
+    </a>
+    <a href="https://wa.me/+96103515225?text=Hi%20Lana%20Projects%2C%20I%27d%20like%20to%20schedule%20a%20viewing." target="_blank" rel="noopener" class="mobile-cta-bar__btn mobile-cta-bar__btn--wa">
+      <svg width="16" height="16" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M19.11 17.66c-.28-.14-1.64-.81-1.9-.9-.26-.1-.45-.14-.64.14-.19.28-.74.9-.9 1.08-.17.19-.33.21-.61.07-.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.66-1.55-1.94-.16-.28-.02-.43.12-.57.12-.12.28-.33.42-.5.14-.17.19-.28.28-.47.09-.19.05-.35-.02-.5-.07-.14-.64-1.55-.88-2.13-.23-.55-.46-.48-.64-.49h-.55c-.19 0-.5.07-.76.35-.26.28-1 1-1 2.43 0 1.43 1.03 2.81 1.17 3 .14.19 2.02 3.08 4.9 4.32.69.3 1.23.48 1.65.62.69.22 1.32.19 1.82.12.56-.08 1.64-.67 1.87-1.32.23-.64.23-1.19.16-1.32-.07-.12-.26-.19-.54-.33z"/><path d="M16.03 2.67c-7.33 0-13.29 5.96-13.29 13.29 0 2.34.61 4.62 1.77 6.63L3 29.33l6.88-1.81c1.92 1.05 4.07 1.6 6.24 1.6h.01c7.33 0 13.29-5.96 13.29-13.29 0-3.55-1.38-6.89-3.89-9.4-2.51-2.51-5.85-3.89-9.4-3.89zm0 23.29h-.01c-1.98 0-3.91-.53-5.59-1.52l-.4-.24-4.08 1.07 1.09-3.98-.26-.41c-1.06-1.7-1.62-3.67-1.62-5.72 0-5.91 4.81-10.72 10.72-10.72 2.86 0 5.55 1.11 7.57 3.13 2.02 2.02 3.13 4.71 3.13 7.57 0 5.91-4.81 10.72-10.72 10.72z"/></svg>
+      WhatsApp
+    </a>
+    <a href="#contact" class="mobile-cta-bar__btn mobile-cta-bar__btn--view">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 2v3H3v16h18V5h-5V2h-2v3h-4V2H8zm-3 5h14v12H5V7zm7 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg>
+      Book Viewing
+    </a>
+  </div>
+
   <footer class="footer">
     <div class="container footer__inner">
       <span>© <span id="year"></span> <span data-i18n="footer.rights">Lana Projects. All rights reserved.</span></span>
@@ -671,6 +733,27 @@ document.addEventListener("DOMContentLoaded", () => {
       </span>
     </div>
   </footer>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- Cookie Consent Banner -->
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent" aria-live="polite">
+    <div class="cookie-banner__inner">
+      <div class="cookie-banner__text">
+        <span class="cookie-banner__icon">🍪</span>
+        <span>We use cookies to improve your experience. By continuing, you agree to our use of cookies.</span>
+      </div>
+      <div class="cookie-banner__btns">
+        <button class="btn btn--gold" id="cookieAccept" type="button">Accept</button>
+        <button class="btn btn--ghost" id="cookieDecline" type="button">Decline</button>
+      </div>
+    </div>
+  </div>
 
   <!-- WhatsApp Chat Widget -->
   <div class="wa-widget" id="waWidget">
@@ -708,7 +791,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </button>
   </div>
 
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
   <script>
     // ── Lead Bar → Pre-fill Contact Form ──
@@ -803,10 +886,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const stat = entry.target;
         if (stat.dataset.counted) return;
         stat.dataset.counted = "1";
+        stat.classList.add("counting");
         const strong = stat.querySelector("strong");
         const raw = strong.textContent.trim();
         if (raw === "110–220m²") animateCounter(strong, 220, "m²", 1800);
         else if (raw === "2–3")   animateCounter(strong, 3,   "+",  1200);
+        setTimeout(() => stat.classList.remove("counting"), 2000);
         statsObserver.unobserve(stat);
       });
     }, { threshold: 0.5 });
@@ -825,6 +910,45 @@ document.addEventListener("DOMContentLoaded", () => {
     document.readyState === "complete" ? hideLoader() : window.addEventListener("load", hideLoader);
     // Safety fallback: always hide loader after 4 seconds max
     setTimeout(() => loader && loader.classList.add("hidden"), 4000);
+
+    // ── Back to Top ──
+    const backToTop = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      backToTop?.classList.toggle("visible", window.scrollY > 400);
+    }, { passive: true });
+    backToTop?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+    // ── Cookie Consent ──
+    const cookieBanner = document.getElementById("cookieBanner");
+    const cookieAccept = document.getElementById("cookieAccept");
+    const cookieDecline = document.getElementById("cookieDecline");
+    if (!localStorage.getItem("lana_cookie")) {
+      setTimeout(() => cookieBanner?.classList.add("visible"), 1500);
+    }
+    cookieAccept?.addEventListener("click", () => {
+      localStorage.setItem("lana_cookie", "accepted");
+      cookieBanner?.classList.remove("visible");
+    });
+    cookieDecline?.addEventListener("click", () => {
+      localStorage.setItem("lana_cookie", "declined");
+      cookieBanner?.classList.remove("visible");
+    });
+
+    // ── Lazy-load background images (IntersectionObserver) ──
+    // Images already in hero are preloaded; only lazy-load card bg images
+    const lazyBgEls = document.querySelectorAll("[data-lazy-bg]");
+    if (lazyBgEls.length) {
+      const lazyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+            el.style.backgroundImage = `url('${el.dataset.lazyBg}')`;
+            lazyObserver.unobserve(el);
+          }
+        });
+      }, { rootMargin: "200px" });
+      lazyBgEls.forEach(el => lazyObserver.observe(el));
+    }
 
     // ── Active Nav ──
     const sections = document.querySelectorAll("section[id], main[id]");
@@ -942,16 +1066,41 @@ document.addEventListener("DOMContentLoaded", () => {
   </script>
 
   <script>
-    // Form submit
+    // Form submit with inline feedback
     const form = document.getElementById("contactForm");
     if (form) {
+      const submitBtn = form.querySelector("[type='submit']");
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending…";
+        // Remove any existing feedback
+        form.querySelector(".form__feedback")?.remove();
         try {
           const res = await fetch(form.action, { method:"POST", body: new FormData(form), headers:{"Accept":"application/json"} });
-          if (res.ok) window.location.href = "/thanks.html";
-          else alert("Sorry — message not sent. Please try again.");
-        } catch { alert("Network error. Please try again."); }
+          const feedback = document.createElement("div");
+          feedback.className = "form__feedback";
+          if (res.ok) {
+            feedback.classList.add("form__feedback--success");
+            feedback.innerHTML = "✅ <strong>Message sent!</strong> We'll get back to you within a few hours.";
+            form.reset();
+          } else {
+            feedback.classList.add("form__feedback--error");
+            feedback.innerHTML = "⚠️ <strong>Could not send.</strong> Please try again or WhatsApp us directly.";
+          }
+          form.appendChild(feedback);
+          setTimeout(() => feedback.remove(), 7000);
+        } catch {
+          const feedback = document.createElement("div");
+          feedback.className = "form__feedback form__feedback--error";
+          feedback.innerHTML = "⚠️ <strong>Network error.</strong> Please check your connection and try again.";
+          form.appendChild(feedback);
+          setTimeout(() => feedback.remove(), 7000);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
       });
     }
   </script>
