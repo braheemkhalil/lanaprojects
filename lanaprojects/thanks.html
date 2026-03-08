@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You | Lana Projects</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Small page-only layout */
+    .thanksWrap{
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 26px 0;
+      background: #000;
+    }
+    .thanksCard{
+      width: min(720px, calc(100% - 40px));
+      text-align: center;
+      padding: 28px;
+    }
+    .thanksTitle{
+      font-family: "Playfair Display", serif;
+      font-size: clamp(34px, 4.5vw, 54px);
+      margin: 0 0 10px;
+    }
+    html[lang="ar"] .thanksTitle{
+      font-family: Cairo, Inter, system-ui, sans-serif;
+    }
+    .thanksText{
+      margin: 0 auto 18px;
+      max-width: 560px;
+      color: rgba(232,237,243,.78);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+    .thanksMeta{
+      margin: 0 0 22px;
+      color: rgba(232,237,243,.60);
+      font-size: 13px;
+    }
+    .thanksActions{
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="thanksWrap">
+    <div class="card thanksCard">
+      <div class="pill">✅ Sent</div>
+
+      <h1 class="thanksTitle">
+        Thank you <span class="gold">!</span>
+      </h1>
+
+      <p class="thanksText">
+        Your inquiry has been received. We’ll contact you as soon as possible with availability, pricing, and viewing times.
+      </p>
+
+      <p class="thanksMeta">
+        If it’s urgent, message us on WhatsApp for a faster reply.
+      </p>
+
+      <div class="thanksActions">
+        <a class="btn btn--gold" href="index.html#home">Back to Home</a>
+        <a class="btn btn--ghost" href="https://wa.me/+96103515225" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Optional: auto-redirect back home after a few seconds
+    // setTimeout(() => { window.location.href = "index.html#home"; }, 9000);
+  </script>
+</body>
+</html>
