@@ -1071,7 +1071,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("load", () => {
       const waW = document.getElementById("waWidget");
       if (waW) waW.style.cssText += ";position:fixed!important;right:22px!important;left:auto!important;bottom:22px!important;";
-      if (window.AOS) { AOS.init({ duration: 900, once: true, offset: 80 }); AOS.refreshHard(); }
+      if (window.AOS) {
+        AOS.init({
+          duration: 900,
+          once: true,
+          offset: 80,
+          disable: () => window.matchMedia("(max-width: 980px)").matches
+        });
+        AOS.refreshHard();
+      }
     });
   </script>
 
