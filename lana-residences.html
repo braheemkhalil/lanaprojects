@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <script src="lana-i18n.js" defer></script>
 </head>
 <body>
   <header class="header">
@@ -32,12 +33,12 @@
   <main>
     <section class="detail-hero" style="background-image:url('Photos/Futureproject1.jpg')">
       <div class="container">
-        <div class="detail-kicker">Coming Soon</div>
-        <h1 class="detail-title">Lana Residences</h1>
-        <p class="detail-lede">A refined residential project planned for buyers and renters who want a prime Saida location, practical amenities, and a polished living experience.</p>
+<div class="detail-kicker" data-i18n-attr="project.residences.kicker">Coming Soon</div>
+<h1 class="detail-title" data-i18n-attr="project.residences.title">Lana Residences</h1>
+<p class="detail-lede" data-i18n-attr="project.residences.lede">A refined residential project planned for buyers and renters who want a prime Saida location, practical amenities, and a polished living experience.</p>
         <div class="detail-actions">
-          <a class="btn btn--gold" href="index.html#contact">Request Availability</a>
-          <a class="btn btn--ghost" href="https://wa.me/+96103515225?text=Hi%20Lana%20Projects%2C%20I%27d%20like%20details%20about%20Lana%20Residences." target="_blank" rel="noopener">WhatsApp</a>
+<a class="btn btn--gold" href="index.html#contact" data-i18n-attr="project.residences.cta.primary">Request Availability</a>
+<a class="btn btn--ghost" href="https://wa.me/+96103515225?text=Hi%20Lana%20Projects%2C%20I%27d%20like%20details%20about%20Lana%20Residences." target="_blank" rel="noopener" data-i18n-attr="project.residences.cta.whatsapp">WhatsApp</a>
         </div>
       </div>
     </section>
@@ -45,18 +46,18 @@
     <section class="section">
       <div class="container detail-grid">
         <div class="detail-panel">
-          <h2>Project Overview</h2>
-          <p>Lana Residences is designed as a premium mixed-use residential address with apartments, convenient nearby services, and limited unit availability.</p>
-          <p>The project is positioned for clients who want a calm home base in Saida with straightforward access to shopping, healthcare, schools, and the coastline.</p>
+<h2 data-i18n-attr="project.residences.overview.h2">Project Overview</h2>
+<p data-i18n-attr="project.residences.overview.p1">Lana Residences is designed as a premium mixed-use residential address with apartments, convenient nearby services, and limited unit availability.</p>
+<p data-i18n-attr="project.residences.overview.p2">The project is positioned for clients who want a calm home base in Saida with straightforward access to shopping, healthcare, schools, and the coastline.</p>
         </div>
         <aside class="detail-panel">
-          <h3>Key Details</h3>
+<h3 data-i18n-attr="project.residences.details.h3">Key Details</h3>
           <ul class="detail-list">
-            <li><strong>Status</strong><span>Coming soon</span></li>
-            <li><strong>Unit Type</strong><span>Apartments</span></li>
-            <li><strong>Bedrooms</strong><span>2-3</span></li>
-            <li><strong>Size Range</strong><span>110-220m2</span></li>
-            <li><strong>Options</strong><span>Buy / Rent</span></li>
+<li><strong data-i18n-attr="project.list.status">Status</strong><span data-i18n-attr="project.residences.details.status">Coming soon</span></li>
+<li><strong data-i18n-attr="project.list.unitType">Unit Type</strong><span data-i18n-attr="project.residences.details.unitType">Apartments</span></li>
+<li><strong data-i18n-attr="project.list.bedrooms">Bedrooms</strong><span data-i18n-attr="project.residences.details.bedrooms">2-3</span></li>
+<li><strong data-i18n-attr="project.list.size">Size Range</strong><span data-i18n-attr="project.residences.details.size">110-220m2</span></li>
+<li><strong data-i18n-attr="project.list.options">Options</strong><span data-i18n-attr="project.residences.details.options">Buy / Rent</span></li>
           </ul>
         </aside>
       </div>
@@ -65,8 +66,8 @@
     <section class="section section--soft">
       <div class="container">
         <div class="section__head">
-          <div class="section__label">GALLERY</div>
-          <h2>Project Images</h2>
+<div class="section__label" data-i18n-attr="project.gallery.label">GALLERY</div>
+<h2 data-i18n-attr="project.residences.gallery.h2">Project Images</h2>
         </div>
         <div class="detail-gallery">
           <img src="Photos/Futureproject1.jpg" alt="Lana Residences exterior concept">
@@ -79,15 +80,20 @@
 
     <section class="section section--dark">
       <div class="container detail-cta">
-        <div class="section__label">NEXT STEP</div>
-        <h2>Get current availability before units are released.</h2>
-        <p class="muted">Send your budget, preferred size, and timeline. We will reply with the latest information and viewing options.</p>
+<div class="section__label" data-i18n-attr="project.cta.nextStep.label">NEXT STEP</div>
+<h2 data-i18n-attr="project.residences.next.h2">Get current availability before units are released.</h2>
+<p class="muted" data-i18n-attr="project.residences.next.p">Send your budget, preferred size, and timeline. We will reply with the latest information and viewing options.</p>
         <div class="hero__buttons">
-          <a class="btn btn--gold" href="index.html#contact">Request Details</a>
-          <a class="btn btn--ghost" href="index.html#project">Back to Projects</a>
+<a class="btn btn--gold" href="index.html#contact" data-i18n-attr="project.cta.requestDetails">Request Details</a>
+<a class="btn btn--ghost" href="index.html#project" data-i18n-attr="project.cta.backTo">Back to Projects</a>
         </div>
       </div>
     </section>
-  </main>
+</main>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    window.__lanaApplyI18n && window.__lanaApplyI18n();
+  });
+</script>
 </body>
 </html>

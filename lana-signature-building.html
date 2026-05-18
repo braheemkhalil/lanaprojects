@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <script src="lana-i18n.js" defer></script>
 </head>
 <body>
   <header class="header">
@@ -32,12 +33,12 @@
   <main>
     <section class="detail-hero" style="background-image:url('Photos/building.jpg')">
       <div class="container">
-        <div class="detail-kicker">Available - Limited Units</div>
-        <h1 class="detail-title">Lana Signature Building</h1>
-        <p class="detail-lede">Modern apartments with elegant interiors, private garden options, and a practical Saida location for daily living.</p>
-        <div class="detail-actions">
-          <a class="btn btn--gold" href="index.html#contact">Schedule Viewing</a>
-          <a class="btn btn--ghost" href="https://wa.me/+96103515225?text=Hi%20Lana%20Projects%2C%20I%27d%20like%20details%20about%20Lana%20Signature%20Building." target="_blank" rel="noopener">WhatsApp</a>
+<div class="detail-kicker" data-i18n-attr="project.building.kicker">Available - Limited Units</div>
+<h1 class="detail-title" data-i18n-attr="project.building.title">Lana Signature Building</h1>
+<p class="detail-lede" data-i18n-attr="project.building.lede">Modern apartments with elegant interiors, private garden options, and a practical Saida location for daily living.</p>
+<div class="detail-actions">
+          <a class="btn btn--gold" href="index.html#contact" data-i18n-attr="project.building.cta.primary">Schedule Viewing</a>
+          <a class="btn btn--ghost" href="https://wa.me/+96103515225?text=Hi%20Lana%20Projects%2C%20I%27d%20like%20details%20about%20Lana%20Signature%20Building." target="_blank" rel="noopener" data-i18n-attr="project.building.cta.whatsapp">WhatsApp</a>
         </div>
       </div>
     </section>
@@ -45,18 +46,18 @@
     <section class="section">
       <div class="container detail-grid">
         <div class="detail-panel">
-          <h2>Project Overview</h2>
-          <p>Lana Signature Building is built for clients who want a polished apartment with reliable guidance from inquiry through viewing and next steps.</p>
-          <p>Availability is limited, so the best way to confirm the right unit is to request the latest floor options, pricing, and viewing schedule.</p>
+<h2 data-i18n-attr="project.building.overview.h2">Project Overview</h2>
+          <p data-i18n-attr="project.building.overview.p1">Lana Signature Building is built for clients who want a polished apartment with reliable guidance from inquiry through viewing and next steps.</p>
+          <p data-i18n-attr="project.building.overview.p2">Availability is limited, so the best way to confirm the right unit is to request the latest floor options, pricing, and viewing schedule.</p>
         </div>
         <aside class="detail-panel">
-          <h3>Key Details</h3>
+          <h3 data-i18n-attr="project.building.keyDetails.h3">Key Details</h3>
           <ul class="detail-list">
-            <li><strong>Status</strong><span>Available</span></li>
-            <li><strong>Unit Type</strong><span>Apartments</span></li>
-            <li><strong>Bedrooms</strong><span>1-3</span></li>
-            <li><strong>Size Range</strong><span>110-220m2</span></li>
-            <li><strong>Options</strong><span>Buy / Rent</span></li>
+            <li><strong data-i18n-attr="project.list.status">Status</strong><span data-i18n-attr="project.building.key.status">Available</span></li>
+            <li><strong data-i18n-attr="project.list.unitType">Unit Type</strong><span data-i18n-attr="project.building.key.unitType">Apartments</span></li>
+            <li><strong data-i18n-attr="project.list.bedrooms">Bedrooms</strong><span data-i18n-attr="project.building.key.bedrooms">1-3</span></li>
+            <li><strong data-i18n-attr="project.list.sizeRangeLabel">Size Range</strong><span data-i18n-attr="project.building.key.size">110-220m2</span></li>
+            <li><strong data-i18n-attr="project.list.options">Options</strong><span data-i18n-attr="project.building.key.options">Buy / Rent</span></li>
           </ul>
         </aside>
       </div>
@@ -65,8 +66,8 @@
     <section class="section section--soft">
       <div class="container">
         <div class="section__head">
-          <div class="section__label">GALLERY</div>
-          <h2>Project Images</h2>
+          <div class="section__label" data-i18n-attr="project.gallery.label">GALLERY</div>
+          <h2 data-i18n-attr="project.building.gallery.h2">Project Images</h2>
         </div>
         <div class="detail-gallery">
           <img src="Photos/building.jpg" alt="Lana Signature Building exterior">
@@ -76,15 +77,21 @@
 
     <section class="section section--dark">
       <div class="container detail-cta">
-        <div class="section__label">PRIVATE VIEWING</div>
-        <h2>See available units in person.</h2>
-        <p class="muted">Tell us whether you want to buy or rent, your budget, and your preferred viewing time.</p>
+        <div class="section__label" data-i18n-attr="project.next.privateViewing.label">PRIVATE VIEWING</div>
+        <h2 data-i18n-attr="project.building.next.h2">See available units in person.</h2>
+        <p class="muted" data-i18n-attr="project.building.next.p">Tell us whether you want to buy or rent, your budget, and your preferred viewing time.</p>
         <div class="hero__buttons">
-          <a class="btn btn--gold" href="index.html#contact">Book a Viewing</a>
-          <a class="btn btn--ghost" href="index.html#project">Back to Projects</a>
+          <a class="btn btn--gold" href="index.html#contact" data-i18n-attr="project.cta.bookViewing">Book a Viewing</a>
+          <a class="btn btn--ghost" href="index.html#project" data-i18n-attr="project.cta.backTo">Back to Projects</a>
         </div>
       </div>
     </section>
   </main>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      window.__lanaApplyI18n && window.__lanaApplyI18n();
+    });
+  </script>
 </body>
 </html>
+
