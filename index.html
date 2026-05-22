@@ -915,10 +915,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
 
     // ── Page Loader ──
+    // When coming back from project pages, they set localStorage.setItem("lana_skip_loader","1")
+    // so the loader doesn't show again.
     const loader = document.getElementById("pageLoader");
-    function hideLoader() { setTimeout(() => loader && loader.classList.add("hidden"), 1800); }
-    document.readyState === "complete" ? hideLoader() : window.addEventListener("load", hideLoader);
-    setTimeout(() => loader && loader.classList.add("hidden"), 4000);
+    const skipLoader = localStorage.getItem("lana_skip_loader") === "1";
+    if (skipLoader) {
+      localStorage.removeItem("lana_skip_loader");
+      if (loader) {
+        loader.classList.add("hidden");
+        loader.style.transition = "none";
+      }
+    } else {
+      function hideLoader() { setTimeout(() => loader && loader.classList.add("hidden"), 1800); }
+      document.readyState === "complete" ? hideLoader() : window.addEventListener("load", hideLoader);
+      setTimeout(() => loader && loader.classList.add("hidden"), 4000);
+    }
+
 
     // ── Back to Top ──
     const backToTop = document.getElementById("backToTop");

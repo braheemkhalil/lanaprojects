@@ -91,9 +91,27 @@
     </section>
 </main>
 <script>
+  // Mark navigation back to index.html so loader doesn't show again.
+  // Don't force #home: keep the original hash (e.g., #contact or #project).
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+    if (href === 'index.html' || href.startsWith('index.html#')) {
+      localStorage.setItem('lana_skip_loader', '1');
+        // keep URL hash from the clicked link
+        e.preventDefault();
+        const targetHash = (href || '').includes('#') ? href.slice(href.indexOf('#')) : '#home';
+        window.location.href = 'index.html' + targetHash;
+    }
+  }, { capture: true });
+
+
+
   window.addEventListener('DOMContentLoaded', () => {
     window.__lanaApplyI18n && window.__lanaApplyI18n();
   });
 </script>
 </body>
 </html>
+
