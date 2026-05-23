@@ -158,11 +158,14 @@
     let currentGroup = null;
     let index = 0;
 
-    function openAt(group, i){
+    function openAt(group, i, openerEl){
       const items = groups[group] || [];
       if (!items.length) return;
       currentGroup = group;
       index = (i + items.length) % items.length;
+      // Remember the element that opened the lightbox
+      lastFocusEl = openerEl || document.activeElement;
+
       // Resolve URL at click time so lazy-loaded images work
       const url = getBgUrl(items[index].el);
       if (!url) return;
@@ -174,12 +177,22 @@
       btnNext.style.display = showNav ? "" : "none";
     }
 
+
+    let lastFocusEl = null;
+
     function close(){
       lightbox.hidden = true;
       img.removeAttribute("src");
       document.body.style.overflow = "";
       currentGroup = null;
+
+      // Return focus back to the element that opened the lightbox
+      if (lastFocusEl && typeof lastFocusEl.focus === "function") {
+        lastFocusEl.focus();
+      }
+      lastFocusEl = null;
     }
+
 
     function prev(){ if (!currentGroup) return; openAt(currentGroup, index - 1); }
     function next(){ if (!currentGroup) return; openAt(currentGroup, index + 1); }
@@ -946,14 +959,31 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!localStorage.getItem("lana_cookie")) {
       setTimeout(() => cookieBanner?.classList.add("visible"), 1500);
     }
+    let cookieLastFocusEl = null;
+
+    // Move focus into the banner when it appears, and restore it when dismissed.
+    if (cookieBanner && cookieAccept && cookieDecline) {
+      cookieLastFocusEl = document.activeElement;
+
+      // Focus buttons when the banner becomes visible (after the delay).
+      setTimeout(() => {
+        if (cookieBanner.classList.contains("visible")) {
+          cookieAccept.focus();
+        }
+      }, 1600);
+    }
+
     cookieAccept?.addEventListener("click", () => {
       localStorage.setItem("lana_cookie", "accepted");
       cookieBanner?.classList.remove("visible");
+      cookieLastFocusEl?.focus && cookieLastFocusEl.focus();
     });
     cookieDecline?.addEventListener("click", () => {
       localStorage.setItem("lana_cookie", "declined");
       cookieBanner?.classList.remove("visible");
+      cookieLastFocusEl?.focus && cookieLastFocusEl.focus();
     });
+
 
     // ── Lazy-load background images ──
     const lazyBgEls = document.querySelectorAll("[data-lazy-bg]");

@@ -149,13 +149,25 @@
     const stored = localStorage.getItem("lana_lang");
     if (stored === "ar" || stored === "en") return stored;
 
+    // 1) ?lang=ar|en query param
     try {
       const lang = new URLSearchParams(window.location.search).get("lang");
       if (lang === "ar" || lang === "en") return lang;
     } catch (_) {}
 
-    return (document.documentElement.lang || "").toLowerCase().startsWith("ar") ? "ar" : "en";
+    // 2) Browser language fallback (helps first-time visitors on project pages)
+    try {
+      const navLang = (navigator.language || "").toLowerCase();
+      if (navLang.startsWith("ar")) return "ar";
+    } catch (_) {}
+
+    // 3) <html lang="..."> attribute fallback
+    const docLang = (document.documentElement.lang || "").toLowerCase();
+    if (docLang.startsWith("ar")) return "ar";
+
+    return "en";
   }
+
 
   function applyI18n() {
     const lang = getEffectiveLang();
@@ -181,4 +193,13 @@
   }
 
   window.__lanaApplyI18n = applyI18n;
+
+  // Auto-run on load if the page included this script with defer.
+  // Project pages call it explicitly too; this is safe and idempotent.
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyI18n);
+  } else {
+    applyI18n();
+  }
 })();
+
