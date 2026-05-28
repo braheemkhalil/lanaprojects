@@ -453,7 +453,12 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <div class="card__actions">
               <a class="card__cta" href="lana-residences.html" data-i18n="p3.details">View Details</a>
-              <a class="card__cta card__cta--ghost" href="#contact" data-i18n="p3.cta1">Get Notified</a>
+              <a class="card__cta card__cta--ghost" href="index.html?project=Lana%20Residences&intent=Current%20availability%20list#contact" data-i18n="p3.cta1">Get Notified</a>
+            </div>
+            <div class="card__quick">
+              <span data-i18n="p3.quick1">Early availability</span>
+              <span data-i18n="p3.quick2">Unit sizes</span>
+              <span data-i18n="p3.quick3">Release timing</span>
             </div>
           </div>
         </article>
@@ -486,7 +491,12 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
               <div class="card__actions">
                 <a class="card__cta" href="lana-signature-building.html" data-i18n="p1.details">View Details</a>
-                <a class="card__cta card__cta--ghost" href="#contact" data-i18n="p1.cta1">Schedule Viewing</a>
+                <a class="card__cta card__cta--ghost" href="index.html?project=Lana%20Signature%20Building&intent=Schedule%20Viewing#contact" data-i18n="p1.cta1">Schedule Viewing</a>
+              </div>
+              <div class="card__quick">
+                <span data-i18n="p1.quick1">Price list</span>
+                <span data-i18n="p1.quick2">Floor options</span>
+                <span data-i18n="p1.quick3">Private garden</span>
               </div>
             </div>
           </article>
@@ -516,7 +526,12 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
               <div class="card__actions">
                 <a class="card__cta" href="lana-villa.html" data-i18n="p2.details">View Details</a>
-                <a class="card__cta card__cta--ghost" href="#contact" data-i18n="p2.cta1">Book a Viewing</a>
+                <a class="card__cta card__cta--ghost" href="index.html?project=Lana%20Villa&intent=Book%20a%20Viewing#contact" data-i18n="p2.cta1">Book a Viewing</a>
+              </div>
+              <div class="card__quick">
+                <span data-i18n="p2.quick1">Villa pricing</span>
+                <span data-i18n="p2.quick2">Parking details</span>
+                <span data-i18n="p2.quick3">Viewing times</span>
               </div>
             </div>
           </article>
@@ -847,6 +862,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ── Year ──
+    // Project detail pages send visitors back with context so the form is ready to use.
+    (function prefillProjectInquiryFromUrl(){
+      const params = new URLSearchParams(window.location.search);
+      const project = params.get("project");
+      const intent = params.get("intent");
+      if (!project && !intent) return;
+
+      const msgField = document.querySelector("#contactForm [name='message']");
+      if (msgField) {
+        const lines = [
+          project ? "Project: " + project : "",
+          intent ? "Request: " + intent : "",
+          "Preferred contact time: ",
+          "Budget / timeline: "
+        ].filter(Boolean);
+        msgField.value = lines.join("\n") + "\n\n";
+      }
+
+      const waMid = document.getElementById("waMid");
+      if (waMid) {
+        const text = `Hi Lana Projects, I'd like ${intent || "more details"}${project ? " for " + project : ""}.`;
+        waMid.href = "https://wa.me/+96103515225?text=" + encodeURIComponent(text);
+      }
+
+      if (location.hash === "#contact") {
+        setTimeout(() => document.querySelector("#contactForm [name='name']")?.focus(), 350);
+      }
+    })();
+
     document.getElementById("year").textContent = new Date().getFullYear();
 
     // ── Mobile nav ──
@@ -1024,9 +1068,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "lead.location":"Location","lead.locationPh":"e.g., Saida ...","lead.interest":"Interest","lead.buy":"Buy","lead.rent":"Rent","lead.both":"Both",
         "lead.budget":"Budget","lead.note":"Only 1\u20132 projects available right now \u2014 contact us to get the latest units and pricing.",
         "projects.title":"Our Projects","projects.desc":"We focus on a small number of premium developments to ensure quality service and private viewings.",
-        "p1.pill":"Available \u00B7 Limited Units","p1.title":"Lana Signature Building","p1.desc":"Modern luxury apartments with elegant interiors, private gardens, and excellent city access.","p1.details":"View Details","p1.cta1":"Schedule Viewing",
-        "p2.pill":"New Project","p2.title":"Lana Villa","p2.desc":"Contemporary 3-floor residences designed for comfort, with balconies, parking, and modern finishes.","p2.details":"View Details","p2.cta1":"Book a Viewing",
-        "p3.pill":"Coming Soon","p3.title":"Lana Residences","p3.desc":"A refined residential project offering high-end apartments in a prime location \u2014 with shops, clinics, and limited availability.","p3.details":"View Details","p3.cta1":"Get Notified",
+        "p1.pill":"Available \u00B7 Limited Units","p1.title":"Lana Signature Building","p1.desc":"Modern luxury apartments with elegant interiors, private gardens, and excellent city access.","p1.details":"View Details","p1.cta1":"Schedule Viewing","p1.quick1":"Price list","p1.quick2":"Floor options","p1.quick3":"Private garden",
+        "p2.pill":"New Project","p2.title":"Lana Villa","p2.desc":"Contemporary 3-floor residences designed for comfort, with balconies, parking, and modern finishes.","p2.details":"View Details","p2.cta1":"Book a Viewing","p2.quick1":"Villa pricing","p2.quick2":"Parking details","p2.quick3":"Viewing times",
+        "p3.pill":"Coming Soon","p3.title":"Lana Residences","p3.desc":"A refined residential project offering high-end apartments in a prime location \u2014 with shops, clinics, and limited availability.","p3.details":"View Details","p3.cta1":"Get Notified","p3.quick1":"Early availability","p3.quick2":"Unit sizes","p3.quick3":"Release timing",
         "why.title":"Why Lana Projects","why.desc":"Fast response, verified units, and hands-on guidance from inquiry to keys.",
         "why.f1t":"Fast Response","why.f1d":"We reply quickly and share current availability, pricing, and viewing times.",
         "why.f2t":"Verified Units","why.f2d":"No clutter, only real, curated apartments in our selected projects.",
@@ -1063,9 +1107,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "lead.location":"الموقع","lead.locationPh":"مثال: صيدا","lead.interest":"نوع الطلب","lead.buy":"شراء","lead.rent":"إيجار","lead.both":"شراء أو إيجار",
         "lead.budget":"الميزانية","lead.note":"التوفر محدود ويتغير بسرعة. تواصل معنا للحصول على آخر الوحدات والأسعار.",
         "projects.title":"مشاريعنا","projects.desc":"نختار عدداً محدوداً من المشاريع المميزة لنقدم لك خدمة واضحة، معاينات خاصة، ومعلومات دقيقة عن كل وحدة.",
-        "p1.pill":"متاح · وحدات محدودة","p1.title":"Lana Signature Building","p1.desc":"شقق عصرية بتشطيبات أنيقة، خيارات حدائق خاصة، وموقع عملي قريب من خدمات المدينة.","p1.details":"عرض التفاصيل","p1.cta1":"احجز معاينة",
-        "p2.pill":"مشروع جديد","p2.title":"Lana Villa","p2.desc":"فيلا عصرية من ثلاثة طوابق مصممة للراحة والخصوصية، مع شرفات، موقف سيارات، وتشطيبات حديثة.","p2.details":"عرض التفاصيل","p2.cta1":"احجز زيارة",
-        "p3.pill":"قريباً","p3.title":"Lana Residences","p3.desc":"مشروع سكني راق في موقع مميز، يضم شققاً عالية الجودة مع خدمات قريبة وتوفر محدود.","p3.details":"عرض التفاصيل","p3.cta1":"أبلغني عند التوفر",
+        "p1.pill":"متاح · وحدات محدودة","p1.title":"Lana Signature Building","p1.desc":"شقق عصرية بتشطيبات أنيقة، خيارات حدائق خاصة، وموقع عملي قريب من خدمات المدينة.","p1.details":"عرض التفاصيل","p1.cta1":"احجز معاينة","p1.quick1":"قائمة الأسعار","p1.quick2":"خيارات الطوابق","p1.quick3":"حديقة خاصة",
+        "p2.pill":"مشروع جديد","p2.title":"Lana Villa","p2.desc":"فيلا عصرية من ثلاثة طوابق مصممة للراحة والخصوصية، مع شرفات، موقف سيارات، وتشطيبات حديثة.","p2.details":"عرض التفاصيل","p2.cta1":"احجز زيارة","p2.quick1":"سعر الفيلا","p2.quick2":"تفاصيل الموقف","p2.quick3":"مواعيد المعاينة",
+        "p3.pill":"قريباً","p3.title":"Lana Residences","p3.desc":"مشروع سكني راق في موقع مميز، يضم شققاً عالية الجودة مع خدمات قريبة وتوفر محدود.","p3.details":"عرض التفاصيل","p3.cta1":"أبلغني عند التوفر","p3.quick1":"التوفر المبكر","p3.quick2":"مساحات الوحدات","p3.quick3":"موعد الطرح",
         "why.title":"لماذا Lana Projects","why.desc":"استجابة سريعة، وحدات موثوقة، ومتابعة عملية من أول استفسار حتى المعاينة.",
         "why.f1t":"استجابة سريعة","why.f1d":"نرسل لك التوفر الحالي، الأسعار، ومواعيد المعاينة بأسرع وقت ممكن.","why.f2t":"وحدات موثوقة","why.f2d":"نعرض مشاريع حقيقية ومختارة، بدون إعلانات عشوائية أو معلومات غير واضحة.","why.f3t":"متابعة كاملة","why.f3d":"نساعدك في حجز المعاينة، فهم الخيارات، ومعرفة الخطوات التالية.",
         "process.title":"كيف تتم العملية","process.desc":"خطوات بسيطة وواضحة لاختيار وحدتك بثقة.",

@@ -1,5 +1,4 @@
-- [ ] Confirm why Arabic still doesn’t appear on project pages
-- [ ] Add a more robust language detection to `lana-i18n.js` (fallback to document lang or ?lang query)
-- [ ] Verify CTA + overview paragraphs are translated for Villa + Signature pages
-- [ ] Provide final verification steps for user (localStorage value, hard refresh)
-
+- [x] Replace corrupted Arabic strings on project pages
+- [x] Add robust language detection to `lana-i18n.js` with `?lang=ar|en` override
+- [x] Add project-specific CTAs that pre-fill the homepage contact form
+- [x] Add project page SEO/social metadata and structured data

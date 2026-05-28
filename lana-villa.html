@@ -5,11 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lana Villa | Lana Projects</title>
   <meta name="description" content="Lana Villa is a contemporary 3-floor residence in Saida with balconies, parking, modern finishes, and purchase availability." />
+  <link rel="canonical" href="https://lanaprojects.pages.dev/lana-villa.html" />
+  <meta property="og:title" content="Lana Villa | Lana Projects" />
+  <meta property="og:description" content="A contemporary three-floor villa in Saida with balconies, parking, modern finishes, and private viewings." />
+  <meta property="og:image" content="https://lanaprojects.pages.dev/Photos/villa2.jpg" />
+  <meta property="og:url" content="https://lanaprojects.pages.dev/lana-villa.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://lanaprojects.pages.dev/Photos/villa2.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <script src="lana-i18n.js" defer></script>
+  <script src="detail-ui.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SingleFamilyResidence",
+    "name": "Lana Villa",
+    "url": "https://lanaprojects.pages.dev/lana-villa.html",
+    "image": "https://lanaprojects.pages.dev/Photos/villa2.jpg",
+    "description": "A contemporary three-floor villa in Saida with balconies, parking, modern finishes, and private viewings.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Saida",
+      "addressRegion": "South Lebanon",
+      "addressCountry": "LB"
+    }
+  }
+  </script>
 </head>
 <body>
   <header class="header">
@@ -19,13 +44,14 @@
         <span class="brand__muted">PROJECTS</span>
       </a>
       <nav class="nav" aria-label="Project navigation">
-        <a href="index.html#project">Projects</a>
-        <a href="index.html#location">Location</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="index.html#project" data-i18n="nav.projects">Projects</a>
+        <a href="index.html#location" data-i18n="nav.location">Location</a>
+        <a href="index.html#contact" data-i18n="nav.contact">Contact</a>
       </nav>
       <div class="header__cta">
         <a class="phone" href="tel:+96103515225">&#9990; <span>+961 03515225</span></a>
-        <a class="btn btn--gold" href="index.html#contact">Schedule Viewing</a>
+        <button class="langBtn" type="button" data-lang-toggle aria-label="Switch language">AR</button>
+        <a class="btn btn--gold" href="index.html?project=Lana%20Villa&intent=Schedule%20Viewing#contact" data-i18n="cta.schedule">Schedule Viewing</a>
       </div>
     </div>
   </header>
@@ -37,8 +63,8 @@
 <h1 class="detail-title" data-i18n-attr="project.villa.title">Lana Villa</h1>
 <p class="detail-lede" data-i18n-attr="project.villa.lede">A contemporary three-floor villa designed for privacy, comfort, balconies, parking, and modern family living.</p>
         <div class="detail-actions">
-<a class="btn btn--gold" href="index.html#contact" data-i18n-attr="project.villa.cta.primary">Book a Viewing</a>
-<a class="btn btn--ghost" href="https://wa.me/+96103515225?text=Hi%20Lana%20Projects%2C%20I%27d%20like%20details%20about%20Lana%20Villa." target="_blank" rel="noopener" data-i18n-attr="project.villa.cta.whatsapp">WhatsApp</a>
+<a class="btn btn--gold" href="index.html?project=Lana%20Villa&intent=Book%20a%20Viewing#contact" data-i18n-attr="project.villa.cta.primary">Book a Viewing</a>
+<a class="btn btn--ghost" href="https://wa.me/+96103515225?text=Hi%20Lana%20Projects%2C%20I%27d%20like%20villa%20pricing%2C%20parking%20details%2C%20and%20viewing%20times%20for%20Lana%20Villa." target="_blank" rel="noopener" data-i18n="cta.whatsapp">WhatsApp</a>
         </div>
       </div>
     </section>
@@ -64,6 +90,22 @@
     </section>
 
     <section class="section section--soft">
+      <div class="container detail-sales">
+        <div>
+          <div class="section__label" data-i18n-attr="project.sales.label">WHY THIS PROJECT</div>
+          <h2 data-i18n-attr="project.villa.sales.h2">More privacy, more room to separate daily life.</h2>
+          <p class="muted" data-i18n-attr="project.villa.sales.p">Ask for the current villa package, parking details, balcony layout, purchase terms, and available viewing appointments.</p>
+        </div>
+        <div class="detail-highlights">
+          <span data-i18n-attr="project.villa.highlight.1">Three-floor residence</span>
+          <span data-i18n-attr="project.villa.highlight.2">Balconies and parking</span>
+          <span data-i18n-attr="project.villa.highlight.3">Purchase-focused availability</span>
+        </div>
+        <a class="btn btn--gold" href="index.html?project=Lana%20Villa&intent=Villa%20pricing%20and%20viewing%20times#contact" data-i18n-attr="project.villa.inquiry">Request villa pricing and viewing times</a>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="container">
         <div class="section__head">
           <div class="section__label" data-i18n-attr="project.gallery.label">GALLERY</div>
@@ -82,7 +124,7 @@
         <h2 data-i18n-attr="project.villa.next.h2">Request the current villa details.</h2>
         <p class="muted" data-i18n-attr="project.villa.next.p">Ask for pricing, viewing times, and the latest purchase information.</p>
         <div class="hero__buttons">
-          <a class="btn btn--gold" href="index.html#contact" data-i18n-attr="project.cta.requestDetails">Request Details</a>
+          <a class="btn btn--gold" href="index.html?project=Lana%20Villa&intent=Request%20Details#contact" data-i18n-attr="project.cta.requestDetails">Request Details</a>
           <a class="btn btn--ghost" href="index.html#project" data-i18n-attr="project.cta.backTo">Back to Projects</a>
         </div>
       </div>
@@ -95,10 +137,14 @@
       const a = e.target.closest('a[href]');
       if (!a) return;
       const href = a.getAttribute('href') || '';
-      if (href === 'index.html' || href.startsWith('index.html#')) {
+      if (href === 'index.html' || href.startsWith('index.html#') || href.startsWith('index.html?')) {
         localStorage.setItem('lana_skip_loader', '1');
         // keep URL hash from the clicked link
         e.preventDefault();
+        if (href.startsWith('index.html?')) {
+          window.location.href = href;
+          return;
+        }
         const targetHash = (href || '').includes('#') ? href.slice(href.indexOf('#')) : '#home';
         window.location.href = 'index.html' + targetHash;
       }
@@ -111,5 +157,3 @@
   </script>
 </body>
 </html>
-
-

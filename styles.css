@@ -318,6 +318,8 @@
     padding: 84px 0 44px;
     text-align: center;
   }
+
+  /* ======================== (removed) HERO GLASS PANEL ======================== */
   
   .kicker{
     color: var(--gold);
@@ -739,6 +741,26 @@
   .card__actions .card__cta{
     margin-top: 0;
     padding-inline: 14px;
+  }
+  .card__quick{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .card__quick span{
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 7px 10px;
+    border: 1px solid rgba(201,150,42,.22);
+    border-radius: 999px;
+    background: rgba(201,150,42,.07);
+    color: rgba(237,240,245,.68);
+    font-family: Inter, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.1;
   }
   
   .card__cta--ghost {
@@ -1277,6 +1299,8 @@
     border: 1px solid rgba(255,255,255,.10);
     box-shadow: 0 30px 90px rgba(0,0,0,.75);
   }
+
+  /* Lightbox open/close transitions (removed) */
   .lightbox__close, .lightbox__nav{
     position: absolute;
     border-radius: 999px;
@@ -1436,6 +1460,47 @@
     color: var(--text);
     font-weight: 600;
   }
+  .detail-sales{
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 28px;
+    align-items: center;
+  }
+  .detail-sales h2{
+    margin: 8px 0 14px;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(30px, 4vw, 52px);
+    line-height: 1.08;
+  }
+  .detail-sales .btn{
+    justify-self: start;
+  }
+  .detail-highlights{
+    display: grid;
+    gap: 10px;
+  }
+  .detail-highlights span{
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(255,255,255,.035);
+    color: rgba(237,240,245,.78);
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+  }
+  .detail-highlights span::before{
+    content: "";
+    width: 8px;
+    height: 8px;
+    margin-inline-end: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 5px rgba(204,164,75,.12);
+    flex: 0 0 auto;
+  }
   .detail-gallery{
     display: grid;
     grid-template-columns: 1.3fr 1fr 1fr;
@@ -1447,6 +1512,14 @@
     object-fit: cover;
     border-radius: 14px;
     border: 1px solid var(--border);
+    cursor: zoom-in;
+    transition: transform .2s ease, border-color .2s ease, filter .2s ease;
+  }
+  .detail-gallery img:hover,
+  .detail-gallery img:focus-visible{
+    border-color: var(--border-gold);
+    filter: brightness(1.06);
+    transform: translateY(-2px);
   }
   .detail-gallery img:first-child{
     grid-row: span 2;
@@ -1476,6 +1549,8 @@
     .location__map{ height: 300px; }
     .section{ padding: 72px 0; }
     .testimonials-grid { grid-template-columns: 1fr; }
+    .detail-sales{ grid-template-columns: 1fr; }
+    .detail-sales .btn{ justify-self: stretch; }
     .wa-panel { width: 280px; }
     .wa-widget { right: 14px !important; left: auto !important; bottom: 14px !important; }
   }
@@ -1847,6 +1922,11 @@
   }
   .faq__item.open { border-color: var(--border-gold); }
   .faq__item.open::before { opacity: 1; }
+
+
+
+  .faq__item.open::before { opacity: 1; }
+
   .faq__q {
     width: 100%;
     background: none;
@@ -1925,6 +2005,8 @@
     direction: rtl;
     text-align: center;
   }
+
+
   body[dir="rtl"] .stats {
     direction: rtl;
   }
@@ -2023,6 +2105,8 @@
     transform: translateY(0);
     pointer-events: none;
   }
+
+
   .cookie-banner__inner {
     max-width: 900px;
     margin: 0 auto;
@@ -2355,6 +2439,14 @@
     }
     .card__actions{
       grid-template-columns: 1fr;
+    }
+    .card__quick{
+      gap: 7px;
+    }
+    .card__quick span{
+      flex: 1 1 calc(50% - 7px);
+      justify-content: center;
+      text-align: center;
     }
     .card__spec{
       border-right: 0;
