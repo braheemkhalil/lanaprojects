@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css" />
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -85,7 +85,7 @@
 <!-- noscript fallback -->
 <noscript>
   <style>.page-loader{display:none!important}</style>
-  <div style="background:#c9962a;color:#000;text-align:center;padding:12px;font-family:sans-serif;font-size:14px;">
+  <div style="background:#B08D57;color:#0E1A18;text-align:center;padding:12px;font-family:sans-serif;font-size:14px;">
     JavaScript is required for the best experience on this site.
   </div>
 </noscript>
@@ -318,12 +318,17 @@ document.addEventListener("DOMContentLoaded", () => {
     <div class="hero__bg hero__bg--b" aria-hidden="true"></div>
     <div class="hero__overlay"></div>
 
+    <svg class="hero__arch" viewBox="0 0 108 150" aria-hidden="true">
+      <path d="M4 150 V64 C4 30 30 6 54 6 C78 6 104 30 104 64 V150" />
+    </svg>
+    <div class="hero__coord" aria-hidden="true">LOUBIEH AL-JANOUB, LEBANON<br>33.4286&deg;N &middot; 35.2897&deg;E</div>
+
     <div class="container hero__content" data-aos="fade-up">
       <div class="kicker" data-i18n="hero.kicker">LUXURY REAL ESTATE</div>
 
       <h1 class="hero__title">
-        <span data-i18n="hero.title">Premium Homes</span>
-        <span class="gold" data-i18n="hero.titleGold"> in Saida</span>
+        <span data-i18n="hero.title">Coastal Living,</span>
+        <span class="gold" data-i18n="hero.titleGold"> Elevated</span>
       </h1>
 
       <p class="hero__subtitle" data-i18n="hero.subtitle">
@@ -336,9 +341,14 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
 
       <div class="hero__trust" aria-label="Service highlights">
-        <span data-i18n="trust.private">Private viewings</span>
-        <span data-i18n="trust.verified">Verified units</span>
-        <span data-i18n="trust.reply">Fast WhatsApp reply</span>
+        <div class="hero__trust-track">
+          <span data-i18n="trust.private">Private viewings</span>
+          <span data-i18n="trust.verified">Verified units</span>
+          <span data-i18n="trust.reply">Fast WhatsApp reply</span>
+          <span aria-hidden="true">Private viewings</span>
+          <span aria-hidden="true">Verified units</span>
+          <span aria-hidden="true">Fast WhatsApp reply</span>
+        </div>
       </div>
 
       <div class="stats" data-aos="fade-up" data-aos-delay="140">
@@ -390,12 +400,19 @@ document.addEventListener("DOMContentLoaded", () => {
         </p>
       </section>
     </div>
+
+    <div class="hero__scrollcue" id="scrollCue" aria-hidden="true">
+      <span>Scroll</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--gold-light)">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
   </main>
 
   <!-- Wavy section divider -->
   <div class="divider" aria-hidden="true">
     <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,56 L0,56 Z" fill="rgba(13,13,16,0.6)"/>
+      <path d="M0,28 C240,56 480,0 720,28 C960,56 1200,0 1440,28 L1440,56 L0,56 Z" fill="rgba(20,39,35,0.6)"/>
     </svg>
   </div>
 
@@ -1062,7 +1079,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "nav.project":"Projects","nav.why":"Why Us","nav.process":"Process","nav.testimonials":"Testimonials","nav.contact":"Contact",
         "cta.schedule":"Schedule Viewing","cta.explore":"Explore Current Units","cta.whatsapp":"WhatsApp","cta.whatsappContact":"Contact on WhatsApp",
         "cta.requestDetails":"Request Details","cta.whatsappNow":"WhatsApp Now","cta.call":"Call",
-        "hero.kicker":"PREMIUM REAL ESTATE","hero.title":"Premium Homes","hero.titleGold":" in Saida",
+        "hero.kicker":"LUXURY REAL ESTATE","hero.title":"Coastal Living,","hero.titleGold":" Elevated",
         "hero.subtitle":"Apartments and villas with private viewings, current availability, and direct guidance from inquiry to keys.",
         "trust.private":"Private viewings","trust.verified":"Verified units","trust.reply":"Fast WhatsApp reply",
         "lead.location":"Location","lead.locationPh":"e.g., Saida ...","lead.interest":"Interest","lead.buy":"Buy","lead.rent":"Rent","lead.both":"Both",
@@ -1101,7 +1118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "nav.project":"\u0627\u0644\u0645\u0634\u0627\u0631\u064A\u0639","nav.why":"\u0644\u0645\u0627\u0630\u0627 \u0646\u062D\u0646","nav.process":"\u0627\u0644\u062E\u0637\u0648\u0627\u062A","nav.testimonials":"\u0622\u0631\u0627\u0621 \u0627\u0644\u0639\u0645\u0644\u0627\u0621","nav.contact":"\u062A\u0648\u0627\u0635\u0644 \u0645\u0639\u0646\u0627",
         "cta.schedule":"احجز معاينة","cta.explore":"استعرض الوحدات المتاحة","cta.whatsapp":"واتساب","cta.whatsappContact":"تواصل عبر واتساب",
         "cta.requestDetails":"اطلب التفاصيل","cta.whatsappNow":"واتساب الآن","cta.call":"اتصال",
-        "hero.kicker":"عقارات راقية في صيدا","hero.title":"منازل مميزة","hero.titleGold":" في صيدا",
+        "hero.kicker":"عقارات راقية \u2014 جنوب لبنان","hero.title":"حياة ساحلية،","hero.titleGold":" بمستوى راقٍ",
         "hero.subtitle":"شقق وفلل مختارة مع معاينات خاصة، معلومات محدثة عن التوفر والأسعار، ومتابعة مباشرة حتى اختيار الوحدة المناسبة.",
         "trust.private":"معاينات خاصة","trust.verified":"وحدات موثوقة","trust.reply":"رد سريع عبر واتساب",
         "lead.location":"الموقع","lead.locationPh":"مثال: صيدا","lead.interest":"نوع الطلب","lead.buy":"شراء","lead.rent":"إيجار","lead.both":"شراء أو إيجار",
@@ -1167,11 +1184,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const waW = document.getElementById("waWidget");
       if (waW) waW.style.cssText += ";position:fixed!important;right:22px!important;left:auto!important;bottom:22px!important;";
       if (window.AOS) {
+        const isMobile = window.matchMedia("(max-width: 980px)").matches;
         AOS.init({
-          duration: 900,
+          duration: isMobile ? 650 : 900,
           once: true,
-          offset: 80,
-          disable: () => window.matchMedia("(max-width: 980px)").matches
+          offset: isMobile ? 40 : 80,
+          easing: "ease-out-cubic"
         });
         AOS.refreshHard();
       }
@@ -1247,6 +1265,97 @@ document.addEventListener("DOMContentLoaded", () => {
           dots.forEach((d,di) => d.classList.toggle("active", di === idx));
         }, 50);
       }, { passive: true });
+    })();
+  </script>
+  <script>
+    // Signature interactions: hero spotlight, magnetic buttons, card tilt
+    (function(){
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion) return;
+
+      // Hero cursor spotlight + arch reveal
+      const hero = document.querySelector(".hero");
+      if (hero) {
+        setTimeout(() => hero.classList.add("arch-ready"), 300);
+        hero.addEventListener("mousemove", (e) => {
+          const r = hero.getBoundingClientRect();
+          hero.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
+          hero.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
+          hero.classList.add("is-hovering");
+        });
+        hero.addEventListener("mouseleave", () => hero.classList.remove("is-hovering"));
+      }
+
+      // Magnetic buttons
+      document.querySelectorAll(".btn").forEach((btn) => {
+        btn.addEventListener("mousemove", (e) => {
+          const r = btn.getBoundingClientRect();
+          const x = (e.clientX - r.left - r.width / 2) * 0.18;
+          const y = (e.clientY - r.top - r.height / 2) * 0.35;
+          btn.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        btn.addEventListener("mouseleave", () => { btn.style.transform = ""; });
+      });
+
+      // Card tilt
+      document.querySelectorAll(".card--small, .card--featured").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const r = card.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width - 0.5;
+          const py = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = `perspective(900px) rotateX(${(-py * 4).toFixed(2)}deg) rotateY(${(px * 5).toFixed(2)}deg) translateY(-2px)`;
+        });
+        card.addEventListener("mouseleave", () => { card.style.transform = ""; });
+      });
+    })();
+
+    // Scroll-driven motion: header shrink, hero parallax, scroll cue, section reveals
+    (function(){
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const header = document.querySelector(".header");
+      const heroSection = document.querySelector(".hero");
+      const heroContent = document.querySelector(".hero__content");
+      const heroBgA = document.querySelector(".hero__bg--a");
+      const heroBgB = document.querySelector(".hero__bg--b");
+      const scrollCue = document.getElementById("scrollCue");
+
+      let ticking = false;
+      function onScroll(){
+        const y = window.scrollY;
+
+        if (header) header.classList.toggle("is-scrolled", y > 30);
+
+        if (scrollCue) scrollCue.classList.toggle("is-hidden", y > 80);
+
+        if (!reduceMotion && heroSection){
+          const heroH = heroSection.offsetHeight;
+          const progress = Math.min(y / heroH, 1);
+          if (heroContent){
+            heroContent.style.transform = `translateY(${progress * 40}px)`;
+            heroContent.style.opacity = String(1 - progress * 0.9);
+          }
+          const scale = 1 + progress * 0.06;
+          if (heroBgA) heroBgA.style.transform = `scale(${scale})`;
+          if (heroBgB) heroBgB.style.transform = `scale(${scale})`;
+        }
+        ticking = false;
+      }
+      window.addEventListener("scroll", () => {
+        if (!ticking){ window.requestAnimationFrame(onScroll); ticking = true; }
+      }, { passive: true });
+      onScroll();
+
+      // Lightweight reveal pass for section labels & badges (extra motion on mobile scroll)
+      document.querySelectorAll(".section__label, .card__badge").forEach(el => el.classList.add("reveal-fade"));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting){
+            entry.target.classList.add("in-view");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2, rootMargin: "0px 0px -40px 0px" });
+      document.querySelectorAll(".reveal-fade").forEach(el => io.observe(el));
     })();
   </script>
 
