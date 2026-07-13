@@ -2423,9 +2423,8 @@
       font-size: 15px;
     }
     .langBtn--top{
-      min-width: 40px;
-      min-height: 40px;
-      padding: 8px 10px;
+      width: 38px;
+      height: 38px;
     }
     .hero__buttons{
       margin-top: 24px;
@@ -2892,3 +2891,53 @@
 /* Loader size */
 .loader__brand .brandmark{ font-size: 38px; }
 .loader__brand .brandmark__sub{ margin-top: 0.4em; }
+
+/* ============================================================
+   HEADER RIGHT CLUSTER — unified glass capsule (mobile)
+   ============================================================ */
+.header__right{
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  background: rgba(20,39,35,.55);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.header__right .langBtn--top{
+  border: none;
+  background: transparent;
+  color: var(--gold-light);
+  border-radius: 999px;
+  height: 38px;
+  width: 38px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  transition: background .22s ease, color .22s ease, transform .18s ease;
+  position: relative;
+}
+.header__right .langBtn--top svg{ width: 16px; height: 16px; }
+.header__right .langBtn--top:hover{
+  background: rgba(176,141,87,.16);
+  color: var(--gold-light);
+  transform: translateY(-1px);
+}
+.header__right .langBtn--top:active{ transform: translateY(0); }
+.header__right .langBtn--top + .langBtn--top::before{
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 16px;
+  background: var(--border-gold);
+  opacity: .55;
+}

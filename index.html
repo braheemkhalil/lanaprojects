@@ -296,7 +296,11 @@ document.addEventListener("DOMContentLoaded", () => {
         </a>
         <!-- FIX 7: mobile langBtn text updated dynamically by setLanguage() -->
         <button class="langBtn langBtn--top" id="langBtnTop" type="button" aria-label="Toggle language">AR</button>
-        <button class="langBtn langBtn--top langBtn--menu burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">&#9776;</button>
+        <button class="langBtn langBtn--top langBtn--menu burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+            <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/>
+          </svg>
+        </button>
       </div>
     </div>
 
