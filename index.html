@@ -102,7 +102,19 @@
   <div class="loader__bar-wrap">
     <div class="loader__bar"></div>
   </div>
-  <div class="loader__tagline">Premium Real Estate &middot; Saida</div>
+  <div class="loader__tagline">Premium Real Estate &middot; South Lebanon</div>
+</div>
+
+<!-- Request Transition Overlay (shown when tapping Book/Schedule/Get Notified on a project card) -->
+<div class="request-loader" id="requestLoader" aria-live="polite" aria-hidden="true">
+  <div class="request-loader__card">
+    <div class="request-loader__ring">
+      <svg class="request-loader__spinner" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18"/></svg>
+      <svg class="request-loader__arch" viewBox="0 0 24 20" aria-hidden="true"><path d="M2 20V10C2 5 6.5 1 12 1S22 5 22 10V20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </div>
+    <div class="request-loader__text" id="requestLoaderText">Preparing your request&hellip;</div>
+    <div class="request-loader__sub" id="requestLoaderSub">Just a moment</div>
+  </div>
 </div>
 
 <!-- Lightbox -->
@@ -924,12 +936,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ── Year ──
     // Project detail pages send visitors back with context so the form is ready to use.
-    (function prefillProjectInquiryFromUrl(){
-      const params = new URLSearchParams(window.location.search);
-      const project = params.get("project");
-      const intent = params.get("intent");
-      if (!project && !intent) return;
-
+    function applyProjectIntent(project, intent) {
       const msgField = document.querySelector("#contactForm [name='message']");
       if (msgField) {
         const lines = [
@@ -946,10 +953,60 @@ document.addEventListener("DOMContentLoaded", () => {
         const text = `Hi Lana Projects, I'd like ${intent || "more details"}${project ? " for " + project : ""}.`;
         waMid.href = "https://wa.me/+96103515225?text=" + encodeURIComponent(text);
       }
+    }
+
+    (function prefillProjectInquiryFromUrl(){
+      const params = new URLSearchParams(window.location.search);
+      const project = params.get("project");
+      const intent = params.get("intent");
+      if (!project && !intent) return;
+
+      applyProjectIntent(project, intent);
 
       if (location.hash === "#contact") {
         setTimeout(() => document.querySelector("#contactForm [name='name']")?.focus(), 350);
       }
+    })();
+
+    // ── Request Transition Overlay ──
+    // Tapping "Book a Viewing" / "Schedule Viewing" / "Get Notified" on a project card
+    // shows a short branded transition instead of reloading the whole page (and its boot loader).
+    (function(){
+      const overlay = document.getElementById("requestLoader");
+      const textEl = document.getElementById("requestLoaderText");
+      const subEl = document.getElementById("requestLoaderSub");
+      if (!overlay) return;
+
+      const triggers = document.querySelectorAll('a.card__cta--ghost[href*="project="], a.card__cta--ghost[href*="intent="]');
+
+      triggers.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          let url;
+          try { url = new URL(link.getAttribute("href"), window.location.href); } catch { return; }
+          if (url.pathname.replace(/^\//, "") !== "index.html" && url.pathname !== window.location.pathname) return;
+
+          e.preventDefault();
+          const project = url.searchParams.get("project") || "";
+          const intent = url.searchParams.get("intent") || "";
+
+          if (textEl) textEl.textContent = project ? `Connecting you to ${project}` : "Preparing your request";
+          if (subEl) subEl.textContent = intent || "Just a moment";
+
+          overlay.classList.add("is-active");
+          overlay.setAttribute("aria-hidden", "false");
+
+          setTimeout(() => {
+            applyProjectIntent(project, intent);
+            history.pushState(null, "", url.pathname + url.search + "#contact");
+
+            overlay.classList.remove("is-active");
+            overlay.setAttribute("aria-hidden", "true");
+
+            document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => document.querySelector("#contactForm [name='name']")?.focus(), 350);
+          }, 1000);
+        });
+      });
     })();
 
     document.getElementById("year").textContent = new Date().getFullYear();
