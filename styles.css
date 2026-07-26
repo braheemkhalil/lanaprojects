@@ -574,8 +574,9 @@
   }
   .projects-magazine__row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.15fr .85fr;
     gap: 20px;
+    align-items: start;
   }
   
   .card {
@@ -824,6 +825,20 @@
   .card--small .card__img {
     height: 220px;
   }
+
+  /* Portrait card (e.g. Lana Villa) — for photos taken vertically.
+     Uses a true portrait aspect-ratio instead of a short landscape
+     crop, so vertical shots show fully instead of losing their
+     top/bottom to a `cover` crop. */
+  .card--portrait .card__img,
+  .card--portrait .card__slide {
+    height: auto;
+    aspect-ratio: 4 / 5;
+    background-position: center top;
+  }
+  .card--portrait .card__media::after {
+    background: linear-gradient(180deg, transparent 55%, rgba(14,26,24,.85) 100%);
+  }
   
   .card, .card__img {
     transform: translateZ(0);
@@ -939,6 +954,12 @@
     .card--featured .card__body { padding: 24px 22px; }
     .card--small .card__img, .card__slide { height: 220px; }
     .card--featured .card__slide { min-height: 280px; }
+    .card--portrait .card__img,
+    .card--portrait .card__slide {
+      height: auto;
+      aspect-ratio: 4 / 5;
+      max-height: 420px;
+    }
   }
   
   /* ======================== LOCATION ======================== */
