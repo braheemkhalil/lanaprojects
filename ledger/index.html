@@ -750,33 +750,59 @@ function printReceipt(){
   const isRent = apt.type === 'rent';
   const totalPaid = Number(apt.total_paid || 0);
   const remaining = isRent ? null : Math.max(0, Number(apt.total_price) - totalPaid);
+  const pct = isRent ? null : Math.min(100, Math.round((totalPaid/Number(apt.total_price))*100));
+  const now = new Date();
+  const printedAt = now.toLocaleDateString('en-GB') + ' — ' + now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
 
   const html = `<!DOCTYPE html>
 <html lang="ar" dir="rtl"><head><meta charset="UTF-8">
 <title>إيصال #${receiptNumber(payment.id || 0)}</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Markazi+Text:wght@700&family=Tajawal:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Markazi+Text:wght@600;700&family=Tajawal:wght@400;500;700;900&display=swap');
+@page{ size: A4; margin: 16mm; }
 *{box-sizing:border-box; margin:0; padding:0;}
-body{ font-family:'Tajawal',sans-serif; color:#0E1A18; padding:30px; display:flex; justify-content:center; }
-.sheet{ width:380px; border:1px solid rgba(14,26,24,0.15); border-radius:14px; overflow:hidden; position:relative; }
-.watermark{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0.05; z-index:0; }
-.watermark svg{ width:220px; }
-.top{ height:5px; background: linear-gradient(90deg, #3A7A72, #B08D57); }
-.inner{ position:relative; z-index:1; padding:26px 24px 22px; }
-.head{ text-align:center; padding-bottom:16px; border-bottom:1px solid rgba(14,26,24,0.1); }
-.brand{ font-weight:900; letter-spacing:3px; font-size:14px; }
-.brand small{ display:block; font-weight:400; letter-spacing:2px; color:#B08D57; font-size:10.5px; margin-top:3px; }
-.addr{ font-size:10.5px; color: rgba(14,26,24,0.45); margin-top:6px; }
-.meta{ display:flex; justify-content:space-between; font-size:11px; color: rgba(14,26,24,0.5); margin-top:10px; }
-.amt-label{ text-align:center; font-size:11px; color: rgba(14,26,24,0.5); letter-spacing:1px; margin-top:18px; }
-.amt{ text-align:center; font-family:'Markazi Text',serif; font-size:42px; font-weight:700; color:#3A7A72; }
-.row{ display:flex; justify-content:space-between; font-size:13.5px; padding:8px 0; border-bottom:1px dotted rgba(14,26,24,0.12); }
+body{ font-family:'Tajawal',sans-serif; color:#0E1A18; display:flex; justify-content:center; background:#fff; }
+.sheet{ width:100%; max-width:720px; border:1.5px solid rgba(14,26,24,0.15); border-radius:18px; overflow:hidden; position:relative; }
+.watermark{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0.045; z-index:0; }
+.watermark svg{ width:420px; }
+.top{ height:9px; background: linear-gradient(90deg, #3A7A72, #B08D57); }
+.inner{ position:relative; z-index:1; padding:44px 50px 36px; }
+
+.head{ display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:24px; border-bottom:2px solid rgba(14,26,24,0.1); }
+.brand{ font-weight:900; letter-spacing:4px; font-size:26px; }
+.brand small{ display:block; font-weight:400; letter-spacing:2.5px; color:#B08D57; font-size:13px; margin-top:6px; }
+.addr{ font-size:12.5px; color: rgba(14,26,24,0.5); margin-top:8px; }
+.doc-title{ text-align:left; }
+.doc-title h1{ font-family:'Markazi Text',serif; font-size:26px; font-weight:700; }
+.doc-title .num{ font-size:13px; color: rgba(14,26,24,0.55); margin-top:4px; }
+.doc-title .date{ font-size:13px; color: rgba(14,26,24,0.55); }
+
+.amt-block{ text-align:center; margin: 34px 0; padding: 24px; background:#F4F1EA; border-radius:16px; }
+.amt-label{ font-size:13px; color: rgba(14,26,24,0.55); letter-spacing:1.5px; }
+.amt{ font-family:'Markazi Text',serif; font-size:60px; font-weight:700; color:#3A7A72; line-height:1.15; margin-top:6px; }
+
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:10px; }
+.col h3{ font-size:13px; color: rgba(14,26,24,0.45); letter-spacing:1px; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid rgba(14,26,24,0.1); }
+.row{ display:flex; justify-content:space-between; font-size:14.5px; padding:9px 0; border-bottom:1px dotted rgba(14,26,24,0.14); }
 .row span:first-child{ color: rgba(14,26,24,0.55); }
-.row.highlight{ background:#F4F1EA; margin:0 -24px; padding:8px 24px; border-bottom:none; }
-.sign-row{ display:flex; justify-content:space-between; margin-top:28px; gap:16px; }
+.row b{ font-weight:700; }
+
+.progress-block{ margin-top:26px; }
+.progress-labels{ display:flex; justify-content:space-between; font-size:13px; color: rgba(14,26,24,0.6); margin-bottom:6px; }
+.progress-bar{ height:12px; background:#E9E4D8; border-radius:999px; overflow:hidden; }
+.progress-fill{ height:100%; background: linear-gradient(90deg, #3A7A72, #B08D57); border-radius:999px; }
+
+.highlight-row{ background:#F4F1EA; margin-top:14px; padding:14px 18px; border-radius:10px; display:flex; justify-content:space-between; font-size:16px; }
+.highlight-row b{ color:#B5502E; }
+
+.sign-row{ display:flex; justify-content:space-between; margin-top:52px; gap:40px; }
 .sign{ flex:1; text-align:center; }
-.sign-line{ border-top:1px dashed rgba(14,26,24,0.3); margin-top:26px; padding-top:6px; font-size:10.5px; color: rgba(14,26,24,0.5); }
-.footer{ text-align:center; margin-top:18px; font-size:10.5px; color: rgba(14,26,24,0.4); }
+.sign-line{ border-top:1.5px dashed rgba(14,26,24,0.35); margin-top:44px; padding-top:8px; font-size:12.5px; color: rgba(14,26,24,0.55); }
+
+.footer{ text-align:center; margin-top:36px; padding-top:18px; border-top:1px solid rgba(14,26,24,0.1); }
+.footer .thanks{ font-family:'Markazi Text',serif; font-size:17px; }
+.footer .small{ font-size:10.5px; color: rgba(14,26,24,0.4); margin-top:8px; line-height:1.6; }
+
 @media print{ body{ padding:0; } .sheet{ border:none; } }
 </style></head>
 <body>
@@ -784,26 +810,60 @@ body{ font-family:'Tajawal',sans-serif; color:#0E1A18; padding:30px; display:fle
     <div class="watermark"><svg viewBox="0 0 100 140" fill="none"><path d="M10 140 V60 A40 40 0 0 1 90 60 V140" stroke="#0E1A18" stroke-width="6"/></svg></div>
     <div class="top"></div>
     <div class="inner">
+
       <div class="head">
-        <div class="brand">LANA PROJECTS<small>عقارات — لبنان الجنوبي</small></div>
-        <div class="addr">اللبيّة الجنوبية، الجنوب اللبناني</div>
-        <div class="meta"><span>رقم الإيصال #${receiptNumber(payment.id || 0)}</span><span>${payment.payment_date}</span></div>
+        <div>
+          <div class="brand">LANA PROJECTS<small> مشاريع لانا السكنية</small></div>
+          <div class="addr">اللوبية</div>
+        </div>
+        <div class="doc-title">
+          <h1>إيصال استلام دفعة</h1>
+          <div class="num">رقم الإيصال #${receiptNumber(payment.id || 0)}</div>
+          <div class="date">${payment.payment_date}</div>
+        </div>
       </div>
-      <div class="amt-label">المبلغ المستلم</div>
-      <div class="amt">$${fmt(payment.amount)}</div>
-      <div class="row"><span>الشقة</span><b>${apt.name}</b></div>
-      <div class="row"><span>المستلم من</span><b>${apt.person_name}</b></div>
-      <div class="row"><span>نوع الدفعة</span><b>${isRent?'إيجار شهري':'قسط شراء'}</b></div>
-      ${payment.note ? `<div class="row"><span>ملاحظة</span><b>${payment.note}</b></div>` : ''}
+
+      <div class="amt-block">
+        <div class="amt-label">المبلغ المستلم</div>
+        <div class="amt">$${fmt(payment.amount)}</div>
+      </div>
+
+      <div class="two-col">
+        <div class="col">
+          <h3>بيانات الشقة</h3>
+          <div class="row"><span>الشقة</span><b>${apt.name}</b></div>
+          <div class="row"><span>المستأجر / المشتري</span><b>${apt.person_name}</b></div>
+          ${apt.phone ? `<div class="row"><span>الهاتف</span><b>${apt.phone}</b></div>` : ''}
+          <div class="row"><span>نوع العقد</span><b>${isRent?'إيجار شهري':'بيع بالتقسيط'}</b></div>
+          <div class="row"><span>بداية العقد</span><b>${apt.start_date}</b></div>
+        </div>
+        <div class="col">
+          <h3>تفاصيل الدفعة</h3>
+          <div class="row"><span>${isRent?'قيمة الإيجار الشهري':'قيمة القسط الشهري'}</span><b>$${fmt(isRent?apt.rent_amount:apt.installment_amount)}</b></div>
+          <div class="row"><span>تاريخ الاستلام</span><b>${payment.payment_date}</b></div>
+          <div class="row"><span>استلم بواسطة</span><b>${payment.recorded_by_name || currentUser.name}</b></div>
+          ${payment.note ? `<div class="row"><span>ملاحظة</span><b>${payment.note}</b></div>` : ''}
+        </div>
+      </div>
+
       ${!isRent ? `
-        <div class="row"><span>إجمالي المدفوع حتى الآن</span><b>$${fmt(totalPaid)}</b></div>
-        <div class="row highlight"><span>الرصيد المتبقي</span><b>$${fmt(remaining)}</b></div>
+        <div class="progress-block">
+          <div class="progress-labels"><span>إجمالي المدفوع: $${fmt(totalPaid)} من $${fmt(apt.total_price)}</span><span>${pct}%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+        </div>
+        <div class="highlight-row"><span>الرصيد المتبقي</span><b>$${fmt(remaining)}</b></div>
       ` : ''}
+
       <div class="sign-row">
-        <div class="sign"><div class="sign-line">توقيع المستلم منه</div></div>
-        <div class="sign"><div class="sign-line">استلم بواسطة: ${payment.recorded_by_name || currentUser.name}</div></div>
+        <div class="sign"><div class="sign-line">توقيع المستلم منه (${apt.person_name})</div></div>
+        <div class="sign"><div class="sign-line">توقيع واستلام — LANA PROJECTS</div></div>
       </div>
-      <div class="footer">شكراً لتعاملكم مع LANA PROJECTS</div>
+
+      <div class="footer">
+        <div class="thanks">شكراً لتعاملكم مع LANA PROJECTS</div>
+        <div class="small">هذا الإيصال صادر إلكترونياً ويُعتبر إثباتاً رسمياً لاستلام الدفعة المذكورة أعلاه — يرجى الاحتفاظ به.<br>تاريخ الطباعة: ${printedAt}</div>
+      </div>
+
     </div>
   </div>
   <script>
