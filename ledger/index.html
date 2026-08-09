@@ -286,7 +286,7 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
   <div class="overlay" id="aptOverlay">
     <div class="modal">
       <button class="close-x" onclick="closeModal('aptOverlay')">×</button>
-      <h3>شقة جديدة</h3>
+      <h3 id="aptModalTitle">شقة جديدة</h3>
       <div class="field"><label>اسم الشقة</label><input id="f_name" placeholder="مثال: شقة ٣ - الطابق الثاني"></div>
       <div class="field"><label>اسم المستأجر / المشتري</label><input id="f_person" placeholder="الاسم الكامل"></div>
       <div class="field"><label>رقم الهاتف (اختياري)</label><input id="f_phone" placeholder="03 xxx xxx"></div>
@@ -306,7 +306,7 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
       <div class="field"><label>تاريخ بدء العقد</label><input id="f_start" type="date"></div>
       <div class="modal-actions">
         <button class="btn btn-ghost" onclick="closeModal('aptOverlay')">إلغاء</button>
-        <button class="btn btn-brass" onclick="saveApartment()">حفظ الشقة</button>
+        <button class="btn btn-brass" id="aptSaveBtn" onclick="saveApartment()">حفظ الشقة</button>
       </div>
     </div>
   </div>
@@ -316,12 +316,14 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
     <div class="modal">
       <button class="close-x" onclick="closeModal('payOverlay')">×</button>
       <h3 id="payTitle">تسجيل دفعة</h3>
-      <div class="field"><label>المبلغ المستلم ($)</label><input id="p_amount" type="number" placeholder="500"></div>
-      <div class="field"><label>تاريخ الدفعة</label><input id="p_date" type="date"></div>
-      <div class="field"><label>ملاحظة (اختياري)</label><input id="p_note" placeholder="مثال: دفعة شهر آب"></div>
-      <div class="modal-actions">
-        <button class="btn btn-ghost" onclick="closeModal('payOverlay')">إلغاء</button>
-        <button class="btn btn-teal" onclick="confirmPayment()">تأكيد الاستلام</button>
+      <div id="payFormSection">
+        <div class="field"><label>المبلغ المستلم ($)</label><input id="p_amount" type="number" placeholder="500"></div>
+        <div class="field"><label>تاريخ الدفعة</label><input id="p_date" type="date"></div>
+        <div class="field"><label>ملاحظة (اختياري)</label><input id="p_note" placeholder="مثال: دفعة شهر آب"></div>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" onclick="closeModal('payOverlay')">إلغاء</button>
+          <button class="btn btn-teal" onclick="confirmPayment()">تأكيد الاستلام</button>
+        </div>
       </div>
       <h3 style="margin-top:24px; font-size:17px;">سجل الدفعات السابقة</h3>
       <div class="history-list" id="historyList"></div>
@@ -493,17 +495,41 @@ function renderApts(){
         <div class="apt-actions">
           <button class="btn btn-brass btn-sm" onclick="openPayModal(${apt.id})">+ تسجيل دفعة</button>
           <button class="btn btn-ghost btn-sm" onclick="openHistory(${apt.id})">السجل</button>
+          <button class="btn btn-ghost btn-sm" onclick="openEditApt(${apt.id})">تعديل</button>
           <button class="btn btn-ghost btn-sm" onclick="deleteApt(${apt.id})" style="color:#B5502E; border-color:rgba(181,80,46,0.3);">حذف</button>
         </div>
       </div></div>`;
   }).join('');
 }
 
+let editingAptId = null;
+
 function openAptModal(){
+  editingAptId = null;
+  document.getElementById('aptModalTitle').textContent = 'شقة جديدة';
+  document.getElementById('aptSaveBtn').textContent = 'حفظ الشقة';
   document.getElementById('f_name').value=''; document.getElementById('f_person').value='';
   document.getElementById('f_phone').value=''; document.getElementById('f_type').value='rent';
   document.getElementById('f_rent').value=''; document.getElementById('f_total').value='';
   document.getElementById('f_installment').value=''; document.getElementById('f_start').value = todayISO();
+  toggleSaleFields();
+  document.getElementById('aptOverlay').classList.add('open');
+}
+
+function openEditApt(aptId){
+  const apt = apartments.find(a=>a.id===aptId);
+  if(!apt) return;
+  editingAptId = aptId;
+  document.getElementById('aptModalTitle').textContent = 'تعديل الشقة';
+  document.getElementById('aptSaveBtn').textContent = 'حفظ التعديلات';
+  document.getElementById('f_name').value = apt.name;
+  document.getElementById('f_person').value = apt.person_name;
+  document.getElementById('f_phone').value = apt.phone || '';
+  document.getElementById('f_type').value = apt.type;
+  document.getElementById('f_rent').value = apt.rent_amount || '';
+  document.getElementById('f_total').value = apt.total_price || '';
+  document.getElementById('f_installment').value = apt.installment_amount || '';
+  document.getElementById('f_start').value = apt.start_date;
   toggleSaleFields();
   document.getElementById('aptOverlay').classList.add('open');
 }
@@ -525,7 +551,11 @@ async function saveApartment(){
   if(type==='rent'){ body.rent_amount = Number(document.getElementById('f_rent').value)||0; }
   else { body.total_price = Number(document.getElementById('f_total').value)||0; body.installment_amount = Number(document.getElementById('f_installment').value)||0; }
   try{
-    await api('/api/apartments', { method:'POST', body: JSON.stringify(body) });
+    if(editingAptId){
+      await api('/api/apartments/'+editingAptId, { method:'PATCH', body: JSON.stringify(body) });
+    } else {
+      await api('/api/apartments', { method:'POST', body: JSON.stringify(body) });
+    }
     closeModal('aptOverlay');
     loadIbrahimView();
   }catch(e){ alert('تعذّر الحفظ: ' + e.message); }
@@ -542,6 +572,7 @@ async function deleteApt(id){
 function openPayModal(aptId){
   activeAptId = aptId;
   const apt = apartments.find(a=>a.id===aptId);
+  document.getElementById('payFormSection').classList.remove('hidden');
   document.getElementById('payTitle').textContent = `تسجيل دفعة — ${apt.name}`;
   document.getElementById('p_amount').value = apt.type==='rent' ? apt.rent_amount : apt.installment_amount;
   document.getElementById('p_date').value = todayISO();
@@ -549,7 +580,14 @@ function openPayModal(aptId){
   renderHistory(aptId);
   document.getElementById('payOverlay').classList.add('open');
 }
-function openHistory(aptId){ openPayModal(aptId); }
+function openHistory(aptId){
+  activeAptId = aptId;
+  const apt = apartments.find(a=>a.id===aptId);
+  document.getElementById('payFormSection').classList.add('hidden');
+  document.getElementById('payTitle').textContent = `سجل الدفعات — ${apt.name}`;
+  renderHistory(aptId);
+  document.getElementById('payOverlay').classList.add('open');
+}
 
 async function renderHistory(aptId){
   const wrap = document.getElementById('historyList');
@@ -813,8 +851,8 @@ body{ font-family:'Tajawal',sans-serif; color:#0E1A18; display:flex; justify-con
 
       <div class="head">
         <div>
-          <div class="brand">LANA PROJECTS<small> مشاريع لانا السكنية</small></div>
-          <div class="addr">اللوبية</div>
+          <div class="brand">LANA PROJECTS<small>عقارات — لبنان الجنوبي</small></div>
+          <div class="addr">اللبيّة الجنوبية، الجنوب اللبناني</div>
         </div>
         <div class="doc-title">
           <h1>إيصال استلام دفعة</h1>
