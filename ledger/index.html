@@ -216,6 +216,7 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
       <div class="wordmark">LANA<br>PROJECTS<small>عقارات — لبنان الجنوبي</small></div>
       <div class="user-chip">
         <span class="user-name" id="userNameLabel"></span>
+        <button class="logout-btn" onclick="openSettings()">الإعدادات</button>
         <button class="logout-btn" onclick="doLogout()">خروج</button>
       </div>
     </div>
@@ -237,6 +238,23 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
       </div>
       <div class="apts" id="aptsList"></div>
     </main>
+  </div>
+
+  <!-- Settings -->
+  <div class="overlay" id="settingsOverlay">
+    <div class="modal">
+      <button class="close-x" onclick="closeModal('settingsOverlay')">×</button>
+      <h3>الإعدادات</h3>
+      <div class="field"><label>الاسم المعروض</label><input id="s_displayName"></div>
+      <div class="field"><label>كلمة المرور الحالية</label><input id="s_currentPw" type="password"></div>
+      <div class="field"><label>كلمة المرور الجديدة (اتركه فارغاً لعدم التغيير)</label><input id="s_newPw" type="password"></div>
+      <div class="field"><label>تأكيد كلمة المرور الجديدة</label><input id="s_newPw2" type="password"></div>
+      <div class="gate-error" id="settingsError"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('settingsOverlay')">إلغاء</button>
+        <button class="btn btn-brass" onclick="saveSettings()">حفظ</button>
+      </div>
+    </div>
   </div>
 
   <!-- Add apartment modal -->
@@ -537,6 +555,44 @@ function showStamp(apt, amount){
   const el = document.getElementById('stampOverlay');
   el.classList.add('open');
   setTimeout(()=> el.classList.remove('open'), 1400);
+}
+
+/* =========================================================
+   SETTINGS
+   ========================================================= */
+function openSettings(){
+  document.getElementById('s_displayName').value = currentUser.name;
+  document.getElementById('s_currentPw').value = '';
+  document.getElementById('s_newPw').value = '';
+  document.getElementById('s_newPw2').value = '';
+  document.getElementById('settingsError').textContent = '';
+  document.getElementById('settingsOverlay').classList.add('open');
+}
+async function saveSettings(){
+  const display_name = document.getElementById('s_displayName').value.trim();
+  const current_password = document.getElementById('s_currentPw').value;
+  const new_password = document.getElementById('s_newPw').value;
+  const new_password2 = document.getElementById('s_newPw2').value;
+  const err = document.getElementById('settingsError');
+  err.textContent = '';
+
+  if(new_password && new_password !== new_password2){
+    err.textContent = 'كلمتا المرور الجديدتان غير متطابقتين';
+    return;
+  }
+
+  const body = { display_name };
+  if(new_password){ body.current_password = current_password; body.new_password = new_password; }
+
+  try{
+    const data = await api('/api/account', { method:'PATCH', body: JSON.stringify(body) });
+    currentUser.name = data.name;
+    document.getElementById('userNameLabel').textContent = currentUser.name;
+    document.getElementById('headerSub').textContent = 'أهلاً ' + currentUser.name + ' — إدارة الشقق ومتابعة كل الدفعات';
+    closeModal('settingsOverlay');
+  }catch(e){
+    err.textContent = e.message || 'تعذّر الحفظ';
+  }
 }
 
 /* =========================================================
