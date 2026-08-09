@@ -227,7 +227,7 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
   <header>
     <svg class="arch-svg" viewBox="0 0 100 140" fill="none" style="position:absolute; left:-40px; top:-40px; width:180px; opacity:0.15; pointer-events:none; z-index:0;"><path d="M10 140 V60 A40 40 0 0 1 90 60 V140" stroke="#F4F1EA" stroke-width="4"/></svg>
     <div class="brand-row" style="position:relative; z-index:1;">
-      <div class="wordmark">LANA<br>PROJECTS<small>عقارات — لبنان الجنوبي</small></div>
+      <div class="wordmark">LANA<br>PROJECTS<small>مشاريع لانا السكنية</small></div>
       <div class="user-chip">
         <span class="user-name" id="userNameLabel"></span>
         <button class="logout-btn" onclick="openSettings()">الإعدادات</button>
@@ -496,6 +496,7 @@ function renderApts(){
           <button class="btn btn-brass btn-sm" onclick="openPayModal(${apt.id})">+ تسجيل دفعة</button>
           <button class="btn btn-ghost btn-sm" onclick="openHistory(${apt.id})">السجل</button>
           <button class="btn btn-ghost btn-sm" onclick="openEditApt(${apt.id})">تعديل</button>
+          ${overdue ? `<button class="btn btn-rust btn-sm" onclick="sendReminder(${apt.id})">تذكير عبر واتساب</button>` : ''}
           <button class="btn btn-ghost btn-sm" onclick="deleteApt(${apt.id})" style="color:#B5502E; border-color:rgba(181,80,46,0.3);">حذف</button>
         </div>
       </div></div>`;
@@ -628,6 +629,19 @@ function showStamp(apt, amount){
   setTimeout(()=> el.classList.remove('open'), 1400);
 }
 
+function sendReminder(aptId){
+  const apt = apartments.find(a=>a.id===aptId);
+  if(!apt) return;
+  const phone = normalizePhone(apt.phone);
+  if(!phone){
+    alert('لا يوجد رقم هاتف مسجّل لهذه الشقة. أضف الرقم من زر "تعديل" أولاً.');
+    return;
+  }
+  const msg = `مرحباً ${apt.person_name} 🌿\n\nهذه رسالة تذكير ودّية بخصوص دفعة "${apt.name}" المستحقة.\n\nإذا كنت قد قمت بالدفع مؤخراً، الرجاء تجاهل هذه الرسالة.\n\nشكراً لتفهمك 🙏\n*LANA PROJECTS*`;
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
 /* =========================================================
    SETTINGS
    ========================================================= */
@@ -728,8 +742,8 @@ function openReceiptFromData(payment){
 
   document.getElementById('receiptInner').innerHTML = `
     <div class="receipt-head">
-      <div class="receipt-brand">LANA PROJECTS<small>عقارات — لبنان الجنوبي</small></div>
-      <div class="receipt-addr">اللبيّة الجنوبية، الجنوب اللبناني</div>
+      <div class="receipt-brand">LANA PROJECTS<small>مشاريع لانا السكنية</small></div>
+      <div class="receipt-addr">اللوبية</div>
       <div class="receipt-meta-row"><span>رقم الإيصال #${receiptNumber(payment.id || 0)}</span><span>${payment.payment_date}</span></div>
     </div>
     <div class="receipt-amount-block">
