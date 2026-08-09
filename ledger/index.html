@@ -170,15 +170,34 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
 .stamp-sub{ font-size:13px; color: rgba(14,26,24,0.55); margin-top:4px; }
 
 /* ---------- Receipt ---------- */
-.receipt{ background:#fff; border-radius:16px; padding:22px 20px; margin-top:4px; border:1.5px dashed rgba(14,26,24,0.2); }
-.receipt-head{ text-align:center; margin-bottom:14px; }
-.receipt-brand{ font-weight:900; letter-spacing:2px; font-size:12px; color: var(--brass); }
-.receipt-brand small{ display:block; font-weight:400; letter-spacing:2px; color: rgba(14,26,24,0.45); font-size:10px; margin-top:2px; }
-.receipt-num{ font-size:11px; color: rgba(14,26,24,0.45); margin-top:6px; }
-.receipt-row{ display:flex; justify-content:space-between; font-size:13.5px; padding:7px 0; border-bottom:1px dotted rgba(14,26,24,0.12); }
+.receipt{
+  background:#fff; border-radius:14px; padding:0; margin-top:4px;
+  border: 1px solid rgba(14,26,24,0.12); position:relative; overflow:hidden;
+}
+.receipt-watermark{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  opacity:0.05; pointer-events:none;
+}
+.receipt-watermark svg{ width:220px; }
+.receipt-inner{ position:relative; padding:26px 24px 20px; }
+.receipt-topline{ height:5px; background: linear-gradient(90deg, var(--teal), var(--brass)); }
+.receipt-head{ text-align:center; margin-bottom:16px; padding-bottom:16px; border-bottom: 1px solid rgba(14,26,24,0.1); }
+.receipt-brand{ font-weight:900; letter-spacing:3px; font-size:14px; color: var(--ink); }
+.receipt-brand small{ display:block; font-weight:400; letter-spacing:2px; color: var(--brass); font-size:10.5px; margin-top:3px; }
+.receipt-addr{ font-size:10.5px; color: rgba(14,26,24,0.45); margin-top:6px; }
+.receipt-meta-row{ display:flex; justify-content:space-between; font-size:11px; color: rgba(14,26,24,0.5); margin-top:10px; }
+.receipt-amount-block{ text-align:center; margin: 18px 0; }
+.receipt-amount-label{ font-size:11px; color: rgba(14,26,24,0.5); letter-spacing:1px; }
+.receipt-amount{ font-family:'Markazi Text', serif; font-size:42px; font-weight:700; color: var(--teal); line-height:1.1; }
+.receipt-row{ display:flex; justify-content:space-between; font-size:13.5px; padding:8px 0; border-bottom:1px dotted rgba(14,26,24,0.12); }
 .receipt-row span:first-child{ color: rgba(14,26,24,0.55); }
 .receipt-row b{ color: var(--ink); }
-.receipt-amount{ text-align:center; margin:16px 0; font-family:'Markazi Text',serif; font-size:36px; font-weight:700; color: var(--teal); }
+.receipt-row.highlight{ background: var(--sand); margin:0 -24px; padding:8px 24px; border-bottom:none; }
+.receipt-sign-row{ display:flex; justify-content:space-between; margin-top:28px; gap:16px; }
+.receipt-sign{ flex:1; text-align:center; }
+.receipt-sign-line{ border-top: 1px dashed rgba(14,26,24,0.3); margin-top:26px; padding-top:6px; }
+.receipt-sign-label{ font-size:10.5px; color: rgba(14,26,24,0.5); }
+.receipt-footer{ text-align:center; margin-top:18px; font-size:10.5px; color: rgba(14,26,24,0.4); }
 .receipt-actions{ display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
 .receipt-actions .btn{ flex:1; min-width:120px; }
 
@@ -254,6 +273,17 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
         <button class="btn btn-ghost" onclick="closeModal('settingsOverlay')">إلغاء</button>
         <button class="btn btn-brass" onclick="saveSettings()">حفظ</button>
       </div>
+
+      <h3 style="margin-top:26px; font-size:17px;">المستخدمون</h3>
+      <div class="history-list" id="usersList"></div>
+
+      <div style="margin-top:16px;">
+        <div class="field"><label>اسم الشخص</label><input id="u_displayName" placeholder="مثال: سارة"></div>
+        <div class="field"><label>اسم المستخدم (بالإنكليزي، بدون مسافات)</label><input id="u_username" placeholder="sara"></div>
+        <div class="field"><label>كلمة المرور</label><input id="u_password" type="password"></div>
+        <div class="gate-error" id="usersError"></div>
+        <button class="btn btn-teal" style="width:100%;" onclick="addUser()">+ إضافة مستخدم</button>
+      </div>
     </div>
   </div>
 
@@ -317,7 +347,15 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
     <div class="modal">
       <button class="close-x" onclick="closeModal('receiptOverlay')">×</button>
       <h3>الإيصال</h3>
-      <div id="printArea"><div class="receipt" id="receiptBody"></div></div>
+      <div id="printArea">
+        <div class="receipt" id="receiptBody">
+          <div class="receipt-watermark">
+            <svg viewBox="0 0 100 140" fill="none"><path d="M10 140 V60 A40 40 0 0 1 90 60 V140" stroke="#0E1A18" stroke-width="6"/></svg>
+          </div>
+          <div class="receipt-topline"></div>
+          <div class="receipt-inner" id="receiptInner"></div>
+        </div>
+      </div>
       <div class="receipt-actions">
         <button class="btn btn-teal" onclick="shareWhatsapp()">إرسال عبر واتساب</button>
         <button class="btn btn-ghost" onclick="window.print()">طباعة / حفظ PDF</button>
@@ -541,12 +579,12 @@ async function confirmPayment(){
   const note = document.getElementById('p_note').value.trim();
   if(!amount || amount<=0){ alert('الرجاء إدخال مبلغ صحيح'); return; }
   try{
-    await api('/api/payments', { method:'POST', body: JSON.stringify({ apartment_id: activeAptId, amount, payment_date, note }) });
+    const res = await api('/api/payments', { method:'POST', body: JSON.stringify({ apartment_id: activeAptId, amount, payment_date, note }) });
     const apt = apartments.find(a=>a.id===activeAptId);
     closeModal('payOverlay');
     showStamp(apt, amount);
     await loadIbrahimView();
-    setTimeout(()=> openReceiptFromData({ apartment_id: apt.id, amount, payment_date, note, recorded_by_name: currentUser.name }), 1500);
+    setTimeout(()=> openReceiptFromData({ id: res.id, apartment_id: apt.id, amount, payment_date, note, recorded_by_name: currentUser.name }), 1500);
   }catch(e){ alert('تعذّر تسجيل الدفعة: ' + e.message); }
 }
 
@@ -566,7 +604,46 @@ function openSettings(){
   document.getElementById('s_newPw').value = '';
   document.getElementById('s_newPw2').value = '';
   document.getElementById('settingsError').textContent = '';
+  document.getElementById('u_displayName').value = '';
+  document.getElementById('u_username').value = '';
+  document.getElementById('u_password').value = '';
+  document.getElementById('usersError').textContent = '';
   document.getElementById('settingsOverlay').classList.add('open');
+  loadUsers();
+}
+async function loadUsers(){
+  const wrap = document.getElementById('usersList');
+  wrap.innerHTML = `<div style="font-size:13px; text-align:center; color:rgba(14,26,24,0.5);">...جارِ التحميل</div>`;
+  try{
+    const data = await api('/api/users');
+    wrap.innerHTML = data.users.map(u=>`
+      <div class="history-item">
+        <div><div class="history-amt" style="font-size:15px;">${u.display_name}</div><div class="history-date">@${u.username}</div></div>
+        ${u.username===currentUser.username ? '<span style="font-size:11px; color:rgba(14,26,24,0.4);">أنت</span>' : `<button class="btn btn-ghost btn-sm" onclick="removeUser(${u.id})" style="color:#B5502E; border-color:rgba(181,80,46,0.3);">حذف</button>`}
+      </div>`).join('');
+  }catch(e){ wrap.innerHTML = `<div style="font-size:13px; color:var(--rust);">تعذّر تحميل المستخدمين</div>`; }
+}
+async function addUser(){
+  const display_name = document.getElementById('u_displayName').value.trim();
+  const username = document.getElementById('u_username').value.trim();
+  const password = document.getElementById('u_password').value;
+  const err = document.getElementById('usersError');
+  err.textContent = '';
+  if(!display_name || !username || !password){ err.textContent = 'الرجاء تعبئة جميع الحقول'; return; }
+  try{
+    await api('/api/users', { method:'POST', body: JSON.stringify({ display_name, username, password }) });
+    document.getElementById('u_displayName').value = '';
+    document.getElementById('u_username').value = '';
+    document.getElementById('u_password').value = '';
+    loadUsers();
+  }catch(e){ err.textContent = e.message || 'تعذّر إضافة المستخدم'; }
+}
+async function removeUser(id){
+  if(!confirm('حذف هذا المستخدم؟ لن يعود قادراً على الدخول.')) return;
+  try{
+    await api('/api/users/'+id, { method:'DELETE' });
+    loadUsers();
+  }catch(e){ alert('تعذّر الحذف: ' + e.message); }
 }
 async function saveSettings(){
   const display_name = document.getElementById('s_displayName').value.trim();
@@ -598,7 +675,9 @@ async function saveSettings(){
 /* =========================================================
    RECEIPT (shared)
    ========================================================= */
-function receiptNumber(){ return String(Date.now()).slice(-6); }
+function receiptNumber(paymentId){
+  return String(paymentId).padStart(5, '0');
+}
 function normalizePhone(phone){
   let p = (phone||'').replace(/[^0-9]/g,'');
   if(!p) return '';
@@ -611,19 +690,32 @@ function openReceiptFromData(payment){
   if(!apt) return;
   lastReceipt = { apt, payment };
   const isRent = apt.type === 'rent';
-  const remaining = isRent ? null : Math.max(0, Number(apt.total_price) - (Number(apt.total_paid||0)));
-  document.getElementById('receiptBody').innerHTML = `
+  const totalPaid = Number(apt.total_paid || 0);
+  const remaining = isRent ? null : Math.max(0, Number(apt.total_price) - totalPaid);
+
+  document.getElementById('receiptInner').innerHTML = `
     <div class="receipt-head">
-      <div class="receipt-brand">LANA<br><small>PROJECTS — عقارات</small></div>
-      <div class="receipt-num">إيصال رقم #${receiptNumber()} — ${payment.payment_date}</div>
+      <div class="receipt-brand">LANA PROJECTS<small>عقارات — لبنان الجنوبي</small></div>
+      <div class="receipt-addr">اللبيّة الجنوبية، الجنوب اللبناني</div>
+      <div class="receipt-meta-row"><span>رقم الإيصال #${receiptNumber(payment.id || 0)}</span><span>${payment.payment_date}</span></div>
     </div>
-    <div class="receipt-amount">$${fmt(payment.amount)}</div>
+    <div class="receipt-amount-block">
+      <div class="receipt-amount-label">المبلغ المستلم</div>
+      <div class="receipt-amount">$${fmt(payment.amount)}</div>
+    </div>
     <div class="receipt-row"><span>الشقة</span><b>${apt.name}</b></div>
     <div class="receipt-row"><span>المستلم من</span><b>${apt.person_name}</b></div>
     <div class="receipt-row"><span>نوع الدفعة</span><b>${isRent?'إيجار شهري':'قسط شراء'}</b></div>
-    ${payment.note?`<div class="receipt-row"><span>ملاحظة</span><b>${payment.note}</b></div>`:''}
-    ${!isRent?`<div class="receipt-row"><span>الرصيد المتبقي</span><b>$${fmt(remaining)}</b></div>`:''}
-    <div class="receipt-row"><span>استلم بواسطة</span><b>${payment.recorded_by_name||currentUser.name}</b></div>
+    ${payment.note ? `<div class="receipt-row"><span>ملاحظة</span><b>${payment.note}</b></div>` : ''}
+    ${!isRent ? `
+      <div class="receipt-row"><span>إجمالي المدفوع حتى الآن</span><b>$${fmt(totalPaid)}</b></div>
+      <div class="receipt-row highlight"><span>الرصيد المتبقي</span><b>$${fmt(remaining)}</b></div>
+    ` : ''}
+    <div class="receipt-sign-row">
+      <div class="receipt-sign"><div class="receipt-sign-line"></div><div class="receipt-sign-label">توقيع المستلم منه</div></div>
+      <div class="receipt-sign"><div class="receipt-sign-line"></div><div class="receipt-sign-label">استلم بواسطة: ${payment.recorded_by_name || currentUser.name}</div></div>
+    </div>
+    <div class="receipt-footer">شكراً لتعاملكم مع LANA PROJECTS</div>
   `;
   document.getElementById('receiptOverlay').classList.add('open');
 }
@@ -631,9 +723,10 @@ function shareWhatsapp(){
   if(!lastReceipt) return;
   const { apt, payment } = lastReceipt;
   const isRent = apt.type === 'rent';
-  const remaining = isRent ? null : Math.max(0, Number(apt.total_price) - (Number(apt.total_paid||0)));
-  let msg = `إيصال دفع — LANA PROJECTS\nرقم الإيصال: #${receiptNumber()}\nالشقة: ${apt.name}\nالمستلم من: ${apt.person_name}\nالمبلغ: $${fmt(payment.amount)}\nالتاريخ: ${payment.payment_date}`;
-  if(!isRent) msg += `\nالرصيد المتبقي: $${fmt(remaining)}`;
+  const totalPaid = Number(apt.total_paid || 0);
+  const remaining = isRent ? null : Math.max(0, Number(apt.total_price) - totalPaid);
+  let msg = `إيصال دفع — LANA PROJECTS\nرقم الإيصال: #${receiptNumber(payment.id || 0)}\nالشقة: ${apt.name}\nالمستلم من: ${apt.person_name}\nالمبلغ: $${fmt(payment.amount)}\nالتاريخ: ${payment.payment_date}`;
+  if(!isRent) msg += `\nإجمالي المدفوع: $${fmt(totalPaid)}\nالرصيد المتبقي: $${fmt(remaining)}`;
   if(payment.note) msg += `\nملاحظة: ${payment.note}`;
   const phone = normalizePhone(apt.phone);
   const url = phone ? `https://wa.me/${phone}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`;
