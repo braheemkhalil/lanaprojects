@@ -111,11 +111,61 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
 .progress-bar{ height:8px; background: var(--sand-dim); border-radius:999px; overflow:hidden; }
 .progress-fill{ height:100%; background: linear-gradient(90deg, var(--teal), var(--brass)); border-radius:999px; }
 .progress-label{ font-size:11.5px; color: rgba(14,26,24,0.55); margin-top:5px; display:flex; justify-content:space-between; }
-.apt-actions{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+.apt-actions{ display:flex; gap:8px; margin-top:14px; align-items:center; }
+.apt-actions .btn-brass{ flex:1; }
+.icon-btn{
+  width:38px; height:38px; border-radius:50%; border:1.5px solid rgba(14,26,24,0.15);
+  background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer;
+  flex-shrink:0; transition: transform .15s ease, background .15s ease;
+}
+.icon-btn:active{ transform: scale(0.92); }
+.icon-btn svg{ width:17px; height:17px; }
+.icon-btn.rust-icon{ border-color: rgba(181,80,46,0.35); background: var(--rust-bg); }
+.icon-btn.whatsapp-icon{ border-color: rgba(58,122,114,0.35); background: var(--paid-bg); }
 
 .empty{ text-align:center; padding:50px 20px; color: rgba(14,26,24,0.55); }
 .empty .arch-svg{ width:90px; margin:0 auto 14px; opacity:0.5; }
 .empty h3{ color: var(--ink); font-size:20px; margin-bottom:6px; }
+
+/* ---------- View toggle ---------- */
+.view-toggle{ display:flex; gap:8px; margin-bottom:18px; }
+.view-toggle-btn{
+  flex:1; padding:10px; border-radius:12px; border:1.5px solid rgba(14,26,24,0.12);
+  background:#fff; font-family:'Tajawal',sans-serif; font-weight:700; font-size:13px; cursor:pointer; color: rgba(14,26,24,0.55);
+}
+.view-toggle-btn.active{ background: var(--ink); color: var(--sand); border-color: var(--ink); }
+
+/* ---------- Building browser ---------- */
+.block-tabs{ display:flex; gap:8px; margin-bottom:18px; }
+.block-tab{
+  flex:1; padding:12px; border-radius:12px; border:1.5px solid rgba(14,26,24,0.12);
+  background:#fff; font-family:'Markazi Text',serif; font-weight:700; font-size:17px; cursor:pointer; color: var(--ink);
+}
+.block-tab.active{ background: var(--brass); border-color: var(--brass); color: var(--ink); }
+
+.building-diagram{ background:#fff; border-radius: var(--radius); box-shadow: var(--shadow); padding:20px 16px; }
+.floor-row{ display:flex; align-items:stretch; gap:10px; margin-bottom:10px; }
+.floor-label{ width:44px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; color: rgba(14,26,24,0.45); font-weight:700; }
+.floor-slots{ flex:1; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.ground-row .floor-slots{ grid-template-columns:1fr; }
+
+.slot{
+  border-radius:12px; padding:14px 12px; cursor:pointer; text-align:center; min-height:64px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  transition: transform .15s ease;
+}
+.slot:active{ transform: scale(0.96); }
+.slot-filled{ background: var(--paid-bg); border: 1.5px solid rgba(58,122,114,0.25); }
+.slot-filled.slot-overdue{ background: var(--rust-bg); border-color: rgba(181,80,46,0.3); }
+.slot-empty{ background: var(--sand); border: 1.5px dashed rgba(14,26,24,0.2); color: rgba(14,26,24,0.4); }
+.slot-name{ font-family:'Markazi Text',serif; font-weight:700; font-size:14px; color: var(--ink); }
+.slot-person{ font-size:11px; color: rgba(14,26,24,0.55); }
+.slot-empty-label{ font-size:12.5px; font-weight:700; }
+
+/* ---------- Apartment detail panel ---------- */
+.detail-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.detail-name{ font-size:22px; }
+.detail-loc{ font-size:12px; color: rgba(14,26,24,0.5); margin-bottom:14px; }
 
 /* ---------- Father's simple view ---------- */
 .father-wrap{ max-width:520px; margin:0 auto; padding: 8px 16px 40px; }
@@ -201,6 +251,20 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
 .receipt-actions{ display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
 .receipt-actions .btn{ flex:1; min-width:120px; }
 
+/* ---------- Report ---------- */
+.report-year-total{ text-align:center; background: var(--sand); border-radius:16px; padding:18px; margin-bottom:16px; }
+.report-year-total .num{ font-family:'Markazi Text',serif; font-size:34px; color: var(--brass); font-weight:700; }
+.report-year-total .label{ font-size:12px; color: rgba(14,26,24,0.55); margin-top:2px; }
+.report-month{ border-radius:14px; border:1px solid rgba(14,26,24,0.1); margin-bottom:10px; overflow:hidden; }
+.report-month-head{ display:flex; justify-content:space-between; align-items:center; padding:14px 16px; cursor:pointer; background:#fff; }
+.report-month-name{ font-family:'Markazi Text',serif; font-size:17px; font-weight:700; }
+.report-month-amt{ font-size:14px; color: var(--teal); font-weight:700; }
+.report-bar-wrap{ height:5px; background: var(--sand-dim); }
+.report-bar-fill{ height:100%; background: linear-gradient(90deg, var(--teal), var(--brass)); }
+.report-month-detail{ display:none; padding:10px 16px 14px; background: var(--sand); }
+.report-month-detail.open{ display:block; }
+.report-detail-row{ display:flex; justify-content:space-between; font-size:13px; padding:6px 0; border-bottom:1px dotted rgba(14,26,24,0.12); }
+
 @media (max-width:420px){
   .stats{ grid-template-columns: repeat(3,1fr); gap:8px; }
   .stat-num{ font-size:22px; }
@@ -248,9 +312,23 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
     <main>
       <div class="section-head">
         <h2>الشقق</h2>
-        <button class="btn btn-brass" onclick="openAptModal()">+ إضافة شقة</button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-ghost" onclick="openReport()">التقرير الشهري</button>
+          <button class="btn btn-brass" onclick="openAptModal()">+ إضافة شقة</button>
+        </div>
       </div>
-      <div class="apts" id="aptsList"></div>
+
+      <div class="view-toggle">
+        <button class="view-toggle-btn active" id="viewBtnBuilding" onclick="setViewMode('building')">حسب المبنى</button>
+        <button class="view-toggle-btn" id="viewBtnList" onclick="setViewMode('list')">كل الشقق</button>
+      </div>
+
+      <div id="buildingView">
+        <div class="block-tabs" id="blockTabs"></div>
+        <div class="building-diagram" id="buildingDiagram"></div>
+      </div>
+
+      <div class="apts hidden" id="aptsList"></div>
     </main>
   </div>
 
@@ -282,6 +360,27 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
     </div>
   </div>
 
+  <!-- Apartment detail panel (opened from the building view) -->
+  <div class="overlay" id="aptDetailOverlay">
+    <div class="modal">
+      <button class="close-x" onclick="closeModal('aptDetailOverlay')">×</button>
+      <div id="aptDetailBody"></div>
+    </div>
+  </div>
+
+  <!-- Report -->
+  <div class="overlay" id="reportOverlay">
+    <div class="modal">
+      <button class="close-x" onclick="closeModal('reportOverlay')">×</button>
+      <h3>التقرير الشهري</h3>
+      <div class="report-year-total">
+        <div class="num" id="reportYearNum">$0</div>
+        <div class="label" id="reportYearLabel">إجمالي المحصّل — آخر ١٢ شهر</div>
+      </div>
+      <div id="reportMonthsList"></div>
+    </div>
+  </div>
+
   <!-- Add apartment modal -->
   <div class="overlay" id="aptOverlay">
     <div class="modal">
@@ -290,6 +389,24 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
       <div class="field"><label>اسم الشقة</label><input id="f_name" placeholder="مثال: شقة ٣ - الطابق الثاني"></div>
       <div class="field"><label>اسم المستأجر / المشتري</label><input id="f_person" placeholder="الاسم الكامل"></div>
       <div class="field"><label>رقم الهاتف (اختياري)</label><input id="f_phone" placeholder="03 xxx xxx"></div>
+      <div class="two-col">
+        <div class="field"><label>البناء</label>
+          <select id="f_block">
+            <option value="1">بناء ١</option>
+            <option value="2">بناء ٢</option>
+            <option value="3">بناء ٣</option>
+          </select>
+        </div>
+        <div class="field"><label>الطابق</label>
+          <input id="f_floor" type="number" min="0" placeholder="٠ = أرضي، ١، ٢..." onchange="toggleSideField()">
+        </div>
+      </div>
+      <div class="field" id="sideField"><label>الجهة</label>
+        <select id="f_side">
+          <option value="right">يمين</option>
+          <option value="left">شمال</option>
+        </select>
+      </div>
       <div class="field"><label>نوع العقد</label>
         <select id="f_type" onchange="toggleSaleFields()">
           <option value="rent">إيجار شهري</option>
@@ -436,6 +553,7 @@ async function loadIbrahimView(){
     apartments = data.apartments;
     renderStats();
     renderApts();
+    if(currentViewMode === 'building') renderBuildingView();
   }catch(e){ alert('تعذّر تحميل البيانات: ' + e.message); }
 }
 
@@ -467,6 +585,13 @@ function renderStats(){
   document.getElementById('statDue').textContent = apartments.filter(isOverdue).length;
 }
 
+const ICONS = {
+  history: '<svg viewBox="0 0 24 24" fill="none" stroke="#0E1A18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.3"/><path d="M3 4v5h5"/><path d="M12 7v5l3 3"/></svg>',
+  edit: '<svg viewBox="0 0 24 24" fill="none" stroke="#0E1A18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="#B5502E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>',
+  whatsapp: '<svg viewBox="0 0 24 24" fill="#3A7A72"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.4 1.26 4.83L2 22l5.4-1.42a9.87 9.87 0 0 0 4.64 1.18h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.06c-.24.68-1.4 1.3-1.93 1.36-.5.06-1.05.27-3.53-.74-2.98-1.21-4.9-4.2-5.05-4.4-.15-.2-1.2-1.6-1.2-3.05 0-1.46.77-2.17 1.04-2.47.27-.3.6-.37.8-.37h.57c.18 0 .43-.07.67.51.24.6.83 2.06.9 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.3.77 1.27 1.66 2.06 1.14 1.02 2.1 1.34 2.4 1.5.3.15.47.12.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.28.1 1.75.83 2.05.98.3.15.5.22.57.35.08.13.08.75-.16 1.43Z"/></svg>',
+};
+
 function renderApts(){
   const wrap = document.getElementById('aptsList');
   if(apartments.length === 0){
@@ -492,20 +617,127 @@ function renderApts(){
         <div class="apt-row"><span>${apt.type==='rent'?'الإيجار الشهري':'القسط الشهري'}</span><b>$${fmt(apt.type==='rent'?apt.rent_amount:apt.installment_amount)}</b></div>
         ${progressHtml}
         <div class="status-chip ${overdue?'status-due':'status-paid'}"><span class="status-dot"></span>${overdue?'متأخر عن الدفع':'الدفعات منتظمة'}</div>
-        <div class="apt-actions">
-          <button class="btn btn-brass btn-sm" onclick="openPayModal(${apt.id})">+ تسجيل دفعة</button>
-          <button class="btn btn-ghost btn-sm" onclick="openHistory(${apt.id})">السجل</button>
-          <button class="btn btn-ghost btn-sm" onclick="openEditApt(${apt.id})">تعديل</button>
-          ${overdue ? `<button class="btn btn-rust btn-sm" onclick="sendReminder(${apt.id})">تذكير عبر واتساب</button>` : ''}
-          <button class="btn btn-ghost btn-sm" onclick="deleteApt(${apt.id})" style="color:#B5502E; border-color:rgba(181,80,46,0.3);">حذف</button>
-        </div>
+        ${aptActionsHtml(apt, overdue)}
       </div></div>`;
   }).join('');
 }
 
+function aptActionsHtml(apt, overdue){
+  return `<div class="apt-actions">
+    <button class="btn btn-brass btn-sm" onclick="openPayModal(${apt.id})">+ تسجيل دفعة</button>
+    <button class="icon-btn" title="السجل" onclick="openHistory(${apt.id})">${ICONS.history}</button>
+    <button class="icon-btn" title="تعديل" onclick="openEditApt(${apt.id})">${ICONS.edit}</button>
+    ${overdue ? `<button class="icon-btn whatsapp-icon" title="تذكير عبر واتساب" onclick="sendReminder(${apt.id})">${ICONS.whatsapp}</button>` : ''}
+    <button class="icon-btn rust-icon" title="حذف" onclick="deleteApt(${apt.id})">${ICONS.trash}</button>
+  </div>`;
+}
+
+/* =========================================================
+   BUILDING BROWSER
+   ========================================================= */
+let currentBlock = '1';
+let currentViewMode = 'building';
+
+function setViewMode(mode){
+  currentViewMode = mode;
+  document.getElementById('viewBtnBuilding').classList.toggle('active', mode==='building');
+  document.getElementById('viewBtnList').classList.toggle('active', mode==='list');
+  document.getElementById('buildingView').classList.toggle('hidden', mode!=='building');
+  document.getElementById('aptsList').classList.toggle('hidden', mode!=='list');
+  if(mode==='building') renderBuildingView();
+}
+
+function renderBuildingView(){
+  const tabsWrap = document.getElementById('blockTabs');
+  tabsWrap.innerHTML = ['1','2','3'].map(b=>
+    `<button class="block-tab ${b===currentBlock?'active':''}" onclick="switchBlock('${b}')">بناء ${b==='1'?'١':b==='2'?'٢':'٣'}</button>`
+  ).join('');
+  renderBuildingDiagram();
+}
+
+function switchBlock(b){
+  currentBlock = b;
+  renderBuildingView();
+}
+
+function renderBuildingDiagram(){
+  const wrap = document.getElementById('buildingDiagram');
+  const blockApts = apartments.filter(a => (a.block||'1') === currentBlock);
+
+  const groundApt = blockApts.find(a => Number(a.floor_number) === 0);
+  const upperApts = blockApts.filter(a => a.floor_number !== null && a.floor_number !== undefined && Number(a.floor_number) > 0);
+  const maxFloor = Math.max(1, ...upperApts.map(a=>Number(a.floor_number)), 0);
+
+  let html = '';
+  for(let f = maxFloor; f >= 1; f--){
+    const right = upperApts.find(a => Number(a.floor_number) === f && a.side === 'right');
+    const left = upperApts.find(a => Number(a.floor_number) === f && a.side === 'left');
+    html += `<div class="floor-row">
+      <div class="floor-label">ط${f}</div>
+      <div class="floor-slots">
+        ${slotHtml(right, currentBlock, f, 'right')}
+        ${slotHtml(left, currentBlock, f, 'left')}
+      </div>
+    </div>`;
+  }
+  html += `<div class="floor-row ground-row">
+    <div class="floor-label">أرضي</div>
+    <div class="floor-slots">${slotHtml(groundApt, currentBlock, 0, null)}</div>
+  </div>`;
+
+  wrap.innerHTML = html;
+}
+
+function slotHtml(apt, block, floor, side){
+  if(apt){
+    const overdue = isOverdue(apt);
+    return `<div class="slot slot-filled ${overdue?'slot-overdue':''}" onclick="openAptDetail(${apt.id})">
+      <div class="slot-name">${apt.name}</div>
+      <div class="slot-person">${apt.person_name}</div>
+    </div>`;
+  }
+  return `<div class="slot slot-empty" onclick="openEmptySlot('${block}', ${floor}, ${side ? `'${side}'` : null})">
+    <div class="slot-empty-label">+ شاغر</div>
+  </div>`;
+}
+
+function openEmptySlot(block, floor, side){
+  openAptModal({ block, floor_number: floor, side });
+}
+
+function openAptDetail(aptId){
+  const apt = apartments.find(a=>a.id===aptId);
+  if(!apt) return;
+  const paid = Number(apt.total_paid);
+  const overdue = isOverdue(apt);
+  let progressHtml = '';
+  if(apt.type === 'sale'){
+    const pct = Math.min(100, Math.round((paid/Number(apt.total_price))*100));
+    progressHtml = `<div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label"><span>$${fmt(paid)} من $${fmt(apt.total_price)}</span><span>${pct}%</span></div></div>`;
+  }
+  const loc = apt.floor_number === 0 ? `بناء ${apt.block} — الطابق الأرضي` :
+    `بناء ${apt.block} — الطابق ${apt.floor_number} — ${apt.side==='right'?'يمين':'شمال'}`;
+
+  document.getElementById('aptDetailBody').innerHTML = `
+    <div class="detail-top">
+      <h3 class="detail-name">${apt.name}</h3>
+      <div class="badge ${apt.type==='rent'?'badge-rent':'badge-sale'}">${apt.type==='rent'?'إيجار':'تقسيط'}</div>
+    </div>
+    <div class="detail-loc">${loc}</div>
+    <div class="apt-row"><span>المستأجر / المشتري</span><b>${apt.person_name}</b></div>
+    ${apt.phone?`<div class="apt-row"><span>الهاتف</span><b>${apt.phone}</b></div>`:''}
+    <div class="apt-row"><span>${apt.type==='rent'?'الإيجار الشهري':'القسط الشهري'}</span><b>$${fmt(apt.type==='rent'?apt.rent_amount:apt.installment_amount)}</b></div>
+    ${progressHtml}
+    <div class="status-chip ${overdue?'status-due':'status-paid'}"><span class="status-dot"></span>${overdue?'متأخر عن الدفع':'الدفعات منتظمة'}</div>
+    ${aptActionsHtml(apt, overdue)}
+  `;
+  document.getElementById('aptDetailOverlay').classList.add('open');
+}
+
 let editingAptId = null;
 
-function openAptModal(){
+function openAptModal(prefill){
   editingAptId = null;
   document.getElementById('aptModalTitle').textContent = 'شقة جديدة';
   document.getElementById('aptSaveBtn').textContent = 'حفظ الشقة';
@@ -513,7 +745,12 @@ function openAptModal(){
   document.getElementById('f_phone').value=''; document.getElementById('f_type').value='rent';
   document.getElementById('f_rent').value=''; document.getElementById('f_total').value='';
   document.getElementById('f_installment').value=''; document.getElementById('f_start').value = todayISO();
+  document.getElementById('f_block').value = (prefill && prefill.block) || currentBlock || '1';
+  document.getElementById('f_floor').value = (prefill && prefill.floor_number !== undefined && prefill.floor_number !== null) ? prefill.floor_number : '';
+  document.getElementById('f_side').value = (prefill && prefill.side) || 'right';
   toggleSaleFields();
+  toggleSideField();
+  closeModal('aptDetailOverlay');
   document.getElementById('aptOverlay').classList.add('open');
 }
 
@@ -531,13 +768,22 @@ function openEditApt(aptId){
   document.getElementById('f_total').value = apt.total_price || '';
   document.getElementById('f_installment').value = apt.installment_amount || '';
   document.getElementById('f_start').value = apt.start_date;
+  document.getElementById('f_block').value = apt.block || '1';
+  document.getElementById('f_floor').value = (apt.floor_number === null || apt.floor_number === undefined) ? '' : apt.floor_number;
+  document.getElementById('f_side').value = apt.side || 'right';
   toggleSaleFields();
+  toggleSideField();
+  closeModal('aptDetailOverlay');
   document.getElementById('aptOverlay').classList.add('open');
 }
 function toggleSaleFields(){
   const type = document.getElementById('f_type').value;
   document.getElementById('saleFields').classList.toggle('show', type==='sale');
   document.getElementById('rentAmountField').style.display = type==='rent' ? 'block':'none';
+}
+function toggleSideField(){
+  const floor = Number(document.getElementById('f_floor').value);
+  document.getElementById('sideField').style.display = floor > 0 ? 'block' : 'none';
 }
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 
@@ -547,8 +793,27 @@ async function saveApartment(){
   const phone = document.getElementById('f_phone').value.trim();
   const type = document.getElementById('f_type').value;
   const start_date = document.getElementById('f_start').value || todayISO();
+  const block = document.getElementById('f_block').value;
+  const floorRaw = document.getElementById('f_floor').value;
+  const floor_number = floorRaw === '' ? null : Number(floorRaw);
+  const side = floor_number > 0 ? document.getElementById('f_side').value : null;
+
   if(!name || !person_name){ alert('الرجاء إدخال اسم الشقة واسم المستأجر'); return; }
-  const body = { name, person_name, phone, type, start_date };
+
+  if(floor_number !== null){
+    const conflict = apartments.find(a =>
+      a.id !== editingAptId &&
+      (a.block||'1') === block &&
+      Number(a.floor_number) === floor_number &&
+      (floor_number === 0 || a.side === side)
+    );
+    if(conflict){
+      alert('هذا الموقع في البناء محجوز مسبقاً للشقة "' + conflict.name + '". اختر موقعاً آخر أو عدّل تلك الشقة أولاً.');
+      return;
+    }
+  }
+
+  const body = { name, person_name, phone, type, start_date, block, floor_number, side };
   if(type==='rent'){ body.rent_amount = Number(document.getElementById('f_rent').value)||0; }
   else { body.total_price = Number(document.getElementById('f_total').value)||0; body.installment_amount = Number(document.getElementById('f_installment').value)||0; }
   try{
@@ -640,6 +905,75 @@ function sendReminder(aptId){
   const msg = `مرحباً ${apt.person_name} 🌿\n\nهذه رسالة تذكير ودّية بخصوص دفعة "${apt.name}" المستحقة.\n\nإذا كنت قد قمت بالدفع مؤخراً، الرجاء تجاهل هذه الرسالة.\n\nشكراً لتفهمك 🙏\n*LANA PROJECTS*`;
   const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
+}
+
+/* =========================================================
+   MONTHLY REPORT
+   ========================================================= */
+const ARABIC_MONTHS = ['كانون الثاني','شباط','آذار','نيسان','أيار','حزيران','تموز','آب','أيلول','تشرين الأول','تشرين الثاني','كانون الأول'];
+
+async function openReport(){
+  document.getElementById('reportMonthsList').innerHTML = `<div style="font-size:13px; text-align:center; color:rgba(14,26,24,0.5);">...جارِ التحميل</div>`;
+  document.getElementById('reportOverlay').classList.add('open');
+  try{
+    const data = await api('/api/payments');
+    renderReport(data.payments);
+  }catch(e){
+    document.getElementById('reportMonthsList').innerHTML = `<div style="font-size:13px; color:var(--rust);">تعذّر تحميل التقرير</div>`;
+  }
+}
+
+function renderReport(payments){
+  // Build the last 12 months (including current), most recent first
+  const months = [];
+  const now = new Date();
+  for(let i=0; i<12; i++){
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+    months.push({ key, year: d.getFullYear(), monthIndex: d.getMonth() });
+  }
+
+  const byMonth = {};
+  payments.forEach(p=>{
+    const key = p.payment_date.slice(0,7);
+    if(!byMonth[key]) byMonth[key] = [];
+    byMonth[key].push(p);
+  });
+
+  const totals = months.map(m => (byMonth[m.key]||[]).reduce((s,p)=>s+Number(p.amount),0));
+  const maxTotal = Math.max(1, ...totals);
+  const yearTotal = totals.reduce((s,t)=>s+t,0);
+
+  document.getElementById('reportYearNum').textContent = '$' + fmt(yearTotal);
+
+  const wrap = document.getElementById('reportMonthsList');
+  wrap.innerHTML = months.map((m, i)=>{
+    const total = totals[i];
+    const pct = Math.round((total/maxTotal)*100);
+    const monthPayments = byMonth[m.key] || [];
+    const byApt = {};
+    monthPayments.forEach(p=>{
+      const apt = apartments.find(a=>a.id===p.apartment_id);
+      const name = apt ? apt.name : 'شقة محذوفة';
+      byApt[name] = (byApt[name]||0) + Number(p.amount);
+    });
+    const detailRows = Object.keys(byApt).length
+      ? Object.entries(byApt).map(([name, amt])=>`<div class="report-detail-row"><span>${name}</span><b>$${fmt(amt)}</b></div>`).join('')
+      : `<div class="report-detail-row" style="color:rgba(14,26,24,0.45);">لا توجد دفعات هذا الشهر</div>`;
+
+    return `<div class="report-month">
+      <div class="report-month-head" onclick="toggleMonthDetail('m${i}')">
+        <div class="report-month-name">${ARABIC_MONTHS[m.monthIndex]} ${m.year}</div>
+        <div class="report-month-amt">$${fmt(total)}</div>
+      </div>
+      <div class="report-bar-wrap"><div class="report-bar-fill" style="width:${pct}%"></div></div>
+      <div class="report-month-detail" id="m${i}">${detailRows}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleMonthDetail(id){
+  document.getElementById(id).classList.toggle('open');
 }
 
 /* =========================================================
@@ -865,8 +1199,8 @@ body{ font-family:'Tajawal',sans-serif; color:#0E1A18; display:flex; justify-con
 
       <div class="head">
         <div>
-          <div class="brand">LANA PROJECTS<small>عقارات — لبنان الجنوبي</small></div>
-          <div class="addr">اللبيّة الجنوبية، الجنوب اللبناني</div>
+          <div class="brand">LANA PROJECTS<small>مشاريع لانا السكنية</small></div>
+          <div class="addr">اللوبية</div>
         </div>
         <div class="doc-title">
           <h1>إيصال استلام دفعة</h1>
