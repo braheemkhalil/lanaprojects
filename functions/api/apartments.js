@@ -33,7 +33,7 @@ export async function onRequestPost(context) {
     return new Response(JSON.stringify({ error: "طلب غير صالح" }), { status: 400 });
   }
 
-  const { name, person_name, phone, type, rent_amount, total_price, installment_amount, start_date } = body;
+  const { name, person_name, phone, type, rent_amount, total_price, installment_amount, start_date, block, floor_number, side } = body;
 
   if (!name || !person_name || !type || !start_date) {
     return new Response(JSON.stringify({ error: "الرجاء تعبئة الحقول المطلوبة" }), { status: 400 });
@@ -49,8 +49,8 @@ export async function onRequestPost(context) {
   }
 
   const result = await env.DB.prepare(`
-    INSERT INTO apartments (name, person_name, phone, type, rent_amount, total_price, installment_amount, start_date, created_by)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO apartments (name, person_name, phone, type, rent_amount, total_price, installment_amount, start_date, created_by, block, floor_number, side)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).bind(
     name.trim(),
     person_name.trim(),
@@ -60,7 +60,10 @@ export async function onRequestPost(context) {
     type === "sale" ? Number(total_price) : null,
     type === "sale" ? Number(installment_amount) : null,
     start_date,
-    user.uid
+    user.uid,
+    block || "1",
+    (floor_number === "" || floor_number === undefined || floor_number === null) ? null : Number(floor_number),
+    side || null
   ).run();
 
   return new Response(JSON.stringify({ ok: true, id: result.meta.last_row_id }), {
