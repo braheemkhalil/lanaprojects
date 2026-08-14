@@ -16,7 +16,7 @@ export async function onRequestPatch(context) {
     return new Response(JSON.stringify({ error: "طلب غير صالح" }), { status: 400 });
   }
 
-  const { name, person_name, phone, type, rent_amount, total_price, installment_amount, start_date } = body;
+  const { name, person_name, phone, type, rent_amount, total_price, installment_amount, start_date, block, floor_number, side } = body;
 
   if (!name || !person_name || !type || !start_date) {
     return new Response(JSON.stringify({ error: "الرجاء تعبئة الحقول المطلوبة" }), { status: 400 });
@@ -30,7 +30,7 @@ export async function onRequestPatch(context) {
 
   await env.DB.prepare(`
     UPDATE apartments
-    SET name = ?, person_name = ?, phone = ?, type = ?, rent_amount = ?, total_price = ?, installment_amount = ?, start_date = ?
+    SET name = ?, person_name = ?, phone = ?, type = ?, rent_amount = ?, total_price = ?, installment_amount = ?, start_date = ?, block = ?, floor_number = ?, side = ?
     WHERE id = ?
   `).bind(
     name.trim(),
@@ -41,6 +41,9 @@ export async function onRequestPatch(context) {
     type === "sale" ? Number(total_price) || 0 : null,
     type === "sale" ? Number(installment_amount) || 0 : null,
     start_date,
+    block || "1",
+    (floor_number === "" || floor_number === undefined || floor_number === null) ? null : Number(floor_number),
+    side || null,
     id
   ).run();
 
