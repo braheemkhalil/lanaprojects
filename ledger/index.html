@@ -248,6 +248,10 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
 .receipt-sign-line{ border-top: 1px dashed rgba(14,26,24,0.3); margin-top:26px; padding-top:6px; }
 .receipt-sign-label{ font-size:10.5px; color: rgba(14,26,24,0.5); }
 .receipt-footer{ text-align:center; margin-top:18px; font-size:10.5px; color: rgba(14,26,24,0.4); }
+.receipt-stamp{
+  position:absolute; width:120px; left:20px; bottom:14px;
+  transform: rotate(-11deg); opacity:0.95; pointer-events:none; z-index:2;
+}
 .receipt-actions{ display:flex; gap:8px; margin-top:16px; flex-wrap:wrap; }
 .receipt-actions .btn{ flex:1; min-width:120px; }
 
@@ -1097,6 +1101,7 @@ function openReceiptFromData(payment){
       <div class="receipt-sign"><div class="receipt-sign-line"></div><div class="receipt-sign-label">استلم بواسطة: ${payment.recorded_by_name || currentUser.name}</div></div>
     </div>
     <div class="receipt-footer">شكراً لتعاملكم مع LANA PROJECTS</div>
+    <img class="receipt-stamp" src="paid-stamp.png" alt="">
   `;
   document.getElementById('receiptOverlay').classList.add('open');
 }
@@ -1188,6 +1193,10 @@ body{ font-family:'Tajawal',sans-serif; color:#0E1A18; display:flex; justify-con
 .footer{ text-align:center; margin-top:36px; padding-top:18px; border-top:1px solid rgba(14,26,24,0.1); }
 .footer .thanks{ font-family:'Markazi Text',serif; font-size:17px; }
 .footer .small{ font-size:10.5px; color: rgba(14,26,24,0.4); margin-top:8px; line-height:1.6; }
+.print-stamp{
+  position:absolute; width:190px; left:44px; bottom:60px;
+  transform: rotate(-11deg); opacity:0.95; z-index:2;
+}
 
 @media print{ body{ padding:0; } .sheet{ border:none; } }
 </style></head>
@@ -1249,6 +1258,7 @@ body{ font-family:'Tajawal',sans-serif; color:#0E1A18; display:flex; justify-con
         <div class="thanks">شكراً لتعاملكم مع LANA PROJECTS</div>
         <div class="small">هذا الإيصال صادر إلكترونياً ويُعتبر إثباتاً رسمياً لاستلام الدفعة المذكورة أعلاه — يرجى الاحتفاظ به.<br>تاريخ الطباعة: ${printedAt}</div>
       </div>
+      <img class="print-stamp" src="${location.origin}/ledger/paid-stamp.png" alt="">
 
     </div>
   </div>
