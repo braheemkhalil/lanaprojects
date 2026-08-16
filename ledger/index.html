@@ -174,6 +174,33 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
 .detail-name{ font-size:22px; }
 .detail-loc{ font-size:12px; color: rgba(14,26,24,0.5); margin-bottom:14px; }
 
+/* ---------- Toasts ---------- */
+.toast-stack{
+  position:fixed; top:18px; left:50%; transform:translateX(-50%);
+  z-index:1000; display:flex; flex-direction:column; gap:8px; align-items:center;
+  width:100%; max-width:420px; padding:0 16px; pointer-events:none;
+}
+.toast{
+  background: var(--ink); color: var(--sand); font-family:'Tajawal',sans-serif; font-size:13.5px; font-weight:700;
+  padding:13px 18px; border-radius:12px; box-shadow: var(--shadow);
+  display:flex; align-items:center; gap:10px; width:100%;
+  opacity:0; transform: translateY(-14px); transition: opacity .25s ease, transform .25s ease;
+}
+.toast.show{ opacity:1; transform: translateY(0); }
+.toast-dot{ width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.toast.toast-error .toast-dot{ background: #E28A6B; }
+.toast.toast-success .toast-dot{ background: #6FBFA8; }
+.toast.toast-info .toast-dot{ background: var(--brass-light); }
+
+/* ---------- Custom confirm ---------- */
+.confirm-card{ text-align:center; padding-top:8px; }
+.confirm-card p{ font-size:14.5px; color: rgba(14,26,24,0.75); line-height:1.7; margin:10px 0 18px; }
+.confirm-card .modal-actions .btn{ flex:1; }
+
+/* ---------- Subtle entrance animation ---------- */
+@keyframes fadeSlideIn{ from{ opacity:0; transform: translateY(8px); } to{ opacity:1; transform: translateY(0); } }
+.apt-card, .slot, .floor-row{ animation: fadeSlideIn .35s ease both; }
+
 /* ---------- Father's simple view ---------- */
 .father-wrap{ max-width:520px; margin:0 auto; padding: 8px 16px 40px; }
 .father-intro{ text-align:center; margin-bottom:20px; }
@@ -284,6 +311,22 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
 </style>
 </head>
 <body>
+
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- Custom confirm dialog -->
+<div class="overlay" id="confirmOverlay">
+  <div class="modal">
+    <div class="confirm-card">
+      <h3 id="confirmTitle">تأكيد</h3>
+      <p id="confirmMessage"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="resolveConfirm(false)">إلغاء</button>
+        <button class="btn btn-rust" id="confirmActionBtn" onclick="resolveConfirm(true)">تأكيد</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Login -->
 <div class="gate" id="gate">
@@ -504,6 +547,34 @@ let lastReceipt = null;
 function todayISO(){ return new Date().toISOString().slice(0,10); }
 function fmt(n){ return Number(n||0).toLocaleString('en-US'); }
 
+/* ---------- Toasts ---------- */
+function showToast(message, type){
+  type = type || 'info';
+  const stack = document.getElementById('toastStack');
+  const el = document.createElement('div');
+  el.className = 'toast toast-' + type;
+  el.innerHTML = `<span class="toast-dot"></span><span>${message}</span>`;
+  stack.appendChild(el);
+  requestAnimationFrame(()=> el.classList.add('show'));
+  setTimeout(()=>{
+    el.classList.remove('show');
+    setTimeout(()=> el.remove(), 250);
+  }, 3200);
+}
+
+/* ---------- Custom confirm (replaces window.confirm) ---------- */
+let _confirmResolver = null;
+function customConfirm(message, title){
+  document.getElementById('confirmTitle').textContent = title || 'تأكيد الإجراء';
+  document.getElementById('confirmMessage').textContent = message;
+  document.getElementById('confirmOverlay').classList.add('open');
+  return new Promise(resolve => { _confirmResolver = resolve; });
+}
+function resolveConfirm(result){
+  document.getElementById('confirmOverlay').classList.remove('open');
+  if(_confirmResolver){ _confirmResolver(result); _confirmResolver = null; }
+}
+
 async function api(path, options={}){
   const res = await fetch(path, {
     ...options,
@@ -572,7 +643,7 @@ async function loadIbrahimView(){
     renderApts();
     if(currentViewMode === 'building') renderBuildingView();
     if(document.getElementById('searchBox').value.trim()) handleSearch();
-  }catch(e){ alert('تعذّر تحميل البيانات: ' + e.message); }
+  }catch(e){ showToast('تعذّر تحميل البيانات: ' + e.message, 'error'); }
 }
 
 function isOverdue(apt){
@@ -592,15 +663,30 @@ function monthsBetween(startISO, endISO){
   return Math.max(0, (e.getFullYear()-s.getFullYear())*12 + (e.getMonth()-s.getMonth()) + 1);
 }
 
+function animateNumber(el, target, isMoney){
+  const start = Number(el.dataset.raw || 0);
+  const duration = 500;
+  const startTime = performance.now();
+  function tick(now){
+    const progress = Math.min(1, (now - startTime) / duration);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(start + (target - start) * eased);
+    el.textContent = isMoney ? fmt(current) : current;
+    if(progress < 1) requestAnimationFrame(tick);
+    else el.dataset.raw = target;
+  }
+  requestAnimationFrame(tick);
+}
+
 function renderStats(){
   const ym = new Date().toISOString().slice(0,7);
   // month total requires payments; fetched lazily per apartment is heavy, so approximate via all payments call
   api('/api/payments').then(data=>{
     const monthTotal = data.payments.filter(p=>p.payment_date.slice(0,7)===ym).reduce((s,p)=>s+Number(p.amount),0);
-    document.getElementById('statMonth').textContent = fmt(monthTotal);
+    animateNumber(document.getElementById('statMonth'), monthTotal, true);
   }).catch(()=>{});
-  document.getElementById('statApts').textContent = apartments.length;
-  document.getElementById('statDue').textContent = apartments.filter(isOverdue).length;
+  animateNumber(document.getElementById('statApts'), apartments.length, false);
+  animateNumber(document.getElementById('statDue'), apartments.filter(isOverdue).length, false);
 }
 
 const ICONS = {
@@ -855,7 +941,7 @@ async function saveApartment(){
   const floor_number = floorRaw === '' ? null : Number(floorRaw);
   const side = floor_number > 0 ? document.getElementById('f_side').value : null;
 
-  if(!name || !person_name){ alert('الرجاء إدخال اسم الشقة واسم المستأجر'); return; }
+  if(!name || !person_name){ showToast('الرجاء إدخال اسم الشقة واسم المستأجر', 'error'); return; }
 
   if(floor_number !== null){
     const conflict = apartments.find(a =>
@@ -865,7 +951,7 @@ async function saveApartment(){
       (floor_number === 0 || a.side === side)
     );
     if(conflict){
-      alert('هذا الموقع في البناء محجوز مسبقاً للشقة "' + conflict.name + '". اختر موقعاً آخر أو عدّل تلك الشقة أولاً.');
+      showToast('هذا الموقع محجوز مسبقاً للشقة "' + conflict.name + '"', 'error');
       return;
     }
   }
@@ -876,20 +962,24 @@ async function saveApartment(){
   try{
     if(editingAptId){
       await api('/api/apartments/'+editingAptId, { method:'PATCH', body: JSON.stringify(body) });
+      showToast('تم حفظ التعديلات', 'success');
     } else {
       await api('/api/apartments', { method:'POST', body: JSON.stringify(body) });
+      showToast('تمت إضافة الشقة', 'success');
     }
     closeModal('aptOverlay');
     loadIbrahimView();
-  }catch(e){ alert('تعذّر الحفظ: ' + e.message); }
+  }catch(e){ showToast('تعذّر الحفظ: ' + e.message, 'error'); }
 }
 
 async function deleteApt(id){
-  if(!confirm('حذف هذه الشقة وكل سجل دفعاتها؟')) return;
+  const ok = await customConfirm('سيتم حذف كل سجل دفعاتها أيضاً ولا يمكن التراجع عن هذا.', 'حذف هذه الشقة؟');
+  if(!ok) return;
   try{
     await api('/api/apartments/'+id, { method:'DELETE' });
+    showToast('تم حذف الشقة', 'success');
     loadIbrahimView();
-  }catch(e){ alert('تعذّر الحذف: ' + e.message); }
+  }catch(e){ showToast('تعذّر الحذف: ' + e.message, 'error'); }
 }
 
 function openPayModal(aptId){
@@ -933,7 +1023,7 @@ async function confirmPayment(){
   const amount = Number(document.getElementById('p_amount').value);
   const payment_date = document.getElementById('p_date').value || todayISO();
   const note = document.getElementById('p_note').value.trim();
-  if(!amount || amount<=0){ alert('الرجاء إدخال مبلغ صحيح'); return; }
+  if(!amount || amount<=0){ showToast('الرجاء إدخال مبلغ صحيح', 'error'); return; }
   try{
     const res = await api('/api/payments', { method:'POST', body: JSON.stringify({ apartment_id: activeAptId, amount, payment_date, note }) });
     const apt = apartments.find(a=>a.id===activeAptId);
@@ -941,7 +1031,7 @@ async function confirmPayment(){
     showStamp(apt, amount);
     await loadIbrahimView();
     setTimeout(()=> openReceiptFromData({ id: res.id, apartment_id: apt.id, amount, payment_date, note, recorded_by_name: currentUser.name }), 1500);
-  }catch(e){ alert('تعذّر تسجيل الدفعة: ' + e.message); }
+  }catch(e){ showToast('تعذّر تسجيل الدفعة: ' + e.message, 'error'); }
 }
 
 function showStamp(apt, amount){
@@ -956,7 +1046,7 @@ function sendReminder(aptId){
   if(!apt) return;
   const phone = normalizePhone(apt.phone);
   if(!phone){
-    alert('لا يوجد رقم هاتف مسجّل لهذه الشقة. أضف الرقم من زر "تعديل" أولاً.');
+    showToast('لا يوجد رقم هاتف مسجّل لهذه الشقة. أضف الرقم من زر "تعديل" أولاً.', 'error');
     return;
   }
   const msg = `مرحباً ${apt.person_name} 🌿\n\nهذه رسالة تذكير ودّية بخصوص دفعة "${apt.name}" المستحقة.\n\nإذا كنت قد قمت بالدفع مؤخراً، الرجاء تجاهل هذه الرسالة.\n\nشكراً لتفهمك 🙏\n*LANA PROJECTS*`;
@@ -1073,15 +1163,18 @@ async function addUser(){
     document.getElementById('u_displayName').value = '';
     document.getElementById('u_username').value = '';
     document.getElementById('u_password').value = '';
+    showToast('تمت إضافة المستخدم', 'success');
     loadUsers();
   }catch(e){ err.textContent = e.message || 'تعذّر إضافة المستخدم'; }
 }
 async function removeUser(id){
-  if(!confirm('حذف هذا المستخدم؟ لن يعود قادراً على الدخول.')) return;
+  const ok = await customConfirm('لن يعود هذا المستخدم قادراً على الدخول.', 'حذف هذا المستخدم؟');
+  if(!ok) return;
   try{
     await api('/api/users/'+id, { method:'DELETE' });
+    showToast('تم حذف المستخدم', 'success');
     loadUsers();
-  }catch(e){ alert('تعذّر الحذف: ' + e.message); }
+  }catch(e){ showToast('تعذّر الحذف: ' + e.message, 'error'); }
 }
 async function saveSettings(){
   const display_name = document.getElementById('s_displayName').value.trim();
@@ -1105,6 +1198,7 @@ async function saveSettings(){
     document.getElementById('userNameLabel').textContent = currentUser.name;
     document.getElementById('headerSub').textContent = 'أهلاً ' + currentUser.name + ' — إدارة الشقق ومتابعة كل الدفعات';
     closeModal('settingsOverlay');
+    showToast('تم حفظ الإعدادات', 'success');
   }catch(e){
     err.textContent = e.message || 'تعذّر الحفظ';
   }
@@ -1321,7 +1415,7 @@ body{ font-family:'Tajawal',sans-serif; color:#0E1A18; display:flex; justify-con
 </body></html>`;
 
   const win = window.open('', '_blank');
-  if(!win){ alert('الرجاء السماح بالنوافذ المنبثقة لطباعة الإيصال'); return; }
+  if(!win){ showToast('الرجاء السماح بالنوافذ المنبثقة لطباعة الإيصال', 'error'); return; }
   win.document.open();
   win.document.write(html);
   win.document.close();
