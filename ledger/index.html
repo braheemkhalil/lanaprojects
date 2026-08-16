@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>سجل الدفعات — LANA PROJECTS</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E1A18">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="سجل الدفعات">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500;600;700&family=Tajawal:wght@400;500;700;900&display=swap');
 
@@ -327,6 +334,12 @@ main{ max-width:900px; margin:0 auto; padding:26px 16px; }
         <button class="view-toggle-btn" id="viewBtnList" onclick="setViewMode('list')">كل الشقق</button>
       </div>
 
+      <div class="field" style="margin-bottom:16px;">
+        <input id="searchBox" placeholder="🔍 ابحث باسم المستأجر أو الشقة..." oninput="handleSearch()">
+      </div>
+
+      <div id="searchResults" class="apts hidden"></div>
+
       <div id="buildingView">
         <div class="block-tabs" id="blockTabs"></div>
         <div class="building-diagram" id="buildingDiagram"></div>
@@ -558,6 +571,7 @@ async function loadIbrahimView(){
     renderStats();
     renderApts();
     if(currentViewMode === 'building') renderBuildingView();
+    if(document.getElementById('searchBox').value.trim()) handleSearch();
   }catch(e){ alert('تعذّر تحميل البيانات: ' + e.message); }
 }
 
@@ -634,6 +648,45 @@ function aptActionsHtml(apt, overdue){
     ${overdue ? `<button class="icon-btn whatsapp-icon" title="تذكير عبر واتساب" onclick="sendReminder(${apt.id})">${ICONS.whatsapp}</button>` : ''}
     <button class="icon-btn rust-icon" title="حذف" onclick="deleteApt(${apt.id})">${ICONS.trash}</button>
   </div>`;
+}
+
+function handleSearch(){
+  const query = document.getElementById('searchBox').value.trim().toLowerCase();
+  const resultsWrap = document.getElementById('searchResults');
+
+  if(!query){
+    resultsWrap.classList.add('hidden');
+    resultsWrap.innerHTML = '';
+    document.getElementById('buildingView').classList.toggle('hidden', currentViewMode!=='building');
+    document.getElementById('aptsList').classList.toggle('hidden', currentViewMode!=='list');
+    return;
+  }
+
+  document.getElementById('buildingView').classList.add('hidden');
+  document.getElementById('aptsList').classList.add('hidden');
+  resultsWrap.classList.remove('hidden');
+
+  const matches = apartments.filter(a =>
+    a.name.toLowerCase().includes(query) || a.person_name.toLowerCase().includes(query)
+  );
+
+  if(matches.length === 0){
+    resultsWrap.innerHTML = `<div class="empty"><h3>لا توجد نتائج</h3><div>جرّب اسماً آخر</div></div>`;
+    return;
+  }
+
+  resultsWrap.innerHTML = matches.map(apt=>{
+    const overdue = isOverdue(apt);
+    const loc = apt.block ? (apt.floor_number === 0 ? `بناء ${apt.block} — أرضي` : (apt.floor_number ? `بناء ${apt.block} — ط${apt.floor_number} — ${apt.side==='right'?'يمين':'شمال'}` : `بناء ${apt.block}`)) : '';
+    return `<div class="apt-card">
+      <div class="apt-top"><div class="apt-name">${apt.name}</div><div class="badge ${apt.type==='rent'?'badge-rent':'badge-sale'}">${apt.type==='rent'?'إيجار':'تقسيط'}</div></div>
+      <div class="apt-body">
+        <div class="apt-row"><span>المستأجر / المشتري</span><b>${apt.person_name}</b></div>
+        ${loc ? `<div class="apt-row"><span>الموقع</span><b>${loc}</b></div>` : ''}
+        <div class="status-chip ${overdue?'status-due':'status-paid'}"><span class="status-dot"></span>${overdue?'متأخر عن الدفع':'الدفعات منتظمة'}</div>
+        ${aptActionsHtml(apt, overdue)}
+      </div></div>`;
+  }).join('');
 }
 
 /* =========================================================
