@@ -977,6 +977,7 @@ async function deleteApt(id){
   if(!ok) return;
   try{
     await api('/api/apartments/'+id, { method:'DELETE' });
+    closeModal('aptDetailOverlay');
     showToast('تم حذف الشقة', 'success');
     loadIbrahimView();
   }catch(e){ showToast('تعذّر الحذف: ' + e.message, 'error'); }
@@ -991,6 +992,7 @@ function openPayModal(aptId){
   document.getElementById('p_date').value = todayISO();
   document.getElementById('p_note').value = '';
   renderHistory(aptId);
+  closeModal('aptDetailOverlay');
   document.getElementById('payOverlay').classList.add('open');
 }
 function openHistory(aptId){
@@ -999,6 +1001,7 @@ function openHistory(aptId){
   document.getElementById('payFormSection').classList.add('hidden');
   document.getElementById('payTitle').textContent = `سجل الدفعات — ${apt.name}`;
   renderHistory(aptId);
+  closeModal('aptDetailOverlay');
   document.getElementById('payOverlay').classList.add('open');
 }
 
