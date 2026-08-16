@@ -1300,21 +1300,33 @@ function printReceipt(){
 *{box-sizing:border-box; margin:0; padding:0;}
 body{ font-family:'Tajawal',sans-serif; color:#0E1A18; display:flex; justify-content:center; background:#fff; }
 .sheet{ width:100%; max-width:720px; border:1.5px solid rgba(14,26,24,0.15); border-radius:14px; overflow:hidden; position:relative; }
-.watermark{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0.045; z-index:0; }
+.watermark{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0.04; z-index:0; }
 .watermark svg{ width:340px; }
-.top{ height:7px; background: linear-gradient(90deg, #3A7A72, #B08D57); }
-.inner{ position:relative; z-index:1; padding:26px 34px 24px; }
 
-.head{ display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:14px; border-bottom:2px solid rgba(14,26,24,0.1); }
-.brand{ font-weight:900; letter-spacing:3px; font-size:20px; }
-.brand small{ display:block; font-weight:400; letter-spacing:2px; color:#B08D57; font-size:11.5px; margin-top:4px; }
-.addr{ font-size:11px; color: rgba(14,26,24,0.5); margin-top:5px; }
-.doc-title{ text-align:left; }
-.doc-title h1{ font-family:'Markazi Text',serif; font-size:20px; font-weight:700; }
-.doc-title .num{ font-size:11.5px; color: rgba(14,26,24,0.55); margin-top:3px; }
-.doc-title .date{ font-size:11.5px; color: rgba(14,26,24,0.55); }
+.letterhead{
+  background: linear-gradient(135deg, #0E1A18 0%, #142623 100%);
+  padding: 18px 34px; display:flex; justify-content:space-between; align-items:center;
+  position:relative; z-index:1;
+}
+.letterhead-brand{ display:flex; align-items:center; gap:10px; }
+.letterhead-arch{ width:22px; height:26px; flex-shrink:0; }
+.letterhead-text .brand{ font-weight:900; letter-spacing:3px; font-size:18px; color:#F4F1EA; }
+.letterhead-text small{ display:block; font-weight:400; letter-spacing:1.8px; color:#D6B888; font-size:10.5px; margin-top:2px; }
+.letterhead-doc{ text-align:left; }
+.letterhead-doc h1{ font-family:'Markazi Text',serif; font-size:18px; font-weight:700; color:#F4F1EA; }
+.letterhead-doc .date{ font-size:10.5px; color: rgba(244,241,234,0.55); margin-top:2px; }
+.accent-line{ height:4px; background: linear-gradient(90deg, #3A7A72, #B08D57); position:relative; z-index:1; }
 
-.amt-block{ text-align:center; margin: 16px 0; padding: 14px; background:#F4F1EA; border-radius:12px; }
+.inner{ position:relative; z-index:1; padding:22px 34px 22px; }
+
+.num-badge-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.addr{ font-size:11px; color: rgba(14,26,24,0.5); }
+.num-badge{
+  display:inline-flex; align-items:center; gap:6px; border:1.3px solid rgba(176,141,87,0.4);
+  background:#F4F1EA; border-radius:999px; padding:5px 14px; font-size:11.5px; font-weight:700; color:#8a6a3e; letter-spacing:0.5px;
+}
+
+.amt-block{ text-align:center; margin: 6px 0 18px; padding: 14px; background:#F4F1EA; border-radius:12px; border:1px solid rgba(176,141,87,0.2); }
 .amt-label{ font-size:11.5px; color: rgba(14,26,24,0.55); letter-spacing:1.2px; }
 .amt{ font-family:'Markazi Text',serif; font-size:40px; font-weight:700; color:#3A7A72; line-height:1.1; margin-top:4px; }
 
@@ -1332,11 +1344,11 @@ body{ font-family:'Tajawal',sans-serif; color:#0E1A18; display:flex; justify-con
 .highlight-row{ background:#F4F1EA; margin-top:10px; padding:10px 16px; border-radius:9px; display:flex; justify-content:space-between; font-size:14px; }
 .highlight-row b{ color:#B5502E; }
 
-.sign-row{ display:flex; justify-content:space-between; margin-top:30px; gap:32px; }
+.sign-row{ display:flex; justify-content:space-between; margin-top:28px; gap:32px; }
 .sign{ flex:1; text-align:center; }
 .sign-line{ border-top:1.5px dashed rgba(14,26,24,0.35); margin-top:28px; padding-top:6px; font-size:11.5px; color: rgba(14,26,24,0.55); }
 
-.footer{ text-align:center; margin-top:20px; padding-top:12px; border-top:1px solid rgba(14,26,24,0.1); }
+.footer{ text-align:center; margin-top:18px; padding-top:12px; border-top:1px solid rgba(14,26,24,0.1); }
 .footer .thanks{ font-family:'Markazi Text',serif; font-size:15px; }
 .footer .small{ font-size:9.5px; color: rgba(14,26,24,0.4); margin-top:6px; line-height:1.5; }
 .print-stamp{
@@ -1349,19 +1361,27 @@ body{ font-family:'Tajawal',sans-serif; color:#0E1A18; display:flex; justify-con
 <body>
   <div class="sheet">
     <div class="watermark"><svg viewBox="0 0 100 140" fill="none"><path d="M10 140 V60 A40 40 0 0 1 90 60 V140" stroke="#0E1A18" stroke-width="6"/></svg></div>
-    <div class="top"></div>
+
+    <div class="letterhead">
+      <div class="letterhead-brand">
+        <svg class="letterhead-arch" viewBox="0 0 100 140" fill="none"><path d="M10 140 V60 A40 40 0 0 1 90 60 V140" stroke="#B08D57" stroke-width="10"/></svg>
+        <div class="letterhead-text">
+          <div class="brand">LANA PROJECTS</div>
+          <small>مشاريع لانا السكنية</small>
+        </div>
+      </div>
+      <div class="letterhead-doc">
+        <h1>إيصال استلام دفعة</h1>
+        <div class="date">${payment.payment_date}</div>
+      </div>
+    </div>
+    <div class="accent-line"></div>
+
     <div class="inner">
 
-      <div class="head">
-        <div>
-          <div class="brand">LANA PROJECTS<small>مشاريع لانا السكنية</small></div>
-          <div class="addr">اللوبية</div>
-        </div>
-        <div class="doc-title">
-          <h1>إيصال استلام دفعة</h1>
-          <div class="num">رقم الإيصال #${receiptNumber(payment.id || 0)}</div>
-          <div class="date">${payment.payment_date}</div>
-        </div>
+      <div class="num-badge-row">
+        <div class="addr">اللوبية</div>
+        <div class="num-badge">رقم الإيصال #${receiptNumber(payment.id || 0)}</div>
       </div>
 
       <div class="amt-block">
