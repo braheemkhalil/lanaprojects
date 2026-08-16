@@ -650,14 +650,9 @@ async function loadIbrahimView(){
 function isOverdue(apt){
   const paid = Number(apt.total_paid);
   const today = todayISO();
-  if(apt.type === 'rent'){
-    if(!apt.last_payment_date) return monthsBetween(apt.start_date, today) >= 1;
-    const diffDays = (new Date(today) - new Date(apt.last_payment_date)) / (1000*60*60*24);
-    return diffDays > 35;
-  } else {
-    const elapsed = monthsBetween(apt.start_date, today);
-    return paid < elapsed * Number(apt.installment_amount);
-  }
+  const elapsed = monthsBetween(apt.start_date, today);
+  const rateAmount = apt.type === 'rent' ? Number(apt.rent_amount) : Number(apt.installment_amount);
+  return paid < elapsed * rateAmount;
 }
 function monthsBetween(startISO, endISO){
   const s = new Date(startISO), e = new Date(endISO);
